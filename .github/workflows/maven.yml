@@ -28,8 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Install at-spi2-core to make workaround work
-      run: sudo apt update
-      run: sudo apt install -y at-spi2-core
+      run: sudo apt update && sudo apt install -y at-spi2-core
     - name: Build with Maven
       run: xvfb-run --server-args="-screen 0, 640x480x8" mvn -Dprism.order=sw -B package --file pom.xml
 
