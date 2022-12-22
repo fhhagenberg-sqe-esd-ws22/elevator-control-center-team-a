@@ -6,8 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="javafx-base" />
+        <module name="elevator-control-center-team-a" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="javafx-base" target="11" />
+      <module name="javafx-base-group-a" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
