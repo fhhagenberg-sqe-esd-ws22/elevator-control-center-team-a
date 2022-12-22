@@ -7,6 +7,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * JavaFX App
  */
@@ -29,7 +32,22 @@ public class App extends Application {
         stage.show();
     }
 
+    public static boolean hasDebug(String[] args) {
+        for(String s : args) {
+            if ("-d".equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
+        final Logger log = LoggerFactory.getLogger("Test");
+        if (args.length < 2) {
+            log.info("Usage {} host:port [-d]", args[0]);
+            return;
+        }
+        log.info("Test");
         launch();
     }
 
