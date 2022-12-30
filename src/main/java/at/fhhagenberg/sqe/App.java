@@ -43,7 +43,7 @@ public class App extends Application {
 
     public static void main(String[] args) {
         final Logger log = LoggerFactory.getLogger("Test");
-        if (args.length < 2) {
+        if (args.length < 2 && args.length > 0) {
             log.info("Usage {} host:port [-d]", args[0]);
             return;
         }
