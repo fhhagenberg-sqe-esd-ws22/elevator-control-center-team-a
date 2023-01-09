@@ -13,7 +13,7 @@ public enum Direction {
         this.val = val;
     }
 
-    public Direction valueOf(int val) {
+    public static Direction valueOf(int val) {
         for(Direction d : Direction.values()) {
             if (d.val == val) {
                 return d;

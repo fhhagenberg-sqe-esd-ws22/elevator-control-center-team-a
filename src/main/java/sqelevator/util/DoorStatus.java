@@ -10,7 +10,16 @@ public enum DoorStatus {
 
     public final int val;
 
-    private DoorStatus(int val) {
+    DoorStatus(int val) {
         this.val = val;
+    }
+
+    public static DoorStatus valueOf(int val) {
+        for(DoorStatus s : DoorStatus.values()) {
+            if (s.val == val) {
+                return s;
+            }
+        }
+        throw new RuntimeException(String.format("Unknown doorstatus %d", val));
     }
 }
