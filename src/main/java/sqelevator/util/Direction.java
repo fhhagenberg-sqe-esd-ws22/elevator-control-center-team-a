@@ -1,6 +1,7 @@
 package sqelevator.util;
 
 import sqelevator.IElevator;
+import sqelevator.exceptions.ParseInvalidDirectionException;
 
 public enum Direction {
     Up(IElevator.ELEVATOR_DIRECTION_UP),
@@ -19,6 +20,6 @@ public enum Direction {
                 return d;
             }
         }
-        throw new RuntimeException(String.format("Unknown direction %d", val));
+        throw new ParseInvalidDirectionException(val);
     }
 }

@@ -1,6 +1,7 @@
 package sqelevator.util;
 
 import sqelevator.IElevator;
+import sqelevator.exceptions.ParseInvalidDoorStatusException;
 
 public enum DoorStatus {
     Closed(IElevator.ELEVATOR_DOORS_CLOSED),
@@ -20,6 +21,6 @@ public enum DoorStatus {
                 return s;
             }
         }
-        throw new RuntimeException(String.format("Unknown doorstatus %d", val));
+        throw new ParseInvalidDoorStatusException(val);
     }
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import sqelevator.IElevator;
+import sqelevator.exceptions.ParseInvalidDirectionException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,6 +20,6 @@ public class DirectionTest {
     @ParameterizedTest()
     @CsvFileSource(resources = "DirectionTest.csv", numLinesToSkip = 1)
     public void test_valueOf_throws(int value) {
-        assertThrows(RuntimeException.class, () -> Direction.valueOf(value));
+        assertThrows(ParseInvalidDirectionException.class, () -> Direction.valueOf(value));
     }
 }
