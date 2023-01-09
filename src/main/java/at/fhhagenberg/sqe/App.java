@@ -1,10 +1,14 @@
 package at.fhhagenberg.sqe;
 
+import at.fhhagenberg.sqe.ui.view.ElevatorControlUI;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import org.slf4j.Logger;
@@ -17,16 +21,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        var javaVersion = SystemInfo.javaVersion();
-        var javafxVersion = SystemInfo.javafxVersion();
 
-        var label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        var layout = new BorderPane(label);
-        var button = new Button("Click me!");
-        button.setOnAction(evt -> button.setText("Clicked!"));
-        layout.setBottom(button);
+        var elevatorUI = new ElevatorControlUI();
+        var mainLayout = new StackPane();
+        mainLayout.getChildren().add(elevatorUI);
+        var scene = new Scene(mainLayout, 800, 600);
 
-        var scene = new Scene(layout, 640, 480);
 
         stage.setScene(scene);
         stage.show();
