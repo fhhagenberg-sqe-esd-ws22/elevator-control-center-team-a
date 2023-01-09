@@ -1,8 +1,8 @@
 package sqelevator;
 
-import javafx.beans.property.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import sqelevator.util.Direction;
 import sqelevator.util.DoorStatus;
 
