@@ -28,7 +28,7 @@ public class ElevatorUpdaterTest {
     }
 
     @Test
-    public void testCapacityUpdate() throws RemoteException {
+    void testCapacityUpdate() throws RemoteException {
         Elevator e = new Elevator(0);
 
         when(control.getElevatorCapacity(anyInt())).thenReturn(17);
@@ -41,7 +41,7 @@ public class ElevatorUpdaterTest {
     }
 
     @Test
-    public void testDoorStatusUpdate() throws RemoteException {
+    void testDoorStatusUpdate() throws RemoteException {
         Elevator e = new Elevator(0);
 
         when(control.getElevatorCapacity(anyInt())).thenReturn(17);
@@ -56,7 +56,7 @@ public class ElevatorUpdaterTest {
     }
 
     @Test
-    public void testTargetFloorUpdate() throws RemoteException {
+    void testTargetFloorUpdate() throws RemoteException {
         Elevator e = new Elevator(0);
 
         when(control.getElevatorCapacity(anyInt())).thenReturn(17);
@@ -72,7 +72,7 @@ public class ElevatorUpdaterTest {
     }
 
     @Test
-    public void testCommittedDirectionUpdate() throws RemoteException {
+    void testCommittedDirectionUpdate() throws RemoteException {
         Elevator e = new Elevator(0);
 
         when(control.getElevatorCapacity(anyInt())).thenReturn(17);
@@ -90,23 +90,23 @@ public class ElevatorUpdaterTest {
     }
 
     @Test
-    public void testPositionUpdate() throws RemoteException {
+    void testCurrentFloorUpdate() throws RemoteException {
         Elevator e = new Elevator(0);
 
         when(control.getElevatorCapacity(anyInt())).thenReturn(17);
         when(control.getElevatorDoorStatus(anyInt())).thenReturn(DoorStatus.CLOSED.val);
-        when(control.getElevatorPosition(anyInt())).thenReturn(0).thenReturn(1).thenReturn(2);
+        when(control.getElevatorFloor(anyInt())).thenReturn(1).thenReturn(2);
 
-        //ElevatorUpdater updater = new ElevatorUpdater(e, control);
-        //Assertions.assertEquals(0, e.position.getValue());
-        //updater.Update();
-        //Assertions.assertEquals(1, e.position.getValue());
-        //updater.Update();
-        //Assertions.assertEquals(2, e.position.getValue());
+        ElevatorUpdater updater = new ElevatorUpdater(e, control);
+        Assertions.assertEquals(0, e.currentFloor.getValue());
+        updater.Update();
+        Assertions.assertEquals(1, e.currentFloor.getValue());
+        updater.Update();
+        Assertions.assertEquals(2, e.currentFloor.getValue());
     }
 
     @Test
-    public void testSpeedUpdate() throws RemoteException {
+    void testSpeedUpdate() throws RemoteException {
         Elevator e = new Elevator(0);
 
         when(control.getElevatorCapacity(anyInt())).thenReturn(17);
@@ -122,7 +122,7 @@ public class ElevatorUpdaterTest {
     }
 
     @Test
-    public void testWeightUpdate() throws RemoteException {
+    void testWeightUpdate() throws RemoteException {
         Elevator e = new Elevator(0);
 
         when(control.getElevatorCapacity(anyInt())).thenReturn(17);
@@ -138,7 +138,7 @@ public class ElevatorUpdaterTest {
     }
 
     @Test
-    public void testFloorButtonUpdate() throws RemoteException {
+    void testFloorButtonUpdate() throws RemoteException {
         Elevator e = new Elevator(0);
 
         when(control.getElevatorCapacity(anyInt())).thenReturn(17);
