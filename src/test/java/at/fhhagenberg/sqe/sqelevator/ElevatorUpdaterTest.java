@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import sqelevator.Elevator;
 import sqelevator.IElevator;
 import sqelevator.updater.ElevatorUpdater;
+import sqelevator.util.DoorStatus;
 
 import java.rmi.RemoteException;
 
@@ -31,14 +31,15 @@ public class ElevatorUpdaterTest {
 
     @BeforeEach
     public void Setup() {
-        control = new MockElevatorService();
+        control = mock(MockElevatorService.class);
     }
 
     @Test
     public void test2() throws RemoteException {
         Elevator e = new Elevator(0);
 
-        when(mock(control).getElevatorCapacity(0)).thenReturn(17);
+        when(control.getElevatorCapacity(anyInt())).thenReturn(17);
+        when(control.getElevatorDoorStatus(anyInt())).thenReturn(DoorStatus.Closed.val);
 
         ElevatorUpdater updater = new ElevatorUpdater(e, control);
         Assertions.assertEquals(0, e.currentCapacity.getValue());
