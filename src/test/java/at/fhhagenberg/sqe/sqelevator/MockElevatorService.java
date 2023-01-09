@@ -1,6 +1,7 @@
 package at.fhhagenberg.sqe.sqelevator;
 
 import sqelevator.IElevator;
+import sqelevator.util.DoorStatus;
 
 import java.rmi.RemoteException;
 
