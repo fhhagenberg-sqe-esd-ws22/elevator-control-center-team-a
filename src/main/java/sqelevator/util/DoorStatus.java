@@ -4,10 +4,10 @@ import sqelevator.IElevator;
 import sqelevator.exceptions.ParseInvalidDoorStatusException;
 
 public enum DoorStatus {
-    Closed(IElevator.ELEVATOR_DOORS_CLOSED),
-    Open(IElevator.ELEVATOR_DOORS_OPEN),
-    Closing(IElevator.ELEVATOR_DOORS_CLOSING),
-    Opening(IElevator.ELEVATOR_DOORS_OPENING);
+    CLOSED(IElevator.ELEVATOR_DOORS_CLOSED),
+    OPEN(IElevator.ELEVATOR_DOORS_OPEN),
+    CLOSING(IElevator.ELEVATOR_DOORS_CLOSING),
+    OPENING(IElevator.ELEVATOR_DOORS_OPENING);
 
     public final int val;
 

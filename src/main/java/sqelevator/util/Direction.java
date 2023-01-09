@@ -4,9 +4,9 @@ import sqelevator.IElevator;
 import sqelevator.exceptions.ParseInvalidDirectionException;
 
 public enum Direction {
-    Up(IElevator.ELEVATOR_DIRECTION_UP),
-    Down(IElevator.ELEVATOR_DIRECTION_DOWN),
-    Uncommitted(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
+    UP(IElevator.ELEVATOR_DIRECTION_UP),
+    DOWN(IElevator.ELEVATOR_DIRECTION_DOWN),
+    UNCOMMITTED(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
 
     public final int val;
 

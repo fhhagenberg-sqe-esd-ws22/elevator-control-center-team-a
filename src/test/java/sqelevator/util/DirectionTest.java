@@ -12,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DirectionTest {
     @Test
     public void test_valueOf() {
-        assertEquals(Direction.Up, Direction.valueOf(IElevator.ELEVATOR_DIRECTION_UP));
-        assertEquals(Direction.Down, Direction.valueOf(IElevator.ELEVATOR_DIRECTION_DOWN));
-        assertEquals(Direction.Uncommitted, Direction.valueOf(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED));
+        assertEquals(Direction.UP, Direction.valueOf(IElevator.ELEVATOR_DIRECTION_UP));
+        assertEquals(Direction.DOWN, Direction.valueOf(IElevator.ELEVATOR_DIRECTION_DOWN));
+        assertEquals(Direction.UNCOMMITTED, Direction.valueOf(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED));
     }
 
     @ParameterizedTest()

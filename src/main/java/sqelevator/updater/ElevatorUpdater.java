@@ -8,8 +8,8 @@ import sqelevator.util.Direction;
 import sqelevator.util.DoorStatus;
 
 import java.rmi.RemoteException;
-import java.sql.Date;
 import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 

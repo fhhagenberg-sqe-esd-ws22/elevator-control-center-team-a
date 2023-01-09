@@ -13,10 +13,10 @@ public class DoorStatusTest {
 
     @Test
     public void test_valueOf() {
-        assertEquals(DoorStatus.Closed, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_CLOSED));
-        assertEquals(DoorStatus.Closing, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_CLOSING));
-        assertEquals(DoorStatus.Open, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_OPEN));
-        assertEquals(DoorStatus.Opening, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_OPENING));
+        assertEquals(DoorStatus.CLOSED, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_CLOSED));
+        assertEquals(DoorStatus.CLOSING, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_CLOSING));
+        assertEquals(DoorStatus.OPEN, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_OPEN));
+        assertEquals(DoorStatus.OPENING, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_OPENING));
     }
 
     @ParameterizedTest
