@@ -6,6 +6,8 @@ import sqelevator.util.Direction;
 import sqelevator.util.DoorStatus;
 
 import java.rmi.RemoteException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ElevatorUpdater implements Updater {
 
@@ -32,8 +34,13 @@ public class ElevatorUpdater implements Updater {
 
         //
         final int floorcount = control.getFloorNum();
+        Set<Integer> serviceFloors = new HashSet<>();
         for(int floor = 0; floor < floorcount; floor++) {
-            elevator.servicesFloor(floor, control.getServicesFloors(elevator.elevatorNumber, floor));
+            if (control.getServicesFloors(elevator.elevatorNumber, floor)) {
+                serviceFloors.add(floor);
+            }
         }
+
+        elevator.serviceableFloors.set(serviceFloors);
     }
 }

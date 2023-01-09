@@ -24,23 +24,10 @@ public class Elevator {
     public final int elevatorNumber;
     private static long elevatorIdCounter = 0;
 
-    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-
     public Elevator(int elevatorNumber) {
         this.elevatorNumber = elevatorNumber;
         synchronized (Elevator.class) {
             this.elevatorId = Elevator.elevatorIdCounter++;
         }
-    }
-
-    public void servicesFloor(int floor, boolean service) {
-        Set<Integer> val = serviceableFloors.getValue();
-        if (service) {
-            val.add(floor);
-        } else {
-            val.remove(floor);
-        }
-        serviceableFloors.setValue(val);
-        LOG.debug("Elevator#{} | updated serviceFloors {}={}", elevatorId, floor, service);
     }
 }
