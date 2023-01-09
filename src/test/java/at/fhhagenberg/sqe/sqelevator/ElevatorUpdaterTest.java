@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ElevatorUpdaterTest {
+class ElevatorUpdaterTest {
 
     @Mock
     IElevator control = null;
