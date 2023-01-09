@@ -9,9 +9,9 @@ import sqelevator.exceptions.ParseInvalidDirectionException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class DirectionTest {
+class DirectionTest {
     @Test
-    public void test_valueOf() {
+    void test_valueOf() {
         assertEquals(Direction.UP, Direction.valueOf(IElevator.ELEVATOR_DIRECTION_UP));
         assertEquals(Direction.DOWN, Direction.valueOf(IElevator.ELEVATOR_DIRECTION_DOWN));
         assertEquals(Direction.UNCOMMITTED, Direction.valueOf(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED));
@@ -19,7 +19,7 @@ public class DirectionTest {
 
     @ParameterizedTest()
     @CsvFileSource(resources = "DirectionTest.csv", numLinesToSkip = 1)
-    public void test_valueOf_throws(int value) {
+    void test_valueOf_throws(int value) {
         assertThrows(ParseInvalidDirectionException.class, () -> Direction.valueOf(value));
     }
 }

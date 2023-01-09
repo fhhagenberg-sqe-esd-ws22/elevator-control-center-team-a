@@ -9,10 +9,10 @@ import sqelevator.exceptions.ParseInvalidDoorStatusException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class DoorStatusTest {
+class DoorStatusTest {
 
     @Test
-    public void test_valueOf() {
+    void test_valueOf() {
         assertEquals(DoorStatus.CLOSED, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_CLOSED));
         assertEquals(DoorStatus.CLOSING, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_CLOSING));
         assertEquals(DoorStatus.OPEN, DoorStatus.valueOf(IElevator.ELEVATOR_DOORS_OPEN));
@@ -21,7 +21,7 @@ public class DoorStatusTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "DoorStatusTest.csv", numLinesToSkip = 1)
-    public void test_valueOf_throws(int value) {
+    void test_valueOf_throws(int value) {
         assertThrows(ParseInvalidDoorStatusException.class, () -> DoorStatus.valueOf(value));
     }
 }

@@ -24,7 +24,7 @@ public class ElevatorUpdater implements Updater {
         this.control = control;
     }
     @Override
-    public void Update() throws RemoteException {
+    public void update() throws RemoteException {
         final long updateTick = control.getClockTick();
         LOG.debug("Staring update@{}", Date.from(Instant.ofEpochSecond(updateTick)));
         // VisitorPattern draus machen?

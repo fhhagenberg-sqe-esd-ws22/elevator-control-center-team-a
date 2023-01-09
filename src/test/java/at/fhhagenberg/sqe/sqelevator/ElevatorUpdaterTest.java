@@ -36,7 +36,7 @@ class ElevatorUpdaterTest {
 
         ElevatorUpdater updater = new ElevatorUpdater(e, control);
         Assertions.assertEquals(0, e.currentCapacity.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(17, e.currentCapacity.getValue());
     }
 
@@ -49,9 +49,9 @@ class ElevatorUpdaterTest {
 
         ElevatorUpdater updater = new ElevatorUpdater(e, control);
         Assertions.assertEquals(null, e.door.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(DoorStatus.OPEN, e.door.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(DoorStatus.CLOSED, e.door.getValue());
     }
 
@@ -65,9 +65,9 @@ class ElevatorUpdaterTest {
 
         ElevatorUpdater updater = new ElevatorUpdater(e, control);
         Assertions.assertEquals(0, e.targetFloor.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(1, e.targetFloor.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(2, e.targetFloor.getValue());
     }
 
@@ -81,11 +81,11 @@ class ElevatorUpdaterTest {
 
         ElevatorUpdater updater = new ElevatorUpdater(e, control);
         Assertions.assertEquals(null, e.committedDirection.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(sqelevator.util.Direction.UP, e.committedDirection.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(sqelevator.util.Direction.DOWN, e.committedDirection.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(Direction.UNCOMMITTED, e.committedDirection.getValue());
     }
 
@@ -99,9 +99,9 @@ class ElevatorUpdaterTest {
 
         ElevatorUpdater updater = new ElevatorUpdater(e, control);
         Assertions.assertEquals(0, e.currentFloor.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(1, e.currentFloor.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(2, e.currentFloor.getValue());
     }
 
@@ -115,9 +115,9 @@ class ElevatorUpdaterTest {
 
         ElevatorUpdater updater = new ElevatorUpdater(e, control);
         Assertions.assertEquals(0, e.currentSpeed.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(1, e.currentSpeed.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(2, e.currentSpeed.getValue());
     }
 
@@ -131,9 +131,9 @@ class ElevatorUpdaterTest {
 
         ElevatorUpdater updater = new ElevatorUpdater(e, control);
         Assertions.assertEquals(0, e.currentWeight.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(1, e.currentWeight.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(2, e.currentWeight.getValue());
     }
 
@@ -147,9 +147,9 @@ class ElevatorUpdaterTest {
 
         ElevatorUpdater updater = new ElevatorUpdater(e, control);
         Assertions.assertEquals(null, e.buttonReq.getValue());
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(true, e.buttonReq.getValue()[0]);
-        updater.Update();
+        updater.update();
         Assertions.assertEquals(false, e.buttonReq.getValue()[0]);
     }
 }
