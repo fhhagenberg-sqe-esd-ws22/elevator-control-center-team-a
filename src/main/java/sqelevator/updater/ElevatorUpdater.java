@@ -35,12 +35,23 @@ public class ElevatorUpdater implements Updater {
         //
         final int floorcount = control.getFloorNum();
         Set<Integer> serviceFloors = new HashSet<>();
+        boolean[] buttonUp = new boolean[floorcount];
+        boolean[] buttonDown = new boolean[floorcount];
+        boolean[] buttonReq = new boolean[floorcount];
         for(int floor = 0; floor < floorcount; floor++) {
             if (control.getServicesFloors(elevator.elevatorNumber, floor)) {
                 serviceFloors.add(floor);
             }
+
+            buttonUp[floor] = control.getFloorButtonUp(floor);
+            buttonDown[floor] = control.getFloorButtonDown(floor);
+            buttonReq[floor] = control.getElevatorButton(elevator.elevatorNumber, floor);
         }
 
         elevator.serviceableFloors.set(serviceFloors);
+
+        elevator.buttonUp.set(buttonUp);
+        elevator.buttonDown.set(buttonDown);
+        elevator.buttonReq.set(buttonReq);
     }
 }
