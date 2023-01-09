@@ -20,6 +20,7 @@ public class Elevator {
     public final SimpleIntegerProperty currentSpeed = new SimpleIntegerProperty();
     public final SimpleIntegerProperty currentCapacity = new SimpleIntegerProperty();
     public final SimpleIntegerProperty currentWeight = new SimpleIntegerProperty();
+    public final SimpleIntegerProperty currentFloor = new SimpleIntegerProperty();
     public final SimpleIntegerProperty targetFloor = new SimpleIntegerProperty();
     public final SimpleObjectProperty<Set<Integer>> serviceableFloors = new SimpleObjectProperty<>(new HashSet<>());
     public final long elevatorId;

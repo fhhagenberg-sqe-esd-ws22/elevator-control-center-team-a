@@ -38,6 +38,7 @@ public class ElevatorUpdater implements Updater {
         elevator.currentCapacity.set(control.getElevatorCapacity(elevator.elevatorNumber));
         elevator.currentWeight.set(control.getElevatorWeight(elevator.elevatorNumber));
         elevator.feetFromBase.set(control.getElevatorPosition(elevator.elevatorNumber));
+        elevator.currentFloor.set(control.getElevatorFloor(elevator.elevatorNumber));
 
         //
         final int floorCount = control.getFloorNum();
