@@ -14,6 +14,8 @@
         <sonar.organization>fhhagenberg-sqe-esd-ws22</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <slf4j-version>2.0.6</slf4j-version>
+        <logback-version>1.4.5</logback-version>
+        <mockito-version>4.11.0</mockito-version>
     </properties>
 
     <dependencyManagement>
@@ -41,15 +43,28 @@
             <version>${slf4j-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-reload4j</artifactId>
-            <version>${slf4j-version}</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-version}</version>
+            <!--Comment this<cope>test</<scope>-->
         </dependency>
-        <!--dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- testing with TestFx/Junit 5-->
         <dependency>
