@@ -4,8 +4,8 @@ import sqelevator.IElevator;
 
 import java.rmi.RemoteException;
 
-import org.mockito;
 import org.mockito.Mockito;
+import org.mockito.configuration.IMockitoConfiguration;
 
 public class MockElevatorService implements IElevator {
     @Override
