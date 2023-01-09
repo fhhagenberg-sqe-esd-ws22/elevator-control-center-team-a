@@ -76,7 +76,7 @@ public class MockElevatorService implements IElevator {
 
     @Override
     public int getFloorNum() throws RemoteException {
-        return 0;
+        return 10;
     }
 
     @Override
