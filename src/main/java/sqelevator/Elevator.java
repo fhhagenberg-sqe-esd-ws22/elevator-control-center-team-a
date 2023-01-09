@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Elevator {
+    public final SimpleIntegerProperty lastUpdate = new SimpleIntegerProperty();
     public final SimpleObjectProperty<Direction> committedDirection = new SimpleObjectProperty<>();
     public final SimpleObjectProperty<DoorStatus> door = new SimpleObjectProperty<>();
     public final SimpleIntegerProperty acceleration = new SimpleIntegerProperty();
