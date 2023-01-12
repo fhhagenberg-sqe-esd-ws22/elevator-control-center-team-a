@@ -1,4 +1,4 @@
-package sqelevator.mock;
+package at.fhhagenberg.sqe.sqelevator.mock;
 
 import sqelevator.IElevator;
 
