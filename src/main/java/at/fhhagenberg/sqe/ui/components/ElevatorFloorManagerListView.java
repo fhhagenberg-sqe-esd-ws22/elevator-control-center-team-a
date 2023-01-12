@@ -13,11 +13,15 @@ public class ElevatorFloorManagerListView extends HBox {
     private ListView<String> floorList;
     private FloorDetailContextMenu floorContextMenu;
 
-    public ElevatorFloorManagerListView()
+    private final ElevatorListView listView;
+
+    public ElevatorFloorManagerListView(ElevatorListView elevatorList, int numOfFloors)
     {
+        listView = elevatorList;
+        var selectedElevator = elevatorList.getSelectedElevator();
         floorList = new ListView<>();
         floorContextMenu = new FloorDetailContextMenu();
-        for (var i = 0; i < 10; ++i)
+        for (var i = 0; i < numOfFloors; ++i)
         {
             floorList.getItems().add(String.format("Floor %d", i));
         }

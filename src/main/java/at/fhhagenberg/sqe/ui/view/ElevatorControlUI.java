@@ -5,25 +5,29 @@ import at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView;
 import at.fhhagenberg.sqe.ui.components.ElevatorListView;
 import javafx.scene.control.Control;
 import javafx.scene.layout.HBox;
+import sqelevator.Elevator;
+import sqelevator.IElevator;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  *
  */
 public class ElevatorControlUI extends HBox{
-    public ElevatorControlUI()
-    {
-        List<String> elevators = new ArrayList<>();
-        elevators.add("Elevator 1");
-        elevators.add("Elevator 2");
-        elevators.add("Elevator 3");
+    List<Elevator> elevators = new ArrayList<>();
+    public ElevatorControlUI(IElevator control) throws RemoteException {
+
+        var numOfElevators = control.getElevatorNum();
+        for(var i = 0; i < numOfElevators; ++i)
+        {
+            elevators.add(new Elevator(i));
+        }
 
         var elevatorList = new ElevatorListView(elevators);
-        var floorList = new ElevatorFloorManagerListView();
-        var detail = new ElevatorDetailList();
+        var floorList = new ElevatorFloorManagerListView(elevatorList, control.getFloorNum());
+        var detail = new ElevatorDetailList(elevatorList);
         getChildren().add(elevatorList);
         getChildren().add(floorList);
         getChildren().add(detail);
