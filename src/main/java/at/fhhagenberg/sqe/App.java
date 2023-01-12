@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sqelevator.IElevator;
 
 /**
  * JavaFX App
@@ -49,6 +50,10 @@ public class App extends Application {
         }
         log.info("Test");
         launch();
+    }
+
+    protected synchronized IElevator getControl() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 }
