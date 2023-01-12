@@ -53,7 +53,7 @@ public class App extends Application {
     }
 
     protected synchronized IElevator getControl() {
-        throw new RuntimeException("Not yet implemented");
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 }

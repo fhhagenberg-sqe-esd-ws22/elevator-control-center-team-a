@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MockElevatorControlTest {
+class MockElevatorControlTest {
 
     @Mock
     MockElevatorControl control = null;
@@ -21,19 +21,19 @@ public class MockElevatorControlTest {
     }
 
     @Test
-    public void test() throws RemoteException {
+    void test() throws RemoteException {
         assertEquals(0L, control.getClockTick());
         assertEquals(1L, control.getClockTick());
     }
 
     @Test
-    public void testDefaults() throws RemoteException {
+    void testDefaults() throws RemoteException {
         assertEquals(ELEVATOR_COUNT, control.getElevatorNum());
         assertEquals(FLOOR_COUNT, control.getFloorNum());
     }
 
     @Test
-    public void testReachesTargetDestination() throws  RemoteException {
+    void testReachesTargetDestination() throws  RemoteException {
         int elevatorNumber = 0;
         int floorTarget = 3;
 
@@ -43,7 +43,7 @@ public class MockElevatorControlTest {
     }
 
     @Test
-    public void testServicesFloor() throws RemoteException {
+    void testServicesFloor() throws RemoteException {
         int elevatorNumber = 0;
         int floorTarget = 3;
 
@@ -55,7 +55,7 @@ public class MockElevatorControlTest {
     }
 
     @Test
-    public void testFloorHeightMath() throws RemoteException {
+    void testFloorHeightMath() throws RemoteException {
         int elevatorNumber = 0;
         int floorTarget = 3;
 
