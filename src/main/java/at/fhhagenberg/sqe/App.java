@@ -52,4 +52,8 @@ public class App extends Application {
         launch();
     }
 
+    protected synchronized IElevator getControl() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
 }

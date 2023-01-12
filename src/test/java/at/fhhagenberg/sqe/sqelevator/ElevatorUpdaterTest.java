@@ -23,7 +23,7 @@ class ElevatorUpdaterTest {
 
     @BeforeEach
     public void Setup() throws RemoteException {
-        control = mock(MockElevatorService.class);
+        control = mock(IElevator.class);
         when(control.getFloorNum()).thenReturn(5);
     }
 
