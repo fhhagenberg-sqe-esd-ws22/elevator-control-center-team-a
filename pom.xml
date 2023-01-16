@@ -102,7 +102,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <launcher>launcher</launcher>
-                    <mainClass>at.fhhagenberg.sqe.App</mainClass>
+                    <mainClass>at.fhhagenberg.sqe.ui.Launcher</mainClass>
                 </configuration>
             </plugin>
             <plugin>

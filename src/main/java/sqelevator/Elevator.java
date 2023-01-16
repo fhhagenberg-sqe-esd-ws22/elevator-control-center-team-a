@@ -33,4 +33,9 @@ public class Elevator {
             this.elevatorId = Elevator.elevatorIdCounter++;
         }
     }
+    @Override
+    public String toString()
+    {
+        return ("Elevator " + elevatorId);
+    }
 }
