@@ -1,7 +1,7 @@
 package at.fhhagenberg.sqe;
 
-import at.fhhagenberg.sqe.ui.ElevatorParams;
-import at.fhhagenberg.sqe.ui.ParamUtils;
+import at.fhhagenberg.sqe.params.ElevatorParams;
+import at.fhhagenberg.sqe.params.ParamUtils;
 import at.fhhagenberg.sqe.ui.view.ElevatorControlUI;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sqelevator.IElevator;
 
-import javax.swing.event.HyperlinkEvent;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

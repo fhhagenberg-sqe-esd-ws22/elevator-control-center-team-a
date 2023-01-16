@@ -1,4 +1,4 @@
-package at.fhhagenberg.sqe.ui;
+package at.fhhagenberg.sqe.params;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;

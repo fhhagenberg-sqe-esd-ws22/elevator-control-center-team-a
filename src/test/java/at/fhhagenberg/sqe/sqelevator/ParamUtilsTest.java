@@ -1,19 +1,16 @@
 package at.fhhagenberg.sqe.sqelevator;
 
-import at.fhhagenberg.sqe.ui.ElevatorParams;
-import at.fhhagenberg.sqe.ui.ParamUtils;
+import at.fhhagenberg.sqe.params.ElevatorParams;
+import at.fhhagenberg.sqe.params.ParamUtils;
 import javafx.application.Application.Parameters;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 public class ParamUtilsTest {
 

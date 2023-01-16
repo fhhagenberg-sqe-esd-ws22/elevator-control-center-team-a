@@ -1,9 +1,9 @@
-package at.fhhagenberg.sqe.ui;
+package at.fhhagenberg.sqe.params;
 
 
 import javafx.application.Application;
 import java.util.Optional;
-import at.fhhagenberg.sqe.ui.ElevatorParams;
+import at.fhhagenberg.sqe.params.ElevatorParams;
 
 public class ParamUtils {
 
