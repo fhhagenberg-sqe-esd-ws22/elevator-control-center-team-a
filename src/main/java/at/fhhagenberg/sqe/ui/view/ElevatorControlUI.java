@@ -28,7 +28,7 @@ public class ElevatorControlUI extends HBox{
         }
 
         var elevatorList = new ElevatorListView(elevators);
-        var floorList = new ElevatorFloorManagerListView(elevatorList, control.getFloorNum());
+        var floorList = new ElevatorFloorManagerListView(control, elevatorList, control.getFloorNum());
         var detail = new ElevatorDetailList(elevatorList);
         getChildren().add(elevatorList);
         getChildren().add(floorList);
