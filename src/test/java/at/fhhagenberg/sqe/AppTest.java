@@ -10,6 +10,9 @@ import org.testfx.matcher.control.LabeledMatchers;
 
 import javafx.stage.Stage;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 @ExtendWith(ApplicationExtension.class)
 public class AppTest {
     /**
@@ -18,7 +21,7 @@ public class AppTest {
      * @param stage - Will be injected by the test runner.
      */
     @Start
-    public void start(Stage stage) {
+    public void start(Stage stage) throws NotBoundException, RemoteException {
         var app = new App();
         app.start(stage);
     }
