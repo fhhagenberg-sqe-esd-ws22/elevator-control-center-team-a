@@ -12,7 +12,7 @@ public class ToggleSwitch extends HBox {
     private final Label label = new Label();
     private final Button button = new Button();
 
-    private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(false);
     public SimpleBooleanProperty switchOnProperty() { return switchedOn; }
 
     private void init() {

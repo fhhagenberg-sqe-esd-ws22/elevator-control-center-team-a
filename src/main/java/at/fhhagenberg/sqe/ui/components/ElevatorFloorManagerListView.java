@@ -1,19 +1,20 @@
 package at.fhhagenberg.sqe.ui.components;
 
 import javafx.event.ActionEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ListView;
 import javafx.event.EventHandler;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.stage.WindowEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sqelevator.Elevator;
 import sqelevator.IElevator;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class ElevatorFloorManagerListView extends HBox {
+    final private static Logger log = LoggerFactory.getLogger("EventHandlerLogging");
     private ArrayList<Floor> floorList;
     private FloorDetailContextMenu floorContextMenu;
     private final ElevatorListView listView;
@@ -68,7 +69,14 @@ public class ElevatorFloorManagerListView extends HBox {
         floorContextMenu.sendToThisFloor.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.printf("Send to floor %s%n", floorListView.getSelectionModel().getSelectedItem());
+                Floor f = floorListView.getSelectionModel().getSelectedItem();
+                Elevator e = elevatorList.getSelectedElevator();
+                try {
+                    control.setTarget(e.elevatorNumber, f.floorId);
+                    log.info("Set target {} for elevator {}", f.floorId, e.elevatorNumber);
+                } catch (RemoteException ex) {
+                    log.error("Failed to set target for elevator {}.", e.elevatorNumber); // TODO show error msg to user
+                }
             }
         });
 

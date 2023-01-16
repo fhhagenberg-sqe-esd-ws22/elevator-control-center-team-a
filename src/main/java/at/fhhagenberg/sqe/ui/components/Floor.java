@@ -5,7 +5,7 @@ import sqelevator.IElevator;
 import java.rmi.RemoteException;
 
 class Floor {
-    private final int floorId;
+    public final int floorId;
     private final IElevator elevatorControl;
     private final ElevatorListView elevatorListView;
 
