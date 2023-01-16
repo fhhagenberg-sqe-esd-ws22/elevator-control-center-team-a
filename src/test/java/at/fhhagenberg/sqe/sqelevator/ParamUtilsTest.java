@@ -118,5 +118,52 @@ class ParamUtilsTest {
         Assertions.assertFalse(elevatorParams.port.isPresent());
     }
 
+    @Test
+    void testInvalidPortRangeSubzero() {
+        List<String> args = List.of("localhost:-90");
+
+        Parameters params = mock(Parameters.class);
+        when(params.getRaw()).thenReturn(args);
+
+        var maybeParams = ParamUtils.parseParams(params);
+        Assertions.assertTrue(maybeParams.isPresent());
+        ElevatorParams elevatorParams = maybeParams.get();
+
+        Assertions.assertEquals("localhost", elevatorParams.host);
+        Assertions.assertEquals("Team A", elevatorParams.bindName);
+        Assertions.assertTrue(elevatorParams.port.isEmpty());
+    }
+
+    @Test
+    void testInvalidPortRangeTooLarge() {
+        List<String> args = List.of("localhost:65538");
+
+        Parameters params = mock(Parameters.class);
+        when(params.getRaw()).thenReturn(args);
+
+        var maybeParams = ParamUtils.parseParams(params);
+        Assertions.assertTrue(maybeParams.isPresent());
+        ElevatorParams elevatorParams = maybeParams.get();
+
+        Assertions.assertEquals("localhost", elevatorParams.host);
+        Assertions.assertEquals("Team A", elevatorParams.bindName);
+        Assertions.assertTrue(elevatorParams.port.isEmpty());
+    }
+
+    @Test
+    void testMalformedPort() {
+        List<String> args = List.of("local:host:65538");
+
+        Parameters params = mock(Parameters.class);
+        when(params.getRaw()).thenReturn(args);
+
+        var maybeParams = ParamUtils.parseParams(params);
+        Assertions.assertTrue(maybeParams.isPresent());
+        ElevatorParams elevatorParams = maybeParams.get();
+
+        Assertions.assertEquals("local", elevatorParams.host);
+        Assertions.assertEquals("Team A", elevatorParams.bindName);
+        Assertions.assertTrue(elevatorParams.port.isEmpty());
+    }
 
 }
