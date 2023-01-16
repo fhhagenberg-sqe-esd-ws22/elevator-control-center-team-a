@@ -33,6 +33,5 @@ public class ElevatorControlUI extends HBox{
         getChildren().add(elevatorList);
         getChildren().add(floorList);
         getChildren().add(detail);
-
     }
 }

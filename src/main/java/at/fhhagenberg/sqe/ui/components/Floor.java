@@ -5,7 +5,7 @@ import sqelevator.IElevator;
 import java.rmi.RemoteException;
 
 class Floor {
-    private int floorId;
+    private final int floorId;
     private final IElevator elevatorControl;
     private final ElevatorListView elevatorListView;
 
@@ -24,6 +24,6 @@ class Floor {
     @Override
     public String toString()
     {
-        return ("Floor" + floorId);
+        return ("Floor " + floorId);
     }
 }

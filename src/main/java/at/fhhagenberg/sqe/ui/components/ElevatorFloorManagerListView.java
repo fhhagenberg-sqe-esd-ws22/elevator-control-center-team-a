@@ -5,6 +5,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ListView;
 import javafx.event.EventHandler;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import sqelevator.IElevator;
 
 import java.rmi.RemoteException;
@@ -27,27 +30,47 @@ public class ElevatorFloorManagerListView extends HBox {
 
         var floorListView = new ListView<Floor>();
         floorListView.getItems().addAll(floorList);
-
+        getChildren().add(floorListView);
         var selectedElevator = elevatorList.getSelectedElevator();
 
         floorContextMenu = new FloorDetailContextMenu();
 
-        floorListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("clicked on " + floorListView.getSelectionModel().getSelectedItem());
+        floorListView.setContextMenu(floorContextMenu);
+        floorContextMenu.setOnShowing(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent e) {
+                var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
+                try {
+                    floorContextMenu.underService.setSelected(selectedFloor.isUnderService());
+                } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
-
-        /*
-        floorListView.setContextMenu(floorContextMenu);
+        floorContextMenu.underService.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
+                try {
+                    if(floorContextMenu.underService.isSelected())
+                    {
+                        selectedFloor.setUnderService();
+                    }
+                    else
+                    {
+                        selectedFloor.unsetUnderService();
+                    }
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         floorContextMenu.sendToThisFloor.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 System.out.printf("Send to floor %s%n", floorListView.getSelectionModel().getSelectedItem());
             }
         });
-            */
+
     }
 }
