@@ -11,6 +11,9 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class ParamUtilsTest {
 
@@ -103,6 +106,17 @@ class ParamUtilsTest {
     }
 
     @Test
+    void testNoHostname() {
+        List<String> args = List.of(":8080");
+
+        Parameters params = mock(Parameters.class);
+        when(params.getRaw()).thenReturn(args);
+
+        var maybeParams = ParamUtils.parseParams(params);
+        Assertions.assertFalse(maybeParams.isPresent());
+    }
+
+    @Test
     void testMissingBindName() {
         List<String> args = List.of("localhost", "-bn");
 
@@ -118,9 +132,10 @@ class ParamUtilsTest {
         Assertions.assertFalse(elevatorParams.port.isPresent());
     }
 
-    @Test
-    void testInvalidPortRangeSubzero() {
-        List<String> args = List.of("localhost:-90");
+    @ParameterizedTest
+    @CsvFileSource(resources = "ParametersUtilsMalformedTest.csv", numLinesToSkip = 1)
+    void testInvalidHostPortCombination(String in) {
+        List<String> args = List.of(in);
 
         Parameters params = mock(Parameters.class);
         when(params.getRaw()).thenReturn(args);
@@ -130,38 +145,6 @@ class ParamUtilsTest {
         ElevatorParams elevatorParams = maybeParams.get();
 
         Assertions.assertEquals("localhost", elevatorParams.host);
-        Assertions.assertEquals("Team A", elevatorParams.bindName);
-        Assertions.assertTrue(elevatorParams.port.isEmpty());
-    }
-
-    @Test
-    void testInvalidPortRangeTooLarge() {
-        List<String> args = List.of("localhost:65538");
-
-        Parameters params = mock(Parameters.class);
-        when(params.getRaw()).thenReturn(args);
-
-        var maybeParams = ParamUtils.parseParams(params);
-        Assertions.assertTrue(maybeParams.isPresent());
-        ElevatorParams elevatorParams = maybeParams.get();
-
-        Assertions.assertEquals("localhost", elevatorParams.host);
-        Assertions.assertEquals("Team A", elevatorParams.bindName);
-        Assertions.assertTrue(elevatorParams.port.isEmpty());
-    }
-
-    @Test
-    void testMalformedPort() {
-        List<String> args = List.of("local:host:65538");
-
-        Parameters params = mock(Parameters.class);
-        when(params.getRaw()).thenReturn(args);
-
-        var maybeParams = ParamUtils.parseParams(params);
-        Assertions.assertTrue(maybeParams.isPresent());
-        ElevatorParams elevatorParams = maybeParams.get();
-
-        Assertions.assertEquals("local", elevatorParams.host);
         Assertions.assertEquals("Team A", elevatorParams.bindName);
         Assertions.assertTrue(elevatorParams.port.isEmpty());
     }

@@ -13,7 +13,7 @@ public class ParamUtils {
 
     private static Optional<String> extractHostname(String in) {
         HostName hostName = new HostName(in);
-        if (hostName.isValid()) {
+        if (hostName.isValid() && !in.isEmpty()) {
             return Optional.of(in);
         } else {
             return Optional.empty();
