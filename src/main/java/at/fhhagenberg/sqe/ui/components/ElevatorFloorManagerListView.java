@@ -42,7 +42,7 @@ public class ElevatorFloorManagerListView extends HBox {
                     control.setTarget(e.elevatorNumber, f.number);
                     log.info("Set target {} for elevator {}", f.number, e.elevatorNumber);
                 } catch (RemoteException ex) {
-                    log.error("Failed to set target for elevator {}.", e.elevatorNumber);
+                    log.error("Failed to set target for elevator {}.", e.elevatorNumber); // TODO show error msg to user
                 }
             }
         });

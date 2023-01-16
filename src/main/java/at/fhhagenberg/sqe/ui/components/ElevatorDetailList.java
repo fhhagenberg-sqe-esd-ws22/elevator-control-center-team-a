@@ -2,6 +2,7 @@ package at.fhhagenberg.sqe.ui.components;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
 public class ElevatorDetailList extends VBox{

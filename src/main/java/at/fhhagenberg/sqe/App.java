@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sqelevator.IElevator;
 
+import javax.swing.event.HyperlinkEvent;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -32,6 +33,24 @@ public class App extends Application {
 
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnCloseRequest(val -> {
+            if (val != null) {
+                boolean successfullShutdown = false;
+                int tryCounter = 0;
+                final int maxTries = 5;
+                while (!successfullShutdown) {
+                    tryCounter++;
+                    try {
+                        elevatorUI.updater.shutdown();
+                        successfullShutdown = true;
+                    } catch (InterruptedException e) {
+                        log.error("Interrupted during shutdown. ({}/{})\n{}", tryCounter, maxTries, e.getMessage());
+                    }
+                }
+                log.debug("Shut down after {}/{} tries.", tryCounter, maxTries);
+            }
+        });
     }
 
     protected synchronized IElevator getControl() throws NotBoundException, RemoteException {
