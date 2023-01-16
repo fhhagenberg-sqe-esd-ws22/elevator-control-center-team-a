@@ -1,5 +1,7 @@
 package at.fhhagenberg.sqe;
 
+import at.fhhagenberg.sqe.ui.ElevatorParams;
+import at.fhhagenberg.sqe.ui.ParamUtils;
 import at.fhhagenberg.sqe.ui.view.ElevatorControlUI;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -35,19 +37,27 @@ public class App extends Application {
     }
 
     protected synchronized IElevator getControl() throws NotBoundException, RemoteException {
-        final String BIND_NAME = "TeamA"; // TODO(cn): Make BIND_NAME an argv with a default
-
         Parameters params = getParameters();
 
+        ElevatorParams elevatorParams = ParamUtils.parseParams(params).orElseThrow(()
+                -> new IllegalArgumentException("Usage: PROGRAM host:port [-bn BIND_NAME]"));
+
         try {
-            // TODO(cn): Handle argv parameters better ([host+port, host] being the only options)
-            Registry reg = LocateRegistry.getRegistry(params.getRaw().get(0));
+
+            Registry reg;
+
+            if (elevatorParams.port.isPresent()) {
+                reg = LocateRegistry.getRegistry(elevatorParams.host, elevatorParams.port.get());
+            } else {
+                reg = LocateRegistry.getRegistry(elevatorParams.host);
+            }
+
             log.info("Connected to server.");
-            final IElevator control = (IElevator) reg.lookup(BIND_NAME);
-            log.info("Bound local object to remote object via '{}'", BIND_NAME);
+            final IElevator control = (IElevator) reg.lookup(elevatorParams.bindName);
+            log.info("Bound local object to remote object via '{}'", elevatorParams.bindName);
             return control;
         } catch (NotBoundException e) {
-            log.error("Failed during lookup of remote object '{}'", BIND_NAME);
+            log.error("Failed during lookup of remote object '{}'", elevatorParams.bindName);
             throw e;
         } catch (RemoteException e) {
             log.error("Failed to connect to remote machine.\n{}", e.getMessage());
