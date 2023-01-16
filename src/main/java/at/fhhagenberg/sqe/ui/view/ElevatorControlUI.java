@@ -41,7 +41,7 @@ public final class ElevatorControlUI extends HBox {
         updater = new PeriodicFetch(numOfElevators / 2 + 1, this::updateElevators);
 
         var elevatorList = new ElevatorListView(elevators);
-        var floorList = new ElevatorFloorManagerListView(control, elevatorList, control.getFloorNum());
+        var floorList = new ElevatorFloorManagerListView(elevatorList, control);
         var detail = new ElevatorDetailList(elevatorList);
         getChildren().add(elevatorList);
         getChildren().add(floorList);
