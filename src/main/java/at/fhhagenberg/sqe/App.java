@@ -34,10 +34,6 @@ public class App extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     protected synchronized IElevator getControl() throws NotBoundException, RemoteException {
         final String BIND_NAME = "TeamA"; // TODO(cn): Make BIND_NAME an argv with a default
 
