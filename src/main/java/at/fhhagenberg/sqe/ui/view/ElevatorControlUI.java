@@ -3,7 +3,6 @@ package at.fhhagenberg.sqe.ui.view;
 import at.fhhagenberg.sqe.ui.components.ElevatorDetailList;
 import at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView;
 import at.fhhagenberg.sqe.ui.components.ElevatorListView;
-import javafx.scene.control.Control;
 import javafx.scene.layout.HBox;
 import sqelevator.Elevator;
 import sqelevator.IElevator;
@@ -26,7 +25,7 @@ public class ElevatorControlUI extends HBox{
         }
 
         var elevatorList = new ElevatorListView(elevators);
-        var floorList = new ElevatorFloorManagerListView(elevatorList, control.getFloorNum());
+        var floorList = new ElevatorFloorManagerListView(elevatorList, control);
         var detail = new ElevatorDetailList(elevatorList);
         getChildren().add(elevatorList);
         getChildren().add(floorList);

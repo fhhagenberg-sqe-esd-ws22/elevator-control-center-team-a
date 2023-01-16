@@ -6,21 +6,21 @@ import javafx.scene.layout.VBox;
 
 public class ElevatorDetailList extends VBox{
     ElevatorListView listView;
-    private ToggleSwitch mAutoManual;
-    private Label m_speed;
-    private Label m_payload;
-    private Label m_door_status;
+    private ToggleSwitch autoManual;
+    private Label speed;
+    private Label payload;
+    private Label doorStatus;
 
     public ElevatorDetailList(ElevatorListView elevatorList){
         listView = elevatorList;
         var selectedElevator = listView.getSelectedElevator();
-        mAutoManual = new ToggleSwitch(); //TODO: implement bind in ToggleSwitch
-        m_speed = new Label("speed: ");
-
-        m_speed.textProperty().bind(Bindings.convert(selectedElevator.currentSpeed));
-        m_payload = new Label("payload: ");
-        m_door_status = new Label("door status: ");
-
-        getChildren().addAll(mAutoManual, m_speed, m_payload, m_door_status);
+        autoManual = new ToggleSwitch(); //TODO: implement bind in ToggleSwitch
+        speed = new Label("speed: ");
+        payload = new Label("payload: ");
+        doorStatus = new Label("door status: ");
+        speed.textProperty().bind(Bindings.convert(selectedElevator.currentSpeed));
+        payload.textProperty().bind(Bindings.convert(selectedElevator.currentWeight));
+        doorStatus.textProperty().bind(Bindings.convert(selectedElevator.door));
+        getChildren().addAll(autoManual, speed, payload, doorStatus);
     }
 }

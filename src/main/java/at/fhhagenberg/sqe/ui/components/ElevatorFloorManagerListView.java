@@ -1,38 +1,53 @@
 package at.fhhagenberg.sqe.ui.components;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ListView;
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+import sqelevator.IElevator;
 
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class ElevatorFloorManagerListView extends HBox {
-    private ListView<String> floorList;
+    private ArrayList<Floor> floorList;
     private FloorDetailContextMenu floorContextMenu;
-
     private final ElevatorListView listView;
+    private final IElevator elevatorControl;
 
-    public ElevatorFloorManagerListView(ElevatorListView elevatorList, int numOfFloors)
-    {
+    public ElevatorFloorManagerListView(ElevatorListView elevatorList, IElevator control) throws RemoteException {
         listView = elevatorList;
-        var selectedElevator = elevatorList.getSelectedElevator();
-        floorList = new ListView<>();
-        floorContextMenu = new FloorDetailContextMenu();
-        for (var i = 0; i < numOfFloors; ++i)
+        elevatorControl = control;
+        floorList = new ArrayList<Floor>();
+        for(var i = 0; i < elevatorControl.getFloorNum(); ++i)
         {
-            floorList.getItems().add(String.format("Floor %d", i));
+            floorList.add(new Floor(listView, elevatorControl, i));
         }
-        getChildren().add(floorList);
-        floorList.setContextMenu(floorContextMenu);
+
+        var floorListView = new ListView<Floor>();
+        floorListView.getItems().addAll(floorList);
+
+        var selectedElevator = elevatorList.getSelectedElevator();
+
+        floorContextMenu = new FloorDetailContextMenu();
+
+        floorListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("clicked on " + floorListView.getSelectionModel().getSelectedItem());
+            }
+        });
+
+
+        /*
+        floorListView.setContextMenu(floorContextMenu);
         floorContextMenu.sendToThisFloor.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.printf("Send to floor %s%n", floorList.getSelectionModel().getSelectedItem());
+                System.out.printf("Send to floor %s%n", floorListView.getSelectionModel().getSelectedItem());
             }
         });
+            */
     }
-
 }
