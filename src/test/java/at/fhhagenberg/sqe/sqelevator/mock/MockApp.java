@@ -8,6 +8,7 @@ public class MockApp extends App {
 
     @Override
     protected synchronized IElevator getControl() {
+
         if (control == null) {
             control = new MockElevatorControl(3 ,5);
         }
