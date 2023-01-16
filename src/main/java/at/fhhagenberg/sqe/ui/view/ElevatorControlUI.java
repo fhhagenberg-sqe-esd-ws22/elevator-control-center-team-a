@@ -3,7 +3,6 @@ package at.fhhagenberg.sqe.ui.view;
 import at.fhhagenberg.sqe.ui.components.ElevatorDetailList;
 import at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView;
 import at.fhhagenberg.sqe.ui.components.ElevatorListView;
-import javafx.scene.control.Control;
 import javafx.scene.layout.HBox;
 import sqelevator.Elevator;
 import sqelevator.IElevator;

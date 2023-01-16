@@ -1,12 +1,9 @@
 package at.fhhagenberg.sqe.ui.components;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ListView;
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 
 
 public class ElevatorFloorManagerListView extends HBox {

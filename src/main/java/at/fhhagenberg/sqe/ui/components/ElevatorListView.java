@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class ElevatorListView extends HBox {
 
-    private ListView<Elevator> elevatorList;
+    private final ListView<Elevator> elevatorList;
     public ElevatorListView(Collection<Elevator> elevators)
     {
         elevatorList = new ListView<>();
