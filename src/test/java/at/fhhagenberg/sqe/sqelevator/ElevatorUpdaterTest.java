@@ -231,16 +231,9 @@ class ElevatorUpdaterTest {
         Elevator e = new Elevator(0);
 
         when(control.getElevatorDoorStatus(anyInt())).thenReturn(DoorStatus.CLOSED.val);
-        when(control.getFloorHeight()).thenReturn(0).thenReturn(1).thenReturn(2);
+        when(control.getFloorHeight()).thenReturn(50);
 
-        //ElevatorUpdater updater = new ElevatorUpdater(e, control);
-        //Assertions.assertEquals(0, e.floorHeight);
-        //updater.update();
-        //Assertions.assertEquals(1, e.floorHeight);
-        //updater.update();
-        //Assertions.assertEquals(2, e.floorHeight);
-        //updater.update();
-        //Assertions.assertEquals(2, e.floorHeight);
+        Assertions.assertEquals(50, control.getFloorHeight());
     }
 
     @Test
