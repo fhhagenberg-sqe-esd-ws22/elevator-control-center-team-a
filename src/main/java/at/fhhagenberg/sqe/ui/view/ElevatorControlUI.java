@@ -19,6 +19,9 @@ public class ElevatorControlUI extends HBox{
     public ElevatorControlUI(IElevator control) throws RemoteException {
 
         var numOfElevators = control.getElevatorNum();
+        if (numOfElevators == 0) {
+            throw new IllegalArgumentException("There must always be an elevator."); // TODO(cn): Make this neater
+        }
         for(var i = 0; i < numOfElevators; ++i)
         {
             elevators.add(new Elevator(i));

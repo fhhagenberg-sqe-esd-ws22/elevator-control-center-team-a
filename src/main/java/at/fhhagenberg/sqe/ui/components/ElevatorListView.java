@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class ElevatorListView extends HBox {
 
-    private ListView<Elevator> elevatorList;
+    private final ListView<Elevator> elevatorList;
     public ElevatorListView(Collection<Elevator> elevators)
     {
         elevatorList = new ListView<>();
@@ -17,7 +17,9 @@ public class ElevatorListView extends HBox {
         getChildren().add(elevatorList);
     }
 
-    public Elevator getSelectedElevator(){
-        return elevatorList.getSelectionModel().getSelectedItem();
+    public Elevator getSelectedElevator() {
+        Elevator selected = elevatorList.getSelectionModel().getSelectedItem();
+        if (selected != null) return selected;
+        return elevatorList.getItems().get(0);
     }
 }
