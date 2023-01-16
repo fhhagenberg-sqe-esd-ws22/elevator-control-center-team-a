@@ -65,13 +65,20 @@ class ParamUtilsTest {
         Parameters params = mock(Parameters.class);
         when(params.getRaw()).thenReturn(args);
 
-        ElevatorParams elevatorParams = ParamUtils.parseParams(params).get();
+        var maybeParams = ParamUtils.parseParams(params);
+        Assertions.assertTrue(maybeParams.isPresent());
+        ElevatorParams elevatorParams = maybeParams.get();
 
         if (elevatorParams.port.isPresent()) {
             Assertions.assertEquals("localhost", elevatorParams.host);
             Assertions.assertEquals(8080, elevatorParams.port.get());
             Assertions.assertEquals("Team A", elevatorParams.bindName);
         }
+    }
+
+    @Test
+    void testParseParamsNull() {
+        Assertions.assertFalse(ParamUtils.parseParams(null).isPresent());
     }
 
     @Test
@@ -82,6 +89,33 @@ class ParamUtilsTest {
         when(params.getRaw()).thenReturn(args);
 
         Assertions.assertFalse(ParamUtils.parseParams(params).isPresent());
+    }
+
+    @Test
+    void testWeirdArgs() {
+        List<String> args = List.of("-bn", "Test 2", "1278");
+
+        Parameters params = mock(Parameters.class);
+        when(params.getRaw()).thenReturn(args);
+
+        var maybeParams = ParamUtils.parseParams(params);
+        Assertions.assertFalse(maybeParams.isPresent());
+    }
+
+    @Test
+    void testMissingBindName() {
+        List<String> args = List.of("localhost", "-bn");
+
+        Parameters params = mock(Parameters.class);
+        when(params.getRaw()).thenReturn(args);
+
+        var maybeParams = ParamUtils.parseParams(params);
+        Assertions.assertTrue(maybeParams.isPresent());
+        ElevatorParams elevatorParams = maybeParams.get();
+
+        Assertions.assertEquals("localhost", elevatorParams.host);
+        Assertions.assertEquals("Team A", elevatorParams.bindName);
+        Assertions.assertFalse(elevatorParams.port.isPresent());
     }
 
 
