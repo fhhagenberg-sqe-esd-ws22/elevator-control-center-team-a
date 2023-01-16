@@ -3,37 +3,44 @@ package at.fhhagenberg.sqe.ui.components;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import sqelevator.Elevator;
 
 public class ElevatorDetailList extends VBox{
-    ElevatorListView listView;
+    private ElevatorListView listView;
+    private Label speedVal      = new Label();
+    private Label payloadVal    = new Label();
+    private Label floorPosVal = new Label();
+    private Label doorStatusVal = new Label();
     private CheckBox autoManual;
-    private Label speed;
-    private Label payload;
-    private Label doorStatus;
+
 
     public ElevatorDetailList(ElevatorListView elevatorList){
         listView = elevatorList;
         var selectedElevator = listView.getSelectedElevator();
 
         Label speedLbl      = new Label("Speed:  ");
-        Label speedVal      = new Label();
         HBox speedBox = new HBox(speedLbl, speedVal);
         Label payloadLbl    = new Label("Payload:  ");
-        Label payloadVal    = new Label();
         HBox payloadBox = new HBox(payloadLbl, payloadVal);
         Label doorStatusLbl = new Label("Door status:  ");
-        Label doorStatusVal = new Label();
         HBox doorStatusBox = new HBox(doorStatusLbl, doorStatusVal);
+        Label floorPosLbl = new Label("Current floor:  ");
+        HBox floorPosBox = new HBox(floorPosLbl, floorPosVal);
 
         autoManual = new CheckBox("Automatic mode"); //TODO: implement bind in ToggleSwitch
 
+        getChildren().addAll(autoManual, speedBox, payloadBox, doorStatusBox, floorPosBox);
+        listView.setOnChangedFunction(this::updateBindings);
+    }
 
-        speedVal.textProperty().bind(Bindings.convert(selectedElevator.currentSpeed));
-        payloadVal.textProperty().bind(Bindings.convert(selectedElevator.currentWeight));
-        doorStatusVal.textProperty().bind(Bindings.convert(selectedElevator.door));
-        getChildren().addAll(autoManual, speedBox, payloadBox, doorStatusBox);
+    public Void updateBindings(Elevator elevator)
+    {
+        speedVal.textProperty().bind(Bindings.convert(elevator.currentSpeed));
+        payloadVal.textProperty().bind(Bindings.convert(elevator.currentWeight));
+        doorStatusVal.textProperty().bind(Bindings.convert(elevator.door));
+        floorPosVal.textProperty().bind(Bindings.convert(elevator.currentFloor));
+        return null;
     }
 }
