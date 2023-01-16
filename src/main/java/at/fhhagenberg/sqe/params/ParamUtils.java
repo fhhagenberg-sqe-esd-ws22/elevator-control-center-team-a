@@ -3,12 +3,13 @@ package at.fhhagenberg.sqe.params;
 
 import javafx.application.Application;
 import java.util.Optional;
-import at.fhhagenberg.sqe.params.ElevatorParams;
 
 public class ParamUtils {
 
+    private ParamUtils() { /* hide default public c'tor */}
+
     public static Optional<ElevatorParams> parseParams(Application.Parameters params) {
-        if (params == null || params.getRaw().size() < 1) {
+        if (params == null || params.getRaw().isEmpty()) {
             return Optional.empty();
         }
 

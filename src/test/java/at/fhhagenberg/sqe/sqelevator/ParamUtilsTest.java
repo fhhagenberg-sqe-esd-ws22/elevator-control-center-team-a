@@ -12,10 +12,10 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ParamUtilsTest {
+class ParamUtilsTest {
 
     @Test
-    public void testParseParamsWithPortWithBindName() {
+    void testParseParamsWithPortWithBindName() {
         List<String> args = List.of("localhost:8080", "-bn", "Test 1");
 
         Parameters params = mock(Parameters.class);
@@ -31,7 +31,7 @@ public class ParamUtilsTest {
     }
 
     @Test
-    public void testParseParamsWithoutPortWithBindName() {
+    void testParseParamsWithoutPortWithBindName() {
         List<String> args = List.of("localhost", "-bn", "Test 2");
 
         Parameters params = mock(Parameters.class);
@@ -45,7 +45,7 @@ public class ParamUtilsTest {
     }
 
     @Test
-    public void testParseParamsWithoutPortWithoutBindName() {
+    void testParseParamsWithoutPortWithoutBindName() {
         List<String> args = List.of("localhost");
 
         Parameters params = mock(Parameters.class);
@@ -59,7 +59,7 @@ public class ParamUtilsTest {
     }
 
     @Test
-    public void testParseParamsWithPortWithoutBindName() {
+    void testParseParamsWithPortWithoutBindName() {
         List<String> args = List.of("localhost:8080");
 
         Parameters params = mock(Parameters.class);
@@ -75,7 +75,7 @@ public class ParamUtilsTest {
     }
 
     @Test
-    public void testParseParamsWithoutParams() {
+    void testParseParamsWithoutParams() {
         List<String> args = List.of();
 
         Parameters params = mock(Parameters.class);

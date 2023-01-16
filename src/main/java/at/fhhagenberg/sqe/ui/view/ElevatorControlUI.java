@@ -25,7 +25,7 @@ public final class ElevatorControlUI extends HBox {
     public final PeriodicFetch updater;
     private final IElevator control;
 
-    private final static Logger LOG = LoggerFactory.getLogger("UpdateElevator");
+    private static final Logger LOG = LoggerFactory.getLogger("UpdateElevator");
 
     public ElevatorControlUI(IElevator control) throws RemoteException {
 

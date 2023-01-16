@@ -43,8 +43,7 @@ public class App extends Application {
                 while (!successfullShutdown) {
                     tryCounter++;
                     try {
-                        elevatorUI.updater.shutdown();
-                        successfullShutdown = true;
+                        successfullShutdown = elevatorUI.updater.shutdown();
                     } catch (InterruptedException e) {
                         log.error("Interrupted during shutdown. ({}/{})\n{}", tryCounter, maxTries, e.getMessage());
                     }
