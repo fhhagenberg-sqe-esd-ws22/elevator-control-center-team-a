@@ -3,7 +3,6 @@ package at.fhhagenberg.sqe.ui.view;
 import at.fhhagenberg.sqe.ui.components.ElevatorDetailList;
 import at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView;
 import at.fhhagenberg.sqe.ui.components.ElevatorListView;
-import javafx.scene.control.Control;
 import javafx.scene.layout.HBox;
 import sqelevator.Elevator;
 import sqelevator.IElevator;
@@ -20,6 +19,9 @@ public class ElevatorControlUI extends HBox{
     public ElevatorControlUI(IElevator control) throws RemoteException {
 
         var numOfElevators = control.getElevatorNum();
+        if (numOfElevators == 0) {
+            throw new IllegalArgumentException("There must always be an elevator."); // TODO(cn): Make this neater
+        }
         for(var i = 0; i < numOfElevators; ++i)
         {
             elevators.add(new Elevator(i));

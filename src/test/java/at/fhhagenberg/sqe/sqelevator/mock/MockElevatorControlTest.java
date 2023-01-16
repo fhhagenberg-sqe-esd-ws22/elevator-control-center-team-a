@@ -57,7 +57,6 @@ class MockElevatorControlTest {
     @Test
     void testFloorHeightMath() throws RemoteException {
         int elevatorNumber = 0;
-        int floorTarget = 3;
 
         assertEquals(0, control.getElevatorPosition(0));
 
