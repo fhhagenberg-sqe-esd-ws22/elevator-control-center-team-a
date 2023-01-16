@@ -17,7 +17,9 @@ public class ElevatorListView extends HBox {
         getChildren().add(elevatorList);
     }
 
-    public Elevator getSelectedElevator(){
-        return elevatorList.getSelectionModel().getSelectedItem();
+    public Elevator getSelectedElevator() {
+        Elevator selected = elevatorList.getSelectionModel().getSelectedItem();
+        if (selected != null) return selected;
+        return elevatorList.getItems().get(0);
     }
 }
