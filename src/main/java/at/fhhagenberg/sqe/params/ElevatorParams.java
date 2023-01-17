@@ -1,6 +1,5 @@
-package at.fhhagenberg.sqe.ui;
+package at.fhhagenberg.sqe.params;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public class ElevatorParams {
@@ -16,7 +15,7 @@ public class ElevatorParams {
 
     public ElevatorParams(String host, Integer port) {
         this.host = host;
-        this.port = Optional.empty();
+        this.port = Optional.of(port);
         this.bindName = "Team A";
     }
 
@@ -28,7 +27,7 @@ public class ElevatorParams {
 
     public ElevatorParams(String host, Integer port, String bindName) {
         this.host = host;
-        this.port = Optional.empty();
+        this.port = Optional.of(port);
         this.bindName = bindName;
     }
 }

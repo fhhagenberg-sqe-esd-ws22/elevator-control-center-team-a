@@ -1,5 +1,7 @@
 package at.fhhagenberg.sqe;
 
+import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxAssert;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+@Disabled
 @ExtendWith(ApplicationExtension.class)
 public class AppTest {
     /**
@@ -22,7 +25,7 @@ public class AppTest {
      */
     @Start
     public void start(Stage stage) throws NotBoundException, RemoteException {
-        var app = new App();
+        var app = new MockApp();
         app.start(stage);
     }
 

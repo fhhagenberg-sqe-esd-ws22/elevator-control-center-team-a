@@ -4,6 +4,7 @@ import at.fhhagenberg.sqe.fetch.PeriodicFetch;
 import at.fhhagenberg.sqe.ui.components.ElevatorDetailList;
 import at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView;
 import at.fhhagenberg.sqe.ui.components.ElevatorListView;
+import javafx.application.Platform;
 import javafx.scene.layout.HBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public final class ElevatorControlUI extends HBox {
     public final PeriodicFetch updater;
     private final IElevator control;
 
-    private final static Logger LOG = LoggerFactory.getLogger("UpdateElevator");
+    private static final Logger LOG = LoggerFactory.getLogger("UpdateElevator");
 
     public ElevatorControlUI(IElevator control) throws RemoteException {
 
@@ -50,12 +51,14 @@ public final class ElevatorControlUI extends HBox {
 
     private void updateElevators() {
         for (Elevator e : elevators) {
-            Updater u = new ElevatorUpdater(e, control);
-            try {
-                u.update();
-            } catch (RemoteException err) {
-                LOG.error("Failed to update elevator {}", e.elevatorNumber);
-            }
+            Platform.runLater(() -> {
+                Updater u = new ElevatorUpdater(e, control);
+                try {
+                    u.update();
+                } catch (RemoteException err) {
+                    LOG.error("Failed to update elevator {}", e.elevatorNumber);
+                }
+            });
         }
     }
 }

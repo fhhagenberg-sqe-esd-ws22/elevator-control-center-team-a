@@ -16,5 +16,10 @@
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="additionalRepo" />
+      <option name="name" value="additiona repo for ipaddress" />
+      <option name="url" value="https://mvnrepository.com/artifact" />
+    </remote-repository>
   </component>
 </project>

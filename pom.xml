@@ -16,7 +16,18 @@
         <slf4j-version>2.0.6</slf4j-version>
         <logback-version>1.4.5</logback-version>
         <mockito-version>4.11.0</mockito-version>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>additionalRepo</id>
+            <name>additiona repo for ipaddress</name>
+            <url>
+                https://mvnrepository.com/artifact
+            </url>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
@@ -31,6 +42,12 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.github.seancfoley/ipaddress -->
+        <dependency>
+            <groupId>com.github.seancfoley</groupId>
+            <artifactId>ipaddress</artifactId>
+            <version>5.4.0</version>
+        </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -109,6 +126,23 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.8</version>
+
+                <executions>
+                    <execution>
+                        <id>pre-unit-test</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
