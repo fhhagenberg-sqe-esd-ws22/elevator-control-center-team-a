@@ -1,12 +1,9 @@
 package at.fhhagenberg.sqe.ui.components;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import sqelevator.Elevator;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.function.Function;
 
