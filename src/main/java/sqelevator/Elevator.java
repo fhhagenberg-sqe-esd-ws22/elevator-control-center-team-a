@@ -36,6 +36,6 @@ public class Elevator {
     @Override
     public String toString()
     {
-        return ("Elevator " + elevatorId);
+        return "Elevator " + elevatorNumber;
     }
 }
