@@ -28,14 +28,14 @@ class AppLaunchBehaviourTest {
     }
 
     @Test
-    public void throwsExceptionWhenNoArgsProvided() {
+    void throwsExceptionWhenNoArgsProvided() {
         Assertions.assertThrows(InvalidProgramArgumentsException.class, () -> {
             app.getControl();
         }, "Usage: PROGRAM host:port [-bn BIND_NAME]");
     }
 
     @Test
-    public void throwsExceptionWhenInvalidhostname() throws NotBoundException, RemoteException {
+    void throwsExceptionWhenInvalidhostname() throws NotBoundException, RemoteException {
         final List<String> args = List.of("weirdHostname", "-bn", "weird@bindname");
         Application.Parameters params = mock(Application.Parameters.class);
         when(params.getRaw()).thenReturn(args);
