@@ -9,12 +9,13 @@ import sqelevator.IElevator;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ElevatorFloorManagerListView extends HBox {
     private final static Logger log = LoggerFactory.getLogger("EventHandlerLogging");
-    private ArrayList<Floor> floorList;
+    public final List<Floor> floorList;
     private FloorDetailContextMenu floorContextMenu;
-    private final ElevatorListView listView;
+    public final ElevatorListView listView;
     private final IElevator elevatorControl;
 
     public ElevatorFloorManagerListView(ElevatorListView elevatorList, IElevator control) throws RemoteException {
