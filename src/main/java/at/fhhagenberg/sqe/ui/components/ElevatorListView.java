@@ -11,7 +11,7 @@ import java.util.function.Function;
 public class ElevatorListView extends HBox {
 
     static class ElevatorListItem extends Label {
-        public Elevator e;
+        public final Elevator e;
         public ElevatorListItem(Elevator e) {
             super(e.toString());
             this.e = e;
