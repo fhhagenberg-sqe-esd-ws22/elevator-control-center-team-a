@@ -30,7 +30,7 @@ public class AppTest {
      * @param stage - Will be injected by the test runner.
      */
     @Start
-    public void start(Stage stage) throws NotBoundException, RemoteException {
+    void start(Stage stage) throws NotBoundException, RemoteException {
         app = new MockApp();
         app.start(stage);
     }
@@ -39,7 +39,7 @@ public class AppTest {
      * @param robot - Will be injected by the test runner.
      */
     @Test
-    public void testElevatorListHasCorrectCountOfElements(FxRobot robot) {
+    void testElevatorListHasCorrectCountOfElements(FxRobot robot) {
         FxAssert.verifyThat("#elevatorlist", notNullValue());
         var elevators = robot.lookup("#elevatorlist").queryAs(ElevatorListView.class);
 
@@ -47,23 +47,10 @@ public class AppTest {
     }
 
     @Test
-    public void testFloorListHasCorrectCountOfElements(FxRobot robot) {
+    void testFloorListHasCorrectCountOfElements(FxRobot robot) {
         FxAssert.verifyThat("#floorlist", notNullValue());
         var floors = robot.lookup("#floorlist").queryAs(ElevatorFloorManagerListView.class);
 
         Assertions.assertEquals(app.FLOOR_COUNT, floors.floorList.size());
-    }
-
-    /**
-     * @param robot - Will be injected by the test runner.
-     */
-    @Test
-    @Disabled
-    public void testButtonClick(FxRobot robot) {
-        // when:
-        robot.clickOn(".button");
-
-        // or (lookup by css class):
-        FxAssert.verifyThat(".button", LabeledMatchers.hasText("Clicked!"));
     }
 }
