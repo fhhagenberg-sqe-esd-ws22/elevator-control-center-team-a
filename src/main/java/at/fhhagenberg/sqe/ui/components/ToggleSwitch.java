@@ -20,12 +20,8 @@ public class ToggleSwitch extends HBox {
         label.setText("manual");
 
         getChildren().addAll(label, button);
-        button.setOnAction((e) -> {
-            switchedOn.set(!switchedOn.get());
-        });
-        label.setOnMouseClicked((e) -> {
-            switchedOn.set(!switchedOn.get());
-        });
+        button.setOnAction(e -> switchedOn.set(!switchedOn.get()));
+        label.setOnMouseClicked(e -> switchedOn.set(!switchedOn.get()));
         setStyle();
         bindProperties();
     }
@@ -47,8 +43,8 @@ public class ToggleSwitch extends HBox {
 
     public ToggleSwitch() {
         init();
-        switchedOn.addListener((a,b,c) -> {
-            if (c) {
+        switchedOn.addListener((observableValue,oldVal,newVal) -> {
+            if (newVal) {
                 label.setText("automatic");
                 setStyle("-fx-background-color: green;-fx-background-radius: 4;");
                 label.toFront();
