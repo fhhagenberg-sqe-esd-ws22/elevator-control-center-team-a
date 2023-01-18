@@ -56,7 +56,7 @@ public class App extends Application {
                 }
             });
         } catch (InvalidProgramArgumentsException e) {
-            System.out.println(e.getMessage());
+            log.error("Failed to start application.\n{}", e.getMessage());
             Platform.exit();
         }
     }
