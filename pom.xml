@@ -16,6 +16,7 @@
         <slf4j-version>2.0.6</slf4j-version>
         <logback-version>1.4.5</logback-version>
         <mockito-version>4.11.0</mockito-version>
+        <maven-jar-plugin-verison>3.3.0</maven-jar-plugin-verison>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
@@ -113,6 +114,21 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin-verison}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>at.fhhagenberg.sqe.ui.Launcher</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
