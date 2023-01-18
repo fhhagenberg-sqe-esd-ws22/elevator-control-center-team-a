@@ -29,11 +29,6 @@ public class ElevatorListView extends HBox {
 
     public void setOnChangedFunction(Function<Elevator, Void> func)
     {
-        elevatorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Elevator>() {
-            @Override
-            public void changed(ObservableValue<? extends Elevator> observableValue, Elevator oldVal, Elevator newVal) {
-                func.apply(newVal);
-            }
-        });
+        elevatorList.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> func.apply(newVal));
     }
 }
