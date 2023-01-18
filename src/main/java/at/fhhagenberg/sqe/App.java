@@ -4,12 +4,14 @@ import at.fhhagenberg.sqe.params.ElevatorParams;
 import at.fhhagenberg.sqe.params.ParamUtils;
 import at.fhhagenberg.sqe.ui.view.ElevatorControlUI;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sqelevator.IElevator;
+import sqelevator.exceptions.InvalidProgramArgumentsException;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -26,38 +28,44 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws RemoteException, NotBoundException {
 
-        var elevatorUI = new ElevatorControlUI(getControl());
-        var mainLayout = new StackPane();
-        mainLayout.getChildren().add(elevatorUI);
-        var scene = new Scene(mainLayout, 800, 600);
+        try {
+            var elevatorUI = new ElevatorControlUI(getControl());
+
+            var mainLayout = new StackPane();
+            mainLayout.getChildren().add(elevatorUI);
+            var scene = new Scene(mainLayout, 800, 600);
 
 
-        stage.setScene(scene);
-        stage.show();
+            stage.setScene(scene);
+            stage.show();
 
-        stage.setOnCloseRequest(val -> {
-            if (val != null) {
-                boolean successfullShutdown = false;
-                int tryCounter = 0;
-                final int maxTries = 5;
-                while (!successfullShutdown) {
-                    tryCounter++;
-                    try {
-                        successfullShutdown = elevatorUI.updater.shutdown();
-                    } catch (InterruptedException e) {
-                        log.error("Interrupted during shutdown. ({}/{})\n{}", tryCounter, maxTries, e.getMessage());
+            stage.setOnCloseRequest(val -> {
+                if (val != null) {
+                    boolean successfullShutdown = false;
+                    int tryCounter = 0;
+                    final int maxTries = 5;
+                    while (!successfullShutdown) {
+                        tryCounter++;
+                        try {
+                            successfullShutdown = elevatorUI.updater.shutdown();
+                        } catch (InterruptedException e) {
+                            log.error("Interrupted during shutdown. ({}/{})\n{}", tryCounter, maxTries, e.getMessage());
+                        }
                     }
+                    log.debug("Shut down after {}/{} tries.", tryCounter, maxTries);
                 }
-                log.debug("Shut down after {}/{} tries.", tryCounter, maxTries);
-            }
-        });
+            });
+        } catch (InvalidProgramArgumentsException e) {
+            System.out.println(e.getMessage());
+            Platform.exit();
+        }
     }
 
     protected synchronized IElevator getControl() throws NotBoundException, RemoteException {
         Parameters params = getParameters();
 
         ElevatorParams elevatorParams = ParamUtils.parseParams(params).orElseThrow(()
-                -> new IllegalArgumentException("Usage: PROGRAM host:port [-bn BIND_NAME]"));
+                -> new InvalidProgramArgumentsException("Usage: PROGRAM host:port [-bn BIND_NAME]"));
 
         try {
 
