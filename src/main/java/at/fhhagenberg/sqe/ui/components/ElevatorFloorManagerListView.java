@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ElevatorFloorManagerListView extends HBox {
-    private final static Logger log = LoggerFactory.getLogger("EventHandlerLogging");
+    private static final Logger log = LoggerFactory.getLogger("EventHandlerLogging");
     public final List<Floor> floorList;
-    private FloorDetailContextMenu floorContextMenu;
+    private final FloorDetailContextMenu floorContextMenu;
     public final ElevatorListView listView;
     private final IElevator elevatorControl;
 

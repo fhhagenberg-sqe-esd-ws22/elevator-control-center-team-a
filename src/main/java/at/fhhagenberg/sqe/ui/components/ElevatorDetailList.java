@@ -9,17 +9,16 @@ import sqelevator.Elevator;
 
 public class ElevatorDetailList extends VBox{
     private ElevatorListView listView;
-    private Label speedVal      = new Label();
-    private Label payloadVal    = new Label();
-    private Label floorPosVal = new Label();
-    private Label doorStatusVal = new Label();
-    private Label targetFloorVal = new Label();
-    private CheckBox autoManual;
+    private final Label speedVal      = new Label();
+    private final Label payloadVal    = new Label();
+    private final Label floorPosVal = new Label();
+    private final Label doorStatusVal = new Label();
+    private final Label targetFloorVal = new Label();
+    private final CheckBox autoManual;
 
 
     public ElevatorDetailList(ElevatorListView elevatorList){
         listView = elevatorList;
-        var selectedElevator = listView.getSelectedElevator();
 
         Label speedLbl      = new Label("Speed:  ");
         HBox speedBox = new HBox(speedLbl, speedVal);

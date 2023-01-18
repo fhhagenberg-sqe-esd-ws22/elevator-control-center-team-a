@@ -1,12 +1,9 @@
 package at.fhhagenberg.sqe.ui.components;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import sqelevator.Elevator;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.function.Function;
 
@@ -29,11 +26,6 @@ public class ElevatorListView extends HBox {
 
     public void setOnChangedFunction(Function<Elevator, Void> func)
     {
-        elevatorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Elevator>() {
-            @Override
-            public void changed(ObservableValue<? extends Elevator> observableValue, Elevator oldVal, Elevator newVal) {
-                func.apply(newVal);
-            }
-        });
+        elevatorList.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> func.apply(newVal));
     }
 }
