@@ -1,6 +1,7 @@
 package at.fhhagenberg.sqe;
 
 public class SystemInfo {
+    private SystemInfo() {}
 
     public static String javaVersion() {
         return System.getProperty("java.version");
