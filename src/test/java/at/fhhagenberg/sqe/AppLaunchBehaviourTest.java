@@ -8,8 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sqelevator.exceptions.InvalidProgramArgumentsException;
 
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.UnknownHostException;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +33,7 @@ class AppLaunchBehaviourTest {
     }
 
     @Test
-    void throwsExceptionWhenInvalidhostname() throws NotBoundException, RemoteException {
+    void throwsExceptionWhenInvalidhostname() {
         final List<String> args = List.of("weirdHostname", "-bn", "weird@bindname");
         Application.Parameters params = mock(Application.Parameters.class);
         when(params.getRaw()).thenReturn(args);
