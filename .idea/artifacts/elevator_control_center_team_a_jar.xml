@@ -1,0 +1,28 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="elevator-control-center-team-a:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/elevator_control_center_team_a_jar</output-path>
+    <root id="archive" name="elevator-control-center-team-a.jar">
+      <element id="module-output" name="elevator-control-center-team-a" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-base/12.0.2/javafx-base-12.0.2-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/objenesis/objenesis/3.3/objenesis-3.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/seancfoley/ipaddress/5.4.0/ipaddress-5.4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/12.0.2/javafx-controls-12.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.4.5/logback-core-1.4.5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/bytebuddy/byte-buddy/1.12.19/byte-buddy-1.12.19.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/12.0.2/javafx-controls-12.0.2-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/bytebuddy/byte-buddy-agent/1.12.19/byte-buddy-agent-1.12.19.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/12.0.2/javafx-graphics-12.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/12.0.2/javafx-graphics-12.0.2-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-base/12.0.2/javafx-base-12.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mockito/mockito-core/4.11.0/mockito-core-4.11.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.4.5/logback-classic-1.4.5.jar" path-in-jar="/" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:12.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:win:12.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:12.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:win:12.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:12.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:win:12.0.2" />
+    </root>
+  </artifact>
+</component>
