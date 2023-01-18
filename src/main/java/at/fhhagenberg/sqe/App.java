@@ -61,14 +61,8 @@ public class App extends Application {
         }
     }
 
-    protected synchronized IElevator getControl() throws NotBoundException, RemoteException {
-        Parameters params = getParameters();
-
-        ElevatorParams elevatorParams = ParamUtils.parseParams(params).orElseThrow(()
-                -> new InvalidProgramArgumentsException("Usage: PROGRAM host:port [-bn BIND_NAME]"));
-
+    protected IElevator aquireRemoteObject(ElevatorParams elevatorParams) throws NotBoundException, RemoteException {
         try {
-
             Registry reg;
 
             if (elevatorParams.port.isPresent()) {
@@ -88,6 +82,15 @@ public class App extends Application {
             log.error("Failed to connect to remote machine.\n{}", e.getMessage());
             throw e;
         }
+    }
+
+    protected synchronized IElevator getControl() throws NotBoundException, RemoteException {
+        Parameters params = getParameters();
+
+        ElevatorParams elevatorParams = ParamUtils.parseParams(params).orElseThrow(()
+                -> new InvalidProgramArgumentsException("Usage: PROGRAM host:port [-bn BIND_NAME]"));
+
+        return aquireRemoteObject(elevatorParams);
     }
 
 }
