@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 public class ElevatorListView extends HBox {
 
-    private final ListView<Elevator> elevatorList;
+    public final ListView<Elevator> elevatorList;
     public ElevatorListView(Collection<Elevator> elevators)
     {
         elevatorList = new ListView<>();

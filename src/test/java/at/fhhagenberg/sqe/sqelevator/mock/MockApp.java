@@ -5,12 +5,14 @@ import sqelevator.IElevator;
 
 public class MockApp extends App {
     private IElevator control = null;
+    public final int ELEVATOR_COUNT = 3;
+    public final int FLOOR_COUNT = 5;
 
     @Override
     protected synchronized IElevator getControl() {
 
         if (control == null) {
-            control = new MockElevatorControl(3 ,5);
+            control = new MockElevatorControl(ELEVATOR_COUNT ,FLOOR_COUNT);
         }
         return control;
     }

@@ -1,6 +1,9 @@
 package at.fhhagenberg.sqe;
 
 import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
+import at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView;
+import at.fhhagenberg.sqe.ui.components.ElevatorListView;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,9 +18,12 @@ import javafx.stage.Stage;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-@Disabled
+import static org.hamcrest.CoreMatchers.notNullValue;
+
 @ExtendWith(ApplicationExtension.class)
 public class AppTest {
+    MockApp app = null;
+
     /**
      * Will be called with {@code @Before} semantics, i. e. before each test method.
      *
@@ -25,7 +31,7 @@ public class AppTest {
      */
     @Start
     public void start(Stage stage) throws NotBoundException, RemoteException {
-        var app = new MockApp();
+        app = new MockApp();
         app.start(stage);
     }
 
@@ -33,14 +39,26 @@ public class AppTest {
      * @param robot - Will be injected by the test runner.
      */
     @Test
-    public void testButtonWithText(FxRobot robot) {
-        FxAssert.verifyThat(".button", LabeledMatchers.hasText("Click me!"));
+    public void testElevatorListHasCorrectCountOfElements(FxRobot robot) {
+        FxAssert.verifyThat("#elevatorlist", notNullValue());
+        var elevators = robot.lookup("#elevatorlist").queryAs(ElevatorListView.class);
+
+        Assertions.assertEquals(app.ELEVATOR_COUNT, elevators.elevatorList.getItems().size());
+    }
+
+    @Test
+    public void testFloorListHasCorrectCountOfElements(FxRobot robot) {
+        FxAssert.verifyThat("#floorlist", notNullValue());
+        var floors = robot.lookup("#floorlist").queryAs(ElevatorFloorManagerListView.class);
+
+        Assertions.assertEquals(app.FLOOR_COUNT, floors.floorList.size());
     }
 
     /**
      * @param robot - Will be injected by the test runner.
      */
     @Test
+    @Disabled
     public void testButtonClick(FxRobot robot) {
         // when:
         robot.clickOn(".button");
