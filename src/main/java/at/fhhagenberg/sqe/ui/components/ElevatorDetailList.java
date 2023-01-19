@@ -92,7 +92,7 @@ public class ElevatorDetailList extends VBox{
         detailBox.setSpacing(20);
 
 
-        CheckBox autoManual = new CheckBox("Automatic mode"); //TODO: implement bind in ToggleSwitch
+        CheckBox autoManual = new CheckBox("Automatic mode");
 
         this.getChildren().addAll(autoManual, spaceHolder, detailBox);
         elevatorList.setOnChangedFunction(this::updateBindings);
