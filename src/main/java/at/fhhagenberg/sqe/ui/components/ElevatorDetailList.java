@@ -3,57 +3,107 @@ package at.fhhagenberg.sqe.ui.components;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import sqelevator.Elevator;
 
 public class ElevatorDetailList extends VBox{
-    private ElevatorListView listView;
     private final Label speedVal = new Label();
     private final Label payloadVal = new Label();
     private final Label floorPosVal = new Label();
     private final Label doorStatusVal = new Label();
     private final Label targetFloorVal = new Label();
-    private final CheckBox autoManual;
+    private final Label directionVal = new Label();
+    private final Label accelerationVal = new Label();
+    private final Label feetFromBaseVal = new Label();
+    private final Label currentCapacityVal = new Label();
+    private final Label currentWeightVal = new Label();
+    private final Label currentFloorVal = new Label();
 
 
     public ElevatorDetailList(ElevatorListView elevatorList){
-        listView = elevatorList;
 
-        Label speedLbl = new Label("Speed:  ");
+        Label speedLbl = new Label("Speed:");
         speedLbl.setId("speedlabel");
         speedVal.setId("speedval");
-        HBox speedBox = new HBox(speedLbl, speedVal);
-        speedBox.setId("speedbox");
 
-        Label payloadLbl = new Label("Payload:  ");
+        Label payloadLbl = new Label("Payload:");
         payloadLbl.setId("payloadlabel");
         payloadVal.setId("payloadval");
-        HBox payloadBox = new HBox(payloadLbl, payloadVal);
-        payloadBox.setId("payloadbox");
 
-        Label doorStatusLbl = new Label("Door status:  ");
+        Label doorStatusLbl = new Label("Door status:");
         doorStatusLbl.setId("doorstatuslabel");
         doorStatusVal.setId("doorstatusval");
-        HBox doorStatusBox = new HBox(doorStatusLbl, doorStatusVal);
-        doorStatusBox.setId("doorstatusbox");
 
-        Label floorPosLbl = new Label("Current floor:  ");
+        Label floorPosLbl = new Label("Current floor:");
         floorPosLbl.setId("floorposlabel");
         floorPosVal.setId("floorposval");
-        HBox floorPosBox = new HBox(floorPosLbl, floorPosVal);
-        floorPosBox.setId("floorposbox");
 
-        Label targetFloorLbl = new Label("Target floor:  ");
+        Label targetFloorLbl = new Label("Target floor:");
         targetFloorLbl.setId("targetfloorlabel");
         targetFloorVal.setId("targetfloorval");
-        HBox targetFloorBox = new HBox(targetFloorLbl, targetFloorVal);
-        targetFloorBox.setId("targetfloorbox");
 
-        autoManual = new CheckBox("Automatic mode"); //TODO: implement bind in ToggleSwitch
+        Label directionLbl = new Label("Direction:");
+        directionLbl.setId("directionlabel");
+        directionVal.setId("directionval");
 
-        getChildren().addAll(autoManual, speedBox, payloadBox, doorStatusBox, floorPosBox, targetFloorBox);
-        listView.setOnChangedFunction(this::updateBindings);
+        Label accelerationLbl = new Label("Acceleration:");
+        accelerationLbl.setId("accelerationlabel");
+        accelerationVal.setId("accelerationval");
+
+        Label feetFromBaseLbl = new Label("Feet from base:");
+        feetFromBaseLbl.setId("feetfrombaselabel");
+        feetFromBaseVal.setId("feetfrombaseval");
+
+        Label currentCapacityLbl = new Label("Current capacity:");
+        currentCapacityLbl.setId("currentcapacitylabel");
+        currentCapacityVal.setId("currentcapacityval");
+
+        Label currentWeightLbl = new Label("Current weight:");
+        currentWeightLbl.setId("currentweightlabel");
+        currentWeightVal.setId("currentweightval");
+
+        Label currentFloorLbl = new Label("Current floor:");
+        currentFloorLbl.setId("currentfloorlabel");
+        currentFloorVal.setId("currentfloorval");
+
+        Label spaceHolder = new Label(" ");
+        VBox leftBox = new VBox(
+                speedLbl,
+                payloadLbl,
+                doorStatusLbl,
+                targetFloorLbl,
+                directionLbl,
+                accelerationLbl,
+                feetFromBaseLbl,
+                floorPosLbl,
+                currentCapacityLbl,
+                currentWeightLbl,
+                currentFloorLbl);
+        leftBox.setId("leftbox");
+        VBox rightBox = new VBox(
+                speedVal,
+                payloadVal,
+                doorStatusVal,
+                targetFloorVal,
+                directionVal,
+                accelerationVal,
+                feetFromBaseVal,
+                floorPosVal,
+                currentCapacityVal,
+                currentWeightVal,
+                currentFloorVal);
+        rightBox.setId("rightbox");
+        HBox detailBox = new HBox(leftBox, rightBox);
+        detailBox.setSpacing(20);
+
+
+        CheckBox autoManual = new CheckBox("Automatic mode"); //TODO: implement bind in ToggleSwitch
+
+        this.getChildren().addAll(autoManual, spaceHolder, detailBox);
+        elevatorList.setOnChangedFunction(this::updateBindings);
     }
 
     public Void updateBindings(Elevator elevator)
@@ -63,6 +113,13 @@ public class ElevatorDetailList extends VBox{
         doorStatusVal.textProperty().bind(Bindings.convert(elevator.door));
         floorPosVal.textProperty().bind(Bindings.convert(elevator.currentFloor));
         targetFloorVal.textProperty().bind((Bindings.convert(elevator.targetFloor)));
+        directionVal.textProperty().bind(Bindings.convert(elevator.committedDirection));
+        accelerationVal.textProperty().bind(Bindings.convert(elevator.acceleration));
+        feetFromBaseVal.textProperty().bind(Bindings.convert(elevator.feetFromBase));
+        currentCapacityVal.textProperty().bind(Bindings.convert(elevator.currentCapacity));
+        currentWeightVal.textProperty().bind(Bindings.convert(elevator.currentWeight));
+        currentFloorVal.textProperty().bind(Bindings.convert(elevator.currentFloor));
+
         return null;
     }
 }
