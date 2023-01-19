@@ -3,6 +3,7 @@ package at.fhhagenberg.sqe.ui.components;
 import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,77 +27,132 @@ class ElevatorDetailListTest {
     }
 
     @Test
+    void testLeftAndRightBox(FxRobot robot) {
+        final String test = "speed";
+        var lbox = getLeftBox(robot, test);
+        var rbox = getLeftBox(robot, test);
+        assertEquals(10, lbox.getChildren().size());
+        assertEquals(10, rbox.getChildren().size());
+    }
+
+    @Test
     void testFreshDetailViewSpeed(FxRobot robot) {
         final String test = "speed";
-        var box = getBox(robot, test);
         var val = getVal(robot, test);
         var label = getLabel(robot, test);
 
-        assertEquals(2, box.getChildren().size());
-        assertEquals("Speed:  ", label.getText());
+        assertEquals("Speed:", label.getText());
         assertEquals("", val.getText());
     }
 
     @Test
     void testFreshDetailViewPayload(FxRobot robot) {
         final String test = "payload";
-        var box = getBox(robot, test);
         var val = getVal(robot, test);
         var label = getLabel(robot, test);
 
-        assertEquals(2, box.getChildren().size());
-        assertEquals("Payload:  ", label.getText());
+        assertEquals("Payload:", label.getText());
         assertEquals("", val.getText());
     }
 
     @Test
     void testFreshDetailViewDoorStatus(FxRobot robot) {
         final String test = "doorstatus";
-        var box = getBox(robot, test);
         var val = getVal(robot, test);
         var label = getLabel(robot, test);
 
-        assertEquals(2, box.getChildren().size());
-        assertEquals("Door status:  ", label.getText());
+        assertEquals("Door status:", label.getText());
         assertEquals("", val.getText());
     }
 
     @Test
     void testFreshDetailViewFloorpos(FxRobot robot) {
-        final String test = "floorpos";
-        var box = getBox(robot, test);
+        final String test = "currentfloor";
         var val = getVal(robot, test);
         var label = getLabel(robot, test);
 
-        assertEquals(2, box.getChildren().size());
-        assertEquals("Current floor:  ", label.getText());
+        assertEquals("Current floor:", label.getText());
         assertEquals("", val.getText());
     }
 
     @Test
     void testFreshDetailViewTargetfloor(FxRobot robot) {
         final String test = "targetfloor";
-        var box = getBox(robot, test);
         var val = getVal(robot, test);
         var label = getLabel(robot, test);
 
-        assertEquals(2, box.getChildren().size());
-        assertEquals("Target floor:  ", label.getText());
+        assertEquals("Target floor:", label.getText());
         assertEquals("", val.getText());
     }
 
+    @Test
+void testFreshDetailViewCommittedDirection(FxRobot robot) {
+        final String test = "direction";
+        var val = getVal(robot, test);
+        var label = getLabel(robot, test);
+
+        assertEquals("Committed direction:", label.getText());
+        assertEquals("", val.getText());
+    }
+
+    @Test
+    void testFreshDetailViewAccel(FxRobot robot) {
+        final String test = "acceleration";
+        var val = getVal(robot, test);
+        var label = getLabel(robot, test);
+
+        assertEquals("Acceleration:", label.getText());
+        assertEquals("", val.getText());
+    }
+
+    @Test
+    void testFreshDetailViewFeetFromBase(FxRobot robot) {
+        final String test = "feetfrombase";
+        var val = getVal(robot, test);
+        var label = getLabel(robot, test);
+
+        assertEquals("Feet from base:", label.getText());
+        assertEquals("", val.getText());
+    }
+
+    @Test
+    void testFreshDetailViewWeight(FxRobot robot) {
+        final String test = "currentweight";
+        var val = getVal(robot, test);
+        var label = getLabel(robot, test);
+
+        assertEquals("Current weight:", label.getText());
+        assertEquals("", val.getText());
+    }
+
+    @Test
+    void testFreshDetailViewCapacity(FxRobot robot) {
+        final String test = "currentcapacity";
+        var val = getVal(robot, test);
+        var label = getLabel(robot, test);
+
+        assertEquals("Current capacity:", label.getText());
+        assertEquals("", val.getText());
+    }
+
+
     protected Label getLabel(FxRobot robot, String val) {
-        String q = String.format("#detaillist > #%sbox #%slabel", val, val);
+        String q = String.format("#detaillist > #detailbox > #leftbox > #%slabel", val, val);
         return robot.lookup(q).queryAs(Label.class);
     }
 
-    protected HBox getBox(FxRobot robot, String val) {
-        String q = String.format("#detaillist > #%sbox", val);
-        return robot.lookup(q).queryAs(HBox.class);
+    protected VBox getLeftBox(FxRobot robot, String val) {
+        String q = String.format("#detaillist > #detailbox > #leftbox", val);
+        return robot.lookup(q).queryAs(VBox.class);
+    }
+
+    protected VBox getRightBox(FxRobot robot, String val) {
+        String q = String.format("#detaillist > #detailbox > #rightbox", val);
+        return robot.lookup(q).queryAs(VBox.class);
     }
 
     protected Label getVal(FxRobot robot, String val) {
-        String q = String.format("#detaillist > #%sbox #%sval", val, val);
+        String q = String.format("#detaillist > #detailbox > #rightbox > #%sval", val, val);
         return robot.lookup(q).queryAs(Label.class);
     }
 }
