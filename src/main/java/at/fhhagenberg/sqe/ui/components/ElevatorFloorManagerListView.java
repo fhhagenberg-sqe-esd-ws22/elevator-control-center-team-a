@@ -25,7 +25,7 @@ public class ElevatorFloorManagerListView extends HBox {
         floorList = new ArrayList<>();
         for(var i = 0; i < control.getFloorNum(); ++i)
         {
-            floorList.add(new Floor(listView, control, i));
+            floorList.add(new Floor(listView, i));
         }
 
         ListView<Floor> floorListView = new ListView<>();
@@ -38,31 +38,17 @@ public class ElevatorFloorManagerListView extends HBox {
         floorListView.setContextMenu(floorContextMenu);
         floorContextMenu.setOnShowing(e -> {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
-            try {
-                floorContextMenu.underService.setSelected(selectedFloor.isUnderService());
-            } catch (RemoteException ex) {
-                log.error("Failed to update \"is serviced\" flagFloor#{}\n{}", selectedFloor.floorId, ex.getMessage());
-            }
+            floorContextMenu.underService.setSelected(selectedFloor.underserviceProperty.getValue());
         });
 
         floorContextMenu.underService.setOnAction(actionEvent -> {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
-            try {
-                if(floorContextMenu.underService.isSelected())
-                {
-                    selectedFloor.setUnderService();
-                }
-                else
-                {
-                    selectedFloor.unsetUnderService();
-                }
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
+            selectedFloor.underserviceProperty.set(floorContextMenu.underService.isSelected());
         });
         floorContextMenu.sendToThisFloor.setOnAction(event -> {
             Floor f = floorListView.getSelectionModel().getSelectedItem();
-            Elevator e = elevatorList.getSelectedElevator();
+            Elevator e = elevatorList.currentElevatorProperty.get().e;
+            if (e == null) return;
             try {
                 control.setTarget(e.elevatorNumber, f.floorId);
                 log.debug("Set target {} for elevator {}", f.floorId, e.elevatorNumber);

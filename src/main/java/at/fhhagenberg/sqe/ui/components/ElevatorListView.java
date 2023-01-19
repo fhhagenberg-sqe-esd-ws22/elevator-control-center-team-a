@@ -34,12 +34,6 @@ public class ElevatorListView extends HBox {
         getChildren().add(elevatorList);
     }
 
-    public Elevator getSelectedElevator() {
-        ElevatorListItem selected = elevatorList.getSelectionModel().getSelectedItem();
-        if (selected != null) return selected.e;
-        return elevatorList.getItems().get(0).e;
-    }
-
     public void setOnChangedFunction(Function<Elevator, Void> func)
     {
         elevatorList.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> func.apply(newVal.e));
