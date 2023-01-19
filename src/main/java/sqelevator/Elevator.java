@@ -36,6 +36,10 @@ public class Elevator {
     @Override
     public String toString()
     {
-        return "Elevator " + elevatorNumber;
+        return String.format("Elevator#%d {%d}", elevatorNumber, elevatorId);
+    }
+
+    public String displayText() {
+        return "Elevator " + (elevatorNumber + 1);
     }
 }

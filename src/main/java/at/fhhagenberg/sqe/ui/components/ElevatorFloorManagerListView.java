@@ -1,5 +1,6 @@
 package at.fhhagenberg.sqe.ui.components;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ListView;
 import org.slf4j.Logger;
@@ -12,8 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ElevatorFloorManagerListView extends HBox {
+
+    static class FloorLabel extends Label {
+
+        public final Floor f;
+        FloorLabel(Floor f) {
+            super(f.displayText());
+            this.f = f;
+        }
+
+        @Override
+        public String toString() {
+            return f.displayText();
+        }
+    }
     private static final Logger log = LoggerFactory.getLogger("EventHandlerLogging");
-    public final List<Floor> floorList;
+    public final List<FloorLabel> floorList;
     private final FloorDetailContextMenu floorContextMenu;
     public final ElevatorListView listView;
     private final IElevator elevatorControl;
@@ -24,10 +39,13 @@ public class ElevatorFloorManagerListView extends HBox {
         floorList = new ArrayList<>();
         for(var i = 0; i < elevatorControl.getFloorNum(); ++i)
         {
-            floorList.add(new Floor(listView, elevatorControl, i));
+            Floor f = new Floor(listView, elevatorControl, i);
+            FloorLabel fl = new FloorLabel(f);
+            fl.setId(String.format("floorlabel_%d", i));
+            floorList.add(fl);
         }
 
-        ListView<Floor> floorListView = new ListView<>();
+        ListView<FloorLabel> floorListView = new ListView<>();
         floorListView.getItems().addAll(floorList);
         getChildren().add(floorListView);
 
@@ -37,9 +55,9 @@ public class ElevatorFloorManagerListView extends HBox {
         floorContextMenu.setOnShowing(e -> {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
             try {
-                floorContextMenu.underService.setSelected(selectedFloor.isUnderService());
+                floorContextMenu.underService.setSelected(selectedFloor.f.isUnderService());
             } catch (RemoteException ex) {
-                log.error("Failed to update \"is serviced\" flagFloor#{}\n{}", selectedFloor.floorId, ex.getMessage());
+                log.error("Failed to update \"is serviced\" flagFloor#{}\n{}", selectedFloor.f.floorId, ex.getMessage());
             }
         });
 
@@ -48,18 +66,18 @@ public class ElevatorFloorManagerListView extends HBox {
             try {
                 if(floorContextMenu.underService.isSelected())
                 {
-                    selectedFloor.setUnderService();
+                    selectedFloor.f.setUnderService();
                 }
                 else
                 {
-                    selectedFloor.unsetUnderService();
+                    selectedFloor.f.unsetUnderService();
                 }
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         });
         floorContextMenu.sendToThisFloor.setOnAction(event -> {
-            Floor f = floorListView.getSelectionModel().getSelectedItem();
+            Floor f = floorListView.getSelectionModel().getSelectedItem().f;
             Elevator e = elevatorList.getSelectedElevator();
             try {
                 control.setTarget(e.elevatorNumber, f.floorId);
