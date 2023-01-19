@@ -1,5 +1,6 @@
 package at.fhhagenberg.sqe.ui.components;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
@@ -19,6 +20,7 @@ public class ElevatorListView extends HBox {
     }
 
     public final ListView<ElevatorListItem> elevatorList;
+    public final SimpleObjectProperty<ElevatorListItem> currentElevatorProperty = new SimpleObjectProperty<>();
     public ElevatorListView(Collection<Elevator> elevators)
     {
         elevatorList = new ListView<>();
@@ -28,7 +30,7 @@ public class ElevatorListView extends HBox {
             item.setId(String.format("elevator_%d", e.elevatorNumber));
             elevatorList.getItems().addAll(item);
         }
-
+        currentElevatorProperty.bind(elevatorList.getSelectionModel().selectedItemProperty());
         getChildren().add(elevatorList);
     }
 

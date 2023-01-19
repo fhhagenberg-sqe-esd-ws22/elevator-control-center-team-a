@@ -1,5 +1,6 @@
 package at.fhhagenberg.sqe.ui.components;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ListView;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ public class ElevatorFloorManagerListView extends HBox {
     public final List<Floor> floorList;
     private final FloorDetailContextMenu floorContextMenu;
     public final ElevatorListView listView;
+    public final SimpleObjectProperty<Floor> selectedFloorProperty = new SimpleObjectProperty<>();
 
     public ElevatorFloorManagerListView(ElevatorListView elevatorList, IElevator control) throws RemoteException {
         listView = elevatorList;
@@ -27,6 +29,7 @@ public class ElevatorFloorManagerListView extends HBox {
         }
 
         ListView<Floor> floorListView = new ListView<>();
+        selectedFloorProperty.bind(floorListView.getSelectionModel().selectedItemProperty());
         floorListView.getItems().addAll(floorList);
         getChildren().add(floorListView);
 
