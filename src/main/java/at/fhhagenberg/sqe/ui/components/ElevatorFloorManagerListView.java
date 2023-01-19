@@ -16,15 +16,14 @@ public class ElevatorFloorManagerListView extends HBox {
     public final List<Floor> floorList;
     private final FloorDetailContextMenu floorContextMenu;
     public final ElevatorListView listView;
-    private final IElevator elevatorControl;
 
     public ElevatorFloorManagerListView(ElevatorListView elevatorList, IElevator control) throws RemoteException {
         listView = elevatorList;
-        elevatorControl = control;
+
         floorList = new ArrayList<>();
-        for(var i = 0; i < elevatorControl.getFloorNum(); ++i)
+        for(var i = 0; i < control.getFloorNum(); ++i)
         {
-            floorList.add(new Floor(listView, elevatorControl, i));
+            floorList.add(new Floor(listView, control, i));
         }
 
         ListView<Floor> floorListView = new ListView<>();
