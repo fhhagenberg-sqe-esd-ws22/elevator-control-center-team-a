@@ -30,7 +30,7 @@ public class ElevatorListView extends HBox {
             item.setId(String.format("elevator_%d", e.elevatorNumber));
             elevatorList.getItems().addAll(item);
         }
-        currentElevatorProperty.bind(elevatorList.getSelectionModel().selectedItemProperty());
+        elevatorList.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> currentElevatorProperty.setValue(newValue)));
         getChildren().add(elevatorList);
     }
 }
