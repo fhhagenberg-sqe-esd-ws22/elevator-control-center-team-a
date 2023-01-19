@@ -95,10 +95,12 @@ public class ElevatorDetailList extends VBox{
         CheckBox autoManual = new CheckBox("Automatic mode"); //TODO: implement bind in ToggleSwitch
 
         this.getChildren().addAll(autoManual, spaceHolder, detailBox);
-        elevatorList.setOnChangedFunction(this::updateBindings);
+        elevatorList.currentElevatorProperty.addListener((e, oldVal, newVal) -> {
+            updateBindings(newVal.e);
+        });
     }
 
-    public Void updateBindings(Elevator elevator)
+    public void updateBindings(Elevator elevator)
     {
         speedVal.textProperty().bind(Bindings.convert(elevator.currentSpeed));
         payloadVal.textProperty().bind(Bindings.convert(elevator.currentWeight));
@@ -111,6 +113,5 @@ public class ElevatorDetailList extends VBox{
         currentWeightVal.textProperty().bind(Bindings.convert(elevator.currentWeight));
         currentFloorVal.textProperty().bind(Bindings.convert(elevator.currentFloor));
 
-        return null;
     }
 }

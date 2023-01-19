@@ -33,9 +33,4 @@ public class ElevatorListView extends HBox {
         currentElevatorProperty.bind(elevatorList.getSelectionModel().selectedItemProperty());
         getChildren().add(elevatorList);
     }
-
-    public void setOnChangedFunction(Function<Elevator, Void> func)
-    {
-        elevatorList.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> func.apply(newVal.e));
-    }
 }
