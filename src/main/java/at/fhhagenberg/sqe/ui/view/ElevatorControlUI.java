@@ -52,7 +52,7 @@ public final class ElevatorControlUI extends HBox {
         getChildren().add(detail);
     }
 
-    private void updateElevators() {
+    public void updateElevators() {
         for (Elevator e : elevators) {
             Platform.runLater(() -> {
                 Updater u = new ElevatorUpdater(e, control);

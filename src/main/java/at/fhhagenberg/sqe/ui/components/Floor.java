@@ -1,25 +1,16 @@
 package at.fhhagenberg.sqe.ui.components;
 
-import sqelevator.IElevator;
-
-import java.rmi.RemoteException;
+import javafx.beans.property.SimpleBooleanProperty;
 
 class Floor {
     public final int floorId;
-    private final IElevator elevatorControl;
-    private final ElevatorListView elevatorListView;
+    public final SimpleBooleanProperty underserviceProperty = new SimpleBooleanProperty(true);
 
-    public boolean isUnderService() throws RemoteException {
-        return elevatorControl.getServicesFloors((int) elevatorListView.getSelectedElevator().elevatorId, floorId);
-    }
-    public void setUnderService() throws RemoteException { elevatorControl.setServicesFloors((int) elevatorListView.getSelectedElevator().elevatorId, floorId, true);}
-    public void unsetUnderService() throws RemoteException { elevatorControl.setServicesFloors((int) elevatorListView.getSelectedElevator().elevatorId, floorId, false);}
-
-    public Floor(ElevatorListView listview, IElevator control, int id)
+    public Floor(ElevatorListView listview, int id)
     {
-        elevatorControl = control;
-        elevatorListView = listview;
         floorId = id;
+
+        listview.currentElevatorProperty.addListener((observable, oldValue, newValue) -> underserviceProperty.set(newValue.e.serviceableFloors.get().contains(floorId)));
     }
     @Override
     public String toString()

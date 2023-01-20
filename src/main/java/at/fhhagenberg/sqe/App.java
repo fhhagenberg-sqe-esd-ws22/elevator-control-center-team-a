@@ -30,6 +30,7 @@ public class App extends Application {
 
         try {
             var elevatorUI = new ElevatorControlUI(getControl());
+            elevatorUI.setId("elevatorcontrolui");
 
             var mainLayout = new StackPane();
             mainLayout.getChildren().add(elevatorUI);
