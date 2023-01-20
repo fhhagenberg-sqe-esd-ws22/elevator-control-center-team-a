@@ -4,14 +4,12 @@ import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
 import at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView;
 import at.fhhagenberg.sqe.ui.components.ElevatorListView;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import org.testfx.matcher.control.LabeledMatchers;
 
 import javafx.stage.Stage;
 
