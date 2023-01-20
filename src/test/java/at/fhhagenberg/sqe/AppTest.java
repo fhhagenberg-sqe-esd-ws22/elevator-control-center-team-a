@@ -12,6 +12,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 import javafx.stage.Stage;
+import sqelevator.Elevator;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -50,5 +51,26 @@ public class AppTest {
         var floors = robot.lookup("#floorlist").queryAs(ElevatorFloorManagerListView.class);
 
         Assertions.assertEquals(app.FLOOR_COUNT, floors.floorList.size());
+    }
+
+    @Test
+    void testElevatorText(FxRobot robot) {
+        var elevatorList = robot.lookup("#elevatorlist").queryAs(ElevatorListView.class);
+
+        Elevator e = elevatorList.elevatorList.getItems().get(0).e;
+
+        Assertions.assertTrue(e.toString().startsWith("Elevator#0 {"));
+        Assertions.assertTrue(e.toString().endsWith("}"));
+        Assertions.assertEquals("Elevator 1", e.displayText());
+    }
+
+    @Test
+    void testFloorListLabelText(FxRobot robot) {
+        FxAssert.verifyThat("#floorlist", notNullValue());
+        var floorLabel = robot.lookup("#floorlist #floorlabel_0").queryAs(ElevatorFloorManagerListView.FloorLabel.class);
+
+        Assertions.assertEquals("Floor 1", floorLabel.toString());
+        Assertions.assertEquals("Floor 1", floorLabel.f.displayText());
+        Assertions.assertEquals("Floor#0", floorLabel.f.toString());
     }
 }

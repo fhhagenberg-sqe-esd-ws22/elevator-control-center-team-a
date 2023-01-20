@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ElevatorFloorManagerListView extends HBox {
 
-    static class FloorLabel extends Label {
+    public static class FloorLabel extends Label {
 
         public final Floor f;
         FloorLabel(Floor f) {
