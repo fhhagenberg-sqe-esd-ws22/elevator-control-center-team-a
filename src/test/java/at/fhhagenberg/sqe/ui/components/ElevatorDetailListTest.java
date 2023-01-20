@@ -2,7 +2,6 @@ package at.fhhagenberg.sqe.ui.components;
 
 import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
