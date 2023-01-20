@@ -24,6 +24,10 @@ class Floor {
     @Override
     public String toString()
     {
-        return ("Floor " + floorId);
+        return String.format("Floor#%d", floorId);
+    }
+
+    public String displayText() {
+        return "Floor " + (floorId + 1);
     }
 }

@@ -40,8 +40,8 @@ class ElevatorListViewTest {
         ElevatorListView.ElevatorListItem secondElement = robot.lookup("#elevatorlist").queryAs(ElevatorListView.class).elevatorList.getItems().get(1);
         assertEquals(firstElement.e, list.getSelectedElevator());
 
-        assertEquals("Elevator 0", firstElement.getText());
-        assertEquals("Elevator 1", secondElement.getText());
+        assertEquals("Elevator 1", firstElement.getText());
+        assertEquals("Elevator 2", secondElement.getText());
 
         robot.clickOn("#elevatorlist > #elevatorlistview #elevator_1", MouseButton.PRIMARY);
         assertFalse(list.elevatorList.isEditable());
