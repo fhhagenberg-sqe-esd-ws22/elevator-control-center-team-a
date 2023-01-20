@@ -1,6 +1,7 @@
 package at.fhhagenberg.sqe.ui.components;
 
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ListView;
 import org.slf4j.Logger;
@@ -13,11 +14,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ElevatorFloorManagerListView extends HBox {
+
+    static class FloorLabel extends Label {
+
+        public final Floor f;
+        FloorLabel(Floor f) {
+            super(f.displayText());
+            this.f = f;
+        }
+
+        @Override
+        public String toString() {
+            return f.displayText();
+        }
+    }
     private static final Logger log = LoggerFactory.getLogger("EventHandlerLogging");
-    public final List<Floor> floorList;
+    public final List<FloorLabel> floorList;
     private final FloorDetailContextMenu floorContextMenu;
     public final ElevatorListView listView;
-    public final SimpleObjectProperty<Floor> selectedFloorProperty = new SimpleObjectProperty<>();
+    public final SimpleObjectProperty<FloorLabel> selectedFloorProperty = new SimpleObjectProperty<>();
 
     public ElevatorFloorManagerListView(ElevatorListView elevatorList, IElevator control) throws RemoteException {
         listView = elevatorList;
@@ -25,10 +40,13 @@ public class ElevatorFloorManagerListView extends HBox {
         floorList = new ArrayList<>();
         for(var i = 0; i < control.getFloorNum(); ++i)
         {
-            floorList.add(new Floor(listView, i));
+            Floor f = new Floor(listView, i);
+            FloorLabel fl = new FloorLabel(f);
+            fl.setId(String.format("floorlabel_%d", i));
+            floorList.add(fl);
         }
 
-        ListView<Floor> floorListView = new ListView<>();
+        ListView<FloorLabel> floorListView = new ListView<>();
         selectedFloorProperty.bind(floorListView.getSelectionModel().selectedItemProperty());
         floorListView.getItems().addAll(floorList);
         getChildren().add(floorListView);
@@ -38,15 +56,15 @@ public class ElevatorFloorManagerListView extends HBox {
         floorListView.setContextMenu(floorContextMenu);
         floorContextMenu.setOnShowing(e -> {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
-            floorContextMenu.underService.setSelected(selectedFloor.underserviceProperty.getValue());
+            floorContextMenu.underService.setSelected(selectedFloor.f.underserviceProperty.getValue());
         });
 
         floorContextMenu.underService.setOnAction(actionEvent -> {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
-            selectedFloor.underserviceProperty.set(floorContextMenu.underService.isSelected());
+            selectedFloor.f.underserviceProperty.set(floorContextMenu.underService.isSelected());
         });
         floorContextMenu.sendToThisFloor.setOnAction(event -> {
-            Floor f = floorListView.getSelectionModel().getSelectedItem();
+            Floor f = floorListView.getSelectionModel().getSelectedItem().f;
             Elevator e = elevatorList.currentElevatorProperty.get().e;
             if (e == null) return;
             try {

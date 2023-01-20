@@ -56,8 +56,8 @@ class ElevatorListViewTest {
         ElevatorListView.ElevatorListItem firstElement = robot.lookup("#elevatorlist > #elevatorlistview #elevator_0").queryAs(ElevatorListView.ElevatorListItem.class);
         ElevatorListView.ElevatorListItem secondElement = robot.lookup("#elevatorlist > #elevatorlistview #elevator_1").queryAs(ElevatorListView.ElevatorListItem.class);
 
-        assertEquals("Elevator 0", firstElement.getText());
-        assertEquals("Elevator 1", secondElement.getText());
+        assertEquals("Elevator 1", firstElement.getText());
+        assertEquals("Elevator 2", secondElement.getText());
     }
 
     @Disabled("Fails in CI. idk Why.")

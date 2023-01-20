@@ -14,7 +14,7 @@ public class ElevatorListView extends HBox {
     static class ElevatorListItem extends Label {
         public final Elevator e;
         public ElevatorListItem(Elevator e) {
-            super(e.toString());
+            super(e.displayText());
             this.e = e;
         }
     }
