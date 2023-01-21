@@ -196,26 +196,14 @@ class ElevatorFloorManagerListViewTest {
                     assertFalse(menu.underService.isSelected());
                     assertTrue(floorLbl.isDisable());
                 })
-            .clickOn(elevatorLbl)
+                .clickOn(menu.underService.getStyleableNode())
                 .interact(() -> {
                     try {
-                        app.control.setServicesFloors(elevatorId, floorId, true);
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
-                    WaitForAsyncUtils.waitForAsync(500L, () -> floorLbl.f.underserviceProperty);
-                })
-                .rightClickOn(floorLbl)
-                .interact(() -> {
-                    try {
-                        WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, menu.showingProperty());
+                        WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, menu.underService.selectedProperty());
+                        WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, () -> !floorLbl.disabledProperty().get());
                     } catch (TimeoutException e) {
                         throw new RuntimeException(e);
                     }
-                })
-                .interact(() -> {
-                    assertTrue(menu.underService.isSelected());
-                    assertFalse(floorLbl.isDisable());
                 });
     }
 
