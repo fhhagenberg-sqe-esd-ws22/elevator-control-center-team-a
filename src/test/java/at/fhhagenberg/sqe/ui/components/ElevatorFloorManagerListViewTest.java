@@ -64,7 +64,7 @@ class ElevatorFloorManagerListViewTest {
                 // wait for correct selected floor
                 .interact(() -> {
                     try {
-                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorlist.selectedFloorProperty.get() == lbl);
+                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> lbl.equals(floorlist.selectedFloorProperty.get()));
                     } catch (TimeoutException e) {
                         throw new RuntimeException(e);
                     }
