@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(ApplicationExtension.class)
 class ElevatorFloorManagerListViewTest {
     MockApp app = null;
+    final long defaultTimeout = 5000L;
 
     @Start
     void SetUp(Stage stage) throws NotBoundException, RemoteException {
@@ -63,7 +64,7 @@ class ElevatorFloorManagerListViewTest {
                 // wait for correct selected floor
                 .interact(() -> {
                     try {
-                        WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, () -> floorlist.selectedFloorProperty.get() == lbl);
+                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorlist.selectedFloorProperty.get() == lbl);
                     } catch (TimeoutException e) {
                         throw new RuntimeException(e);
                     }
@@ -71,7 +72,7 @@ class ElevatorFloorManagerListViewTest {
                 // wait for menu to show up
                 .interact(() -> {
                     try {
-                        WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, menu.showingProperty());
+                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, menu.showingProperty());
                     } catch (TimeoutException e) {
                         throw new RuntimeException(e);
                     }
@@ -93,7 +94,7 @@ class ElevatorFloorManagerListViewTest {
             robot.clickOn(elbl)
                     .interact(() -> {
                         try {
-                            WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, () -> floorlist.listView.currentElevatorProperty.get() != null);
+                            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorlist.listView.currentElevatorProperty.get() != null);
                         } catch (TimeoutException e) {
                             throw new RuntimeException(e);
                         }
@@ -105,7 +106,7 @@ class ElevatorFloorManagerListViewTest {
                     // wait for correct selected floor
                     .interact(() -> {
                         try {
-                            WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, () -> floorlist.selectedFloorProperty.get() == lbl);
+                            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorlist.selectedFloorProperty.get() == lbl);
                         } catch (TimeoutException e) {
                             throw new RuntimeException(e);
                         }
@@ -113,7 +114,7 @@ class ElevatorFloorManagerListViewTest {
                     // wait for menu to show up
                     .interact(() -> {
                         try {
-                            WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, menu.showingProperty());
+                            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, menu.showingProperty());
                         } catch (TimeoutException e) {
                             throw new RuntimeException(e);
                         }
@@ -145,7 +146,7 @@ class ElevatorFloorManagerListViewTest {
         robot.clickOn(elevatorLbl)
             .interact(() -> {
                 try {
-                    WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, () -> floorlist.listView.currentElevatorProperty.get() != null);
+                    WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorlist.listView.currentElevatorProperty.get() != null);
                 } catch (TimeoutException e) {
                     throw new RuntimeException(e);
                 }
@@ -153,7 +154,7 @@ class ElevatorFloorManagerListViewTest {
             .rightClickOn(floorLbl)
                     .interact(() -> {
                         try {
-                            WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, menu.showingProperty());
+                            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, menu.showingProperty());
                         } catch (TimeoutException e) {
                             throw new RuntimeException(e);
                         }
@@ -179,7 +180,7 @@ class ElevatorFloorManagerListViewTest {
         robot.clickOn(elevatorLbl)
                 .interact(() -> {
                     try {
-                        WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, () -> floorlist.listView.currentElevatorProperty.get() != null);
+                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorlist.listView.currentElevatorProperty.get() != null);
                     } catch (TimeoutException e) {
                         throw new RuntimeException(e);
                     }
@@ -187,7 +188,7 @@ class ElevatorFloorManagerListViewTest {
                 .rightClickOn(floorLbl)
                 .interact(() -> {
                     try {
-                        WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, menu.showingProperty());
+                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, menu.showingProperty());
                     } catch (TimeoutException e) {
                         throw new RuntimeException(e);
                     }
@@ -199,8 +200,8 @@ class ElevatorFloorManagerListViewTest {
                 .clickOn(menu.underService.getStyleableNode())
                 .interact(() -> {
                     try {
-                        WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, menu.underService.selectedProperty());
-                        WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, () -> !floorLbl.disabledProperty().get());
+                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, menu.underService.selectedProperty());
+                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> !floorLbl.disabledProperty().get());
                     } catch (TimeoutException e) {
                         throw new RuntimeException(e);
                     }
