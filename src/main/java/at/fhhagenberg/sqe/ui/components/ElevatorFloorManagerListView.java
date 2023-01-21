@@ -59,9 +59,16 @@ public class ElevatorFloorManagerListView extends HBox {
             floorContextMenu.underService.setSelected(selectedFloor.f.underserviceProperty.getValue());
         });
 
-        floorContextMenu.underService.setOnAction(actionEvent -> {
+        floorContextMenu.underService.selectedProperty().addListener((observable, oldVal, newVal) -> {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
-            selectedFloor.f.underserviceProperty.set(floorContextMenu.underService.isSelected());
+            Elevator e = elevatorList.currentElevatorProperty.get().e;
+            try {
+                selectedFloor.f.underserviceProperty.set(newVal);
+                control.setServicesFloors(e.elevatorNumber, selectedFloor.f.floorId, newVal);
+                log.debug("Updated service property for elevator={} and floor={} to val={}", e, selectedFloor.f, newVal);
+            } catch (RemoteException ex) {
+                log.error("Failed to update service property for elevator={} and floor={}\n{}", e, selectedFloor.f, ex.getMessage());
+            }
         });
         floorContextMenu.sendToThisFloor.setOnAction(event -> {
             Floor f = floorListView.getSelectionModel().getSelectedItem().f;
