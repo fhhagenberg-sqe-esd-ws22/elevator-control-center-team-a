@@ -78,6 +78,7 @@ class ElevatorFloorManagerListViewTest {
                     } catch (TimeoutException e) {
                         throw new RuntimeException(e);
                     }
+                    assertTrue(menu.isShowing());
                 })
                 // close menu again
                 .interact(() -> {
@@ -214,7 +215,11 @@ class ElevatorFloorManagerListViewTest {
     @Test
     void testApplicationDoesNotCrashWhenNoElevatorSelected(FxRobot robot) {
         var floorLabel = getFloorLabel(robot, 0);
+        final ElevatorFloorManagerListView floorlist = getFloorMainPanel(robot);
+        final FloorDetailContextMenu menu = floorlist.floorContextMenu;
 
         robot.rightClickOn(floorLabel);
+
+        assertTrue(menu.isShowing());
     }
 }

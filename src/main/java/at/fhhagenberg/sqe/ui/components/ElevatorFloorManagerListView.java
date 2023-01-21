@@ -22,13 +22,9 @@ public class ElevatorFloorManagerListView extends HBox {
             super(f.displayText());
             this.f = f;
 
-            f.underserviceProperty.addListener((obs, oVal, nVal) -> {
-                disableProperty().set(!nVal);
-            });
+            f.underserviceProperty.addListener((obs, oVal, nVal) -> disableProperty().set(!nVal));
 
-            f.selectedElevator.addListener((obs, oVal, nVal) -> {
-                disableProperty().set(!f.underserviceProperty.get());
-            });
+            f.selectedElevator.addListener((obs, oVal, nVal) -> disableProperty().set(!f.underserviceProperty.get()));
         }
 
         @Override
