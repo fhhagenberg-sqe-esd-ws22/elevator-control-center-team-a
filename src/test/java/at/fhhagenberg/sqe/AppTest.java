@@ -59,8 +59,7 @@ public class AppTest {
 
         Elevator e = elevatorList.elevatorList.getItems().get(0).e;
 
-        Assertions.assertTrue(e.toString().startsWith("Elevator#0 {"));
-        Assertions.assertTrue(e.toString().endsWith("}"));
+        Assertions.assertEquals(String.format("Elevator#%d {%d}", e.elevatorNumber, e.elevatorId), e.toString());
         Assertions.assertEquals("Elevator 1", e.displayText());
     }
 
