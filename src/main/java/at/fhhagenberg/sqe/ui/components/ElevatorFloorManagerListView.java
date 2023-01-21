@@ -38,7 +38,8 @@ public class ElevatorFloorManagerListView extends HBox {
     }
     private static final Logger log = LoggerFactory.getLogger("EventHandlerLogging");
     public final List<FloorLabel> floorList;
-    private final FloorDetailContextMenu floorContextMenu;
+    public final ListView<FloorLabel> floorListView;
+    public final FloorDetailContextMenu floorContextMenu;
     public final ElevatorListView listView;
     public final SimpleObjectProperty<FloorLabel> selectedFloorProperty = new SimpleObjectProperty<>();
 
@@ -54,7 +55,7 @@ public class ElevatorFloorManagerListView extends HBox {
             floorList.add(fl);
         }
 
-        ListView<FloorLabel> floorListView = new ListView<>();
+        floorListView = new ListView<>();
         selectedFloorProperty.bind(floorListView.getSelectionModel().selectedItemProperty());
         floorListView.getItems().addAll(floorList);
         getChildren().add(floorListView);
@@ -70,7 +71,7 @@ public class ElevatorFloorManagerListView extends HBox {
         floorContextMenu.underService.selectedProperty().addListener((observable, oldVal, newVal) -> {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
             var selectedElevator = elevatorList.currentElevatorProperty.get();
-            if (selectedElevator == null) return;
+            if (selectedElevator == null) return; // TODO(cn): Show "No floor/elevator selected" to user
             if (selectedFloor == null) return;
 
             Elevator e = selectedElevator.e;

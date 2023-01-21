@@ -4,7 +4,7 @@ import at.fhhagenberg.sqe.App;
 import sqelevator.IElevator;
 
 public class MockApp extends App {
-    private IElevator control = null;
+    public IElevator control = null;
     public final int ELEVATOR_COUNT = 3;
     public final int FLOOR_COUNT = 5;
 
