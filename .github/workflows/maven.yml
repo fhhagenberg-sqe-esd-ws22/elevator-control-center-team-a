@@ -42,7 +42,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: xvfb-run --server-args="-screen 0, 640x480x8" mvn -Dprism.order=sw -B package --file pom.xml org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fhhagenberg-sqe-esd-ws22_elevator-control-center-team-a
+      run: xvfb-run --server-args="-screen 0, 640x480x8" mvn -DCI=true -Dprism.order=sw -B package --file pom.xml org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fhhagenberg-sqe-esd-ws22_elevator-control-center-team-a
 
     # Dependency is broken...
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive

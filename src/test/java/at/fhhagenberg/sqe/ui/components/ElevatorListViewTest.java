@@ -5,8 +5,8 @@ import at.fhhagenberg.sqe.ui.view.ElevatorControlUI;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -60,8 +60,8 @@ class ElevatorListViewTest {
         assertEquals("Elevator 2", secondElement.getText());
     }
 
-    @Disabled("Fails in CI. idk Why.")
     @Test
+    @DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
     void testReturnsSelectedElevator(FxRobot robot) {
         var controlui = robot.lookup("#elevatorcontrolui").queryAs(ElevatorControlUI.class);
         var list = robot.lookup("#elevatorlist").queryAs(ElevatorListView.class);
