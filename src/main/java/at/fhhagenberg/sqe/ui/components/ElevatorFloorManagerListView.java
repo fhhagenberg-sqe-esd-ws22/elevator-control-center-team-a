@@ -21,6 +21,14 @@ public class ElevatorFloorManagerListView extends HBox {
         FloorLabel(Floor f) {
             super(f.displayText());
             this.f = f;
+
+            f.underserviceProperty.addListener((obs, oVal, nVal) -> {
+                disableProperty().set(!nVal);
+            });
+
+            f.selectedElevator.addListener((obs, oVal, nVal) -> {
+                disableProperty().set(!f.underserviceProperty.get());
+            });
         }
 
         @Override
@@ -61,7 +69,11 @@ public class ElevatorFloorManagerListView extends HBox {
 
         floorContextMenu.underService.selectedProperty().addListener((observable, oldVal, newVal) -> {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
-            Elevator e = elevatorList.currentElevatorProperty.get().e;
+            var selectedElevator = elevatorList.currentElevatorProperty.get();
+            if (selectedElevator == null) return;
+            if (selectedFloor == null) return;
+
+            Elevator e = selectedElevator.e;
             try {
                 selectedFloor.f.underserviceProperty.set(newVal);
                 control.setServicesFloors(e.elevatorNumber, selectedFloor.f.floorId, newVal);
