@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class SystemInfoTest {
+class SystemInfoTest {
     @Test
-    public void testJavaVersion() {
+    void testJavaVersion() {
         String javaVersion = SystemInfo.javaVersion();
 
         int actualVersion = Integer.parseInt(javaVersion.split("\\.")[0]);
@@ -17,7 +17,7 @@ public class SystemInfoTest {
     }
 
     @Test
-    public void testJavafxVersion() {
+    void testJavafxVersion() {
         String javafxVersion = SystemInfo.javafxVersion();
 
         // if JavaFx has not started yet, the system property is not set
