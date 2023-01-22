@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -134,6 +135,24 @@ void testFreshDetailViewCommittedDirection(FxRobot robot) {
         assertEquals("", val.getText());
     }
 
+    @Test
+    void testCurrentFloorUpdates(FxRobot robot) {
+        final var targetFloor = 3;
+        final var targetFloorText = Integer.toString(targetFloor + 1);
+        final var currentFloorLabel = getLabel(robot, "currentfloor");
+        final var elevator = robot.lookup("#elevatorlist #elevator_0").queryAs(ElevatorListView.ElevatorListItem.class);
+        robot.clickOn(elevator)
+                .interact(() -> {
+                    WaitForAsyncUtils.waitForAsync(500L, () -> "0".equals(currentFloorLabel.getText()));
+                    try {
+                        app.control.setTarget(elevator.e.elevatorNumber, targetFloor);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                    WaitForAsyncUtils.waitForAsync(500L, () -> elevator.e.currentFloor.get() == targetFloor);
+                    WaitForAsyncUtils.waitForAsync(500L, () -> targetFloorText.equals(currentFloorLabel.getText()));
+                });
+    }
 
     protected Label getLabel(FxRobot robot, String val) {
         String q = String.format("#detaillist > #detailbox > #leftbox > #%slabel", val, val);
