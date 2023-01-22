@@ -2,7 +2,7 @@ package at.fhhagenberg.sqe.ui.components;
 
 import javafx.beans.property.SimpleBooleanProperty;
 
-class Floor {
+public class Floor {
     public final int floorId;
     public final SimpleBooleanProperty underserviceProperty = new SimpleBooleanProperty(true);
 
