@@ -222,4 +222,29 @@ class ElevatorFloorManagerListViewTest {
 
         assertTrue(menu.isShowing());
     }
+
+    @Test
+    void testFloorLabelIsUpdatedIfElevatorIsChanged(FxRobot robot) throws RemoteException {
+        final var elevator_0 = getElevatorLabel(robot, 0);
+        final var elevator_1 = getElevatorLabel(robot, 1);
+        final var floorlabel = getFloorLabel(robot, 3);
+        app.control.setServicesFloors(elevator_0.e.elevatorNumber, floorlabel.f.floorId, false);
+        final ElevatorFloorManagerListView floorlist = getFloorMainPanel(robot);
+
+        robot.clickOn(elevator_0)
+                .interact(() -> {
+                    WaitForAsyncUtils.waitForAsync(500L, () -> elevator_0.equals(floorlist.listView.currentElevatorProperty.get()));
+                    assertFalse(floorlabel.f.underserviceProperty.get());
+                })
+                .clickOn(elevator_1)
+                .interact(() -> {
+                    WaitForAsyncUtils.waitForAsync(500L, () -> elevator_1.equals(floorlist.listView.currentElevatorProperty.get()));
+                    assertTrue(floorlabel.f.underserviceProperty.get());
+                })
+                .clickOn(elevator_0)
+                .interact(() -> {
+                    WaitForAsyncUtils.waitForAsync(500L ,() -> elevator_0.equals(floorlist.listView.currentElevatorProperty.get()));
+                    assertFalse(floorlabel.f.underserviceProperty.get());
+                });
+    }
 }
