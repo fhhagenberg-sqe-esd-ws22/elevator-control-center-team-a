@@ -1,7 +1,6 @@
 package at.fhhagenberg.sqe.ui.components;
 
 import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
-import at.fhhagenberg.sqe.ui.view.ElevatorControlUI;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Assumptions;
