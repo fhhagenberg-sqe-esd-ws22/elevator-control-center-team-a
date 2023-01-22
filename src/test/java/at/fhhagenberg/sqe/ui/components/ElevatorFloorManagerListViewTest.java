@@ -12,8 +12,6 @@ import org.testfx.util.WaitForAsyncUtils;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,35 +51,20 @@ class ElevatorFloorManagerListViewTest {
 
         robot.clickOn(elevatorQ)
                 .interact(() -> {
-                    try {
-                        WaitForAsyncUtils.waitFor(500L, TimeUnit.MILLISECONDS, () -> floorlist.listView.currentElevatorProperty.get() != null);
-                    } catch (TimeoutException e) {
-                        throw new RuntimeException(e);
-                    }
+                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> floorlist.listView.currentElevatorProperty.get() != null);
                 });
 
         for (int floorId = 0; floorId < app.FLOOR_COUNT; floorId++) {
             ElevatorFloorManagerListView.FloorLabel lbl = robot.lookup(String.format(fmtFloorQ, floorId)).queryAs(ElevatorFloorManagerListView.FloorLabel.class);
             robot.rightClickOn(String.format(fmtFloorQ, floorId))
                 // wait for correct selected floor
-                .interact(() -> {
-                    try {
-                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> lbl.equals(floorlist.selectedFloorProperty.get()));
-                    } catch (TimeoutException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
                 // wait for menu to show up
                 .interact(() -> {
-                    try {
-                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, menu.showingProperty());
-                    } catch (TimeoutException e) {
-                        throw new RuntimeException(e);
-                    }
+                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> lbl.equals(floorlist.selectedFloorProperty.get()));
+                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
                     assertTrue(menu.isShowing());
-                })
-                // close menu again
-                .interact(() -> {
+
+                    // close menu again
                     robot.clickOn(elevatorQ);
                 });
         }
@@ -96,32 +79,18 @@ class ElevatorFloorManagerListViewTest {
         for (int elevatorId = 0; elevatorId < app.ELEVATOR_COUNT; elevatorId++) {
             final ElevatorListView.ElevatorListItem elbl = getElevatorLabel(robot, elevatorId);
             robot.clickOn(elbl)
-                    .interact(() -> {
-                        try {
-                            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorlist.listView.currentElevatorProperty.get() != null);
-                        } catch (TimeoutException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
+                .interact(() -> {
+                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> floorlist.listView.currentElevatorProperty.get() != null);
+                });
 
             for (int floorId = 0; floorId < app.FLOOR_COUNT; floorId++) {
                 final ElevatorFloorManagerListView.FloorLabel lbl = getFloorLabel(robot, floorId);
                 robot.rightClickOn(lbl)
                     // wait for correct selected floor
-                    .interact(() -> {
-                        try {
-                            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorlist.selectedFloorProperty.get() == lbl);
-                        } catch (TimeoutException e) {
-                            throw new RuntimeException(e);
-                        }
-                    })
                     // wait for menu to show up
                     .interact(() -> {
-                        try {
-                            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, menu.showingProperty());
-                        } catch (TimeoutException e) {
-                            throw new RuntimeException(e);
-                        }
+                        WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> floorlist.selectedFloorProperty.get() == lbl);
+                        WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
                     })
                     // check under service
                     .interact(() -> {
@@ -149,20 +118,12 @@ class ElevatorFloorManagerListViewTest {
 
         robot.clickOn(elevatorLbl)
             .interact(() -> {
-                try {
-                    WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorlist.listView.currentElevatorProperty.get() != null);
-                } catch (TimeoutException e) {
-                    throw new RuntimeException(e);
-                }
+                WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> floorlist.listView.currentElevatorProperty.get() != null);
             })
             .rightClickOn(floorLbl)
-                    .interact(() -> {
-                        try {
-                            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, menu.showingProperty());
-                        } catch (TimeoutException e) {
-                            throw new RuntimeException(e);
-                        }
-                    })
+            .interact(() -> {
+                WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
+            })
             .interact(() -> {
                 assertFalse(menu.underService.isSelected());
                 assertTrue(floorLbl.isDisable());
@@ -183,19 +144,11 @@ class ElevatorFloorManagerListViewTest {
 
         robot.clickOn(elevatorLbl)
                 .interact(() -> {
-                    try {
-                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorlist.listView.currentElevatorProperty.get() != null);
-                    } catch (TimeoutException e) {
-                        throw new RuntimeException(e);
-                    }
+                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> floorlist.listView.currentElevatorProperty.get() != null);
                 })
                 .rightClickOn(floorLbl)
                 .interact(() -> {
-                    try {
-                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, menu.showingProperty());
-                    } catch (TimeoutException e) {
-                        throw new RuntimeException(e);
-                    }
+                        WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
                 })
                 .interact(() -> {
                     assertFalse(menu.underService.isSelected());
@@ -203,12 +156,8 @@ class ElevatorFloorManagerListViewTest {
                 })
                 .clickOn(menu.underService.getStyleableNode())
                 .interact(() -> {
-                    try {
-                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, menu.underService.selectedProperty());
-                        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> !floorLbl.disabledProperty().get());
-                    } catch (TimeoutException e) {
-                        throw new RuntimeException(e);
-                    }
+                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.underService.selectedProperty().get());
+                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> !floorLbl.disabledProperty().get());
                 });
     }
 
