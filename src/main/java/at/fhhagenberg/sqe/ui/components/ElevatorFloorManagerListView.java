@@ -21,6 +21,10 @@ public class ElevatorFloorManagerListView extends HBox {
         FloorLabel(Floor f) {
             super(f.displayText());
             this.f = f;
+
+            f.underserviceProperty.addListener((obs, oVal, nVal) -> disableProperty().set(!nVal));
+
+            f.selectedElevator.addListener((obs, oVal, nVal) -> disableProperty().set(!f.underserviceProperty.get()));
         }
 
         @Override
@@ -30,7 +34,8 @@ public class ElevatorFloorManagerListView extends HBox {
     }
     private static final Logger log = LoggerFactory.getLogger("EventHandlerLogging");
     public final List<FloorLabel> floorList;
-    private final FloorDetailContextMenu floorContextMenu;
+    public final ListView<FloorLabel> floorListView;
+    public final FloorDetailContextMenu floorContextMenu;
     public final ElevatorListView listView;
     public final SimpleObjectProperty<FloorLabel> selectedFloorProperty = new SimpleObjectProperty<>();
 
@@ -46,7 +51,7 @@ public class ElevatorFloorManagerListView extends HBox {
             floorList.add(fl);
         }
 
-        ListView<FloorLabel> floorListView = new ListView<>();
+        floorListView = new ListView<>();
         selectedFloorProperty.bind(floorListView.getSelectionModel().selectedItemProperty());
         floorListView.getItems().addAll(floorList);
         getChildren().add(floorListView);
@@ -59,9 +64,20 @@ public class ElevatorFloorManagerListView extends HBox {
             floorContextMenu.underService.setSelected(selectedFloor.f.underserviceProperty.getValue());
         });
 
-        floorContextMenu.underService.setOnAction(actionEvent -> {
+        floorContextMenu.underService.selectedProperty().addListener((observable, oldVal, newVal) -> {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
-            selectedFloor.f.underserviceProperty.set(floorContextMenu.underService.isSelected());
+            var selectedElevator = elevatorList.currentElevatorProperty.get();
+            if (selectedElevator == null) return; // TODO(cn): Show "No floor/elevator selected" to user
+            if (selectedFloor == null) return;
+
+            Elevator e = selectedElevator.e;
+            try {
+                selectedFloor.f.underserviceProperty.set(newVal);
+                control.setServicesFloors(e.elevatorNumber, selectedFloor.f.floorId, newVal);
+                log.debug("Updated service property for elevator={} and floor={} to val={}", e, selectedFloor.f, newVal);
+            } catch (RemoteException ex) {
+                log.error("Failed to update service property for elevator={} and floor={}\n{}", e, selectedFloor.f, ex.getMessage());
+            }
         });
         floorContextMenu.sendToThisFloor.setOnAction(event -> {
             Floor f = floorListView.getSelectionModel().getSelectedItem().f;
