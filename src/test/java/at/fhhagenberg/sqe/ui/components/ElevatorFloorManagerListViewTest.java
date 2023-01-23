@@ -201,7 +201,7 @@ class ElevatorFloorManagerListViewTest {
                 .clickOn(floorpanel.floorContextMenu.sendToThisFloor.getStyleableNode())
                 .interact(() -> waitFor())
                 .interact(() -> {
-                    waitFor(() -> 2 == elevatorLabel.e.currentFloor.get());
+                    waitFor(() -> 1 == elevatorLabel.e.currentFloor.get());
                     assertEquals("1", currentFloorValue.getText());
                 });
     }
