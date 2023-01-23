@@ -87,7 +87,7 @@ public class FloorLabelRequestTest {
     }
 
     @Test
-    @DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
+    //@DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
     void testFloorLabelRequestStop(FxRobot robot) {
         final var floorlabel = getFloorLabel(robot, 2);
         final var elevatorlabel = getElevatorLabel(robot, 0);
@@ -97,6 +97,12 @@ public class FloorLabelRequestTest {
                     assertEquals("Floor 3          ", floorlabel.getText());
 
                     app.control.setElevatorButton(elevatorlabel.e.elevatorNumber, floorlabel.f.floorId);
+                    try {
+                        var a = app.control.getElevatorButton(elevatorlabel.e.elevatorNumber, floorlabel.f.floorId);
+                        assertTrue(a);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                 })
                 .interact(() -> waitFor())
                 .interact(() -> {
