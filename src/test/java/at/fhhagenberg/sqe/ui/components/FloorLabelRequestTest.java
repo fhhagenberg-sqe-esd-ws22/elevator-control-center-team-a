@@ -3,6 +3,7 @@ package at.fhhagenberg.sqe.ui.components;
 import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -106,13 +107,12 @@ public class FloorLabelRequestTest {
                 })
                 .interact(() -> waitFor())
                 .interact(() -> {
-                    final var new_label = getFloorLabel(robot, 2);
-                    assertEquals("Floor 3         o", new_label.getText());
+                    assertEquals("Floor 3         o", floorlabel.getText());
                 });
     }
 
     void waitFor() {
-        WaitForAsyncUtils.waitForFxEvents(3);
+        WaitForAsyncUtils.waitForFxEvents(10);
     }
 
     void waitFor(Callable<Boolean> fn) {
