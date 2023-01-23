@@ -32,5 +32,9 @@ public class ElevatorListView extends HBox {
         }
         elevatorList.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> currentElevatorProperty.setValue(newValue)));
         getChildren().add(elevatorList);
+        if(!elevatorList.getItems().isEmpty()) {
+            elevatorList.getSelectionModel().select(0);
+        }
+
     }
 }

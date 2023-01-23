@@ -56,6 +56,10 @@ public class ElevatorFloorManagerListView extends HBox {
         floorListView.getItems().addAll(floorList);
         getChildren().add(floorListView);
 
+        if(!floorListView.getItems().isEmpty()) {
+            floorListView.getSelectionModel().select(0);
+        }
+
         floorContextMenu = new FloorDetailContextMenu();
 
         floorListView.setContextMenu(floorContextMenu);
