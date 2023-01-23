@@ -61,6 +61,7 @@ public class ElevatorFloorManagerListView extends HBox {
         floorListView.setContextMenu(floorContextMenu);
         floorContextMenu.setOnShowing(e -> {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
+            if (selectedFloor == null) return; // TODO(cn): Show "No floor/elevator selected" to user
             floorContextMenu.underService.setSelected(selectedFloor.f.underserviceProperty.getValue());
         });
 
@@ -80,8 +81,13 @@ public class ElevatorFloorManagerListView extends HBox {
             }
         });
         floorContextMenu.sendToThisFloor.setOnAction(event -> {
-            Floor f = floorListView.getSelectionModel().getSelectedItem().f;
-            Elevator e = elevatorList.currentElevatorProperty.get().e;
+            var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
+            var selectedElevator = elevatorList.currentElevatorProperty.get();
+            if (selectedElevator == null) return; // TODO(cn): Show "No floor/elevator selected" to user
+            if (selectedFloor == null) return;
+
+            Elevator e = selectedElevator.e;
+            Floor f = selectedFloor.f;
             if (e == null) return;
             try {
                 control.setTarget(e.elevatorNumber, f.floorId);

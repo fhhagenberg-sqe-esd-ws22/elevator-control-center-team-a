@@ -1,7 +1,6 @@
 package at.fhhagenberg.sqe.ui.components;
 
 import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
-import at.fhhagenberg.sqe.ui.view.ElevatorControlUI;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Assumptions;
@@ -12,10 +11,10 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.testfx.framework.junit5.Stop;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -63,35 +62,26 @@ class ElevatorListViewTest {
     @Test
     @DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
     void testReturnsSelectedElevator(FxRobot robot) {
-        var controlui = robot.lookup("#elevatorcontrolui").queryAs(ElevatorControlUI.class);
         var list = robot.lookup("#elevatorlist").queryAs(ElevatorListView.class);
         ElevatorListView.ElevatorListItem firstElement = robot.lookup("#elevatorlist > #elevatorlistview #elevator_0").queryAs(ElevatorListView.ElevatorListItem.class);
         ElevatorListView.ElevatorListItem secondElement = robot.lookup("#elevatorlist > #elevatorlistview #elevator_1").queryAs(ElevatorListView.ElevatorListItem.class);
 
-        waitForUpdate();
         Assumptions.assumeTrue(list.currentElevatorProperty.get() == null);
-        waitForUpdate();
 
         robot.clickOn("#elevatorlist > #elevatorlistview #elevator_0", MouseButton.PRIMARY)
-            .interact(controlui::updateElevators)
-            .interact(this::waitForUpdate)
-            .interact(() -> assertEquals(firstElement.e.elevatorNumber, list.currentElevatorProperty.get().e.elevatorNumber))
+            .interact(() -> {
+                WaitForAsyncUtils.waitForAsync(500L, () -> firstElement.equals(list.currentElevatorProperty.get()));
+                assertEquals(firstElement.e.elevatorNumber, list.currentElevatorProperty.get().e.elevatorNumber);
+            })
             .clickOn("#elevatorlist > #elevatorlistview #elevator_1", MouseButton.PRIMARY)
-            .interact(this::waitForUpdate)
-            .interact(controlui::updateElevators)
-            .interact(() -> assertEquals(secondElement.e.elevatorNumber, list.currentElevatorProperty.get().e.elevatorNumber));
+            .interact(() -> {
+                WaitForAsyncUtils.waitForAsync(500L, () -> secondElement.equals(list.currentElevatorProperty.get()));
+                assertEquals(secondElement.e.elevatorNumber, list.currentElevatorProperty.get().e.elevatorNumber);
+            });
     }
 
     @Stop
     void cleanup() throws Exception {
         app.stop();
-    }
-
-    void waitForUpdate() {
-        try {
-            Thread.sleep(Duration.ofMillis(1500L).toMillis());
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

@@ -20,7 +20,7 @@ import java.rmi.RemoteException;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 @ExtendWith(ApplicationExtension.class)
-public class AppTest {
+class AppTest {
     MockApp app = null;
 
     /**
