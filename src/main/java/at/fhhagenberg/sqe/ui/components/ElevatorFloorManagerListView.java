@@ -64,6 +64,7 @@ public class ElevatorFloorManagerListView extends HBox {
             var selectedFloor = floorListView.getSelectionModel().getSelectedItem();
             if (selectedFloor == null) return; // TODO(cn): Show "No floor/elevator selected" to user
             floorContextMenu.underService.setSelected(selectedFloor.f.underserviceProperty.getValue());
+            floorContextMenu.sendToThisFloor.setDisable(!selectedFloor.f.underserviceProperty.getValue());
         });
 
         floorContextMenu.underService.selectedProperty().addListener((observable, oldVal, newVal) -> {
