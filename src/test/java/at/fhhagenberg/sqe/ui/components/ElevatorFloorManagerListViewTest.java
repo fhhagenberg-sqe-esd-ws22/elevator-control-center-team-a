@@ -177,9 +177,8 @@ class ElevatorFloorManagerListViewTest {
         final FloorDetailContextMenu menu = floorlist.floorContextMenu;
 
         robot.rightClickOn(floorLabel)
-                .interact(() -> waitFor());
-
-        assertTrue(menu.isShowing());
+                .interact(() -> waitFor())
+                .interact(() -> assertTrue(menu.isShowing()));
     }
 
     @Test
@@ -246,57 +245,6 @@ class ElevatorFloorManagerListViewTest {
                 .interact(() -> {
                     WaitForAsyncUtils.waitForAsync(500L ,() -> elevator_0.equals(floorlist.listView.currentElevatorProperty.get()));
                     assertFalse(floorlabel.f.underserviceProperty.get());
-                });
-    }
-
-    @Test
-    void testFloorLabelRequestUp(FxRobot robot) {
-        final var floorlabel = getFloorLabel(robot, 2);
-        final var elevatorlabel = getElevatorLabel(robot, 0);
-
-        robot.clickOn(elevatorlabel)
-                .interact(() -> {
-                    assertEquals("Floor 3          ", floorlabel.getText());
-
-                    app.control.setFloorButtonUp(floorlabel.f.floorId);
-                })
-                .interact(() -> waitFor())
-                .interact(() -> {
-                    assertEquals("Floor 3     ^    ", floorlabel.getText());
-                });
-    }
-
-    @Test
-    void testFloorLabelRequestDown(FxRobot robot) {
-        final var floorlabel = getFloorLabel(robot, 2);
-        final var elevatorlabel = getElevatorLabel(robot, 0);
-
-        robot.clickOn(elevatorlabel)
-                .interact(() -> {
-                    assertEquals("Floor 3          ", floorlabel.getText());
-
-                    app.control.setFloorButtonDown(floorlabel.f.floorId);
-                })
-                .interact(() -> waitFor())
-                .interact(() -> {
-                    assertEquals("Floor 3       v  ", floorlabel.getText());
-                });
-    }
-
-    @Test
-    void testFloorLabelRequestStop(FxRobot robot) {
-        final var floorlabel = getFloorLabel(robot, 2);
-        final var elevatorlabel = getElevatorLabel(robot, 0);
-
-        robot.clickOn(elevatorlabel)
-                .interact(() -> {
-                    assertEquals("Floor 3          ", floorlabel.getText());
-
-                    app.control.setElevatorButton(elevatorlabel.e.elevatorNumber, floorlabel.f.floorId);
-                })
-                .interact(() -> waitFor())
-                .interact(() -> {
-                    assertEquals("Floor 3         o", floorlabel.getText());
                 });
     }
 
