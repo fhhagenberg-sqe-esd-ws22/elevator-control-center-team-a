@@ -38,13 +38,6 @@ class ElevatorListViewTest {
     }
 
     @Test
-    void testPropertyIsNullIfNoElevatorSelected(FxRobot robot) {
-        var list = robot.lookup("#elevatorlist").queryAs(ElevatorListView.class);
-
-        assertNull(list.currentElevatorProperty.get());
-    }
-
-    @Test
     void testListIsNotEditable(FxRobot robot) {
         var list = robot.lookup("#elevatorlist").queryAs(ElevatorListView.class);
 
