@@ -68,7 +68,7 @@ public class MockElevatorControl implements IElevator {
         return elevatorStopRequest.get(elevatorNumber)[floor];
     }
 
-    public void setElevatorStopRequest(int elevatorNumber, int floor) {
+    public void setElevatorButton(int elevatorNumber, int floor) {
         boolean[] stops = elevatorStopRequest.get(elevatorNumber);
         stops[floor] = true;
 
