@@ -68,8 +68,8 @@ class AppTest {
         FxAssert.verifyThat("#floorlist", notNullValue());
         var floorLabel = robot.lookup("#floorlist #floorlabel_0").queryAs(ElevatorFloorManagerListView.FloorLabel.class);
 
-        Assertions.assertEquals("Floor 1", floorLabel.toString());
-        Assertions.assertEquals("Floor 1", floorLabel.f.displayText());
+        Assertions.assertEquals("Floor 1          ", floorLabel.toString());
+        Assertions.assertEquals("Floor 1          ", floorLabel.f.displayTextProperty.getValue());
         Assertions.assertEquals("Floor#0", floorLabel.f.toString());
     }
 }
