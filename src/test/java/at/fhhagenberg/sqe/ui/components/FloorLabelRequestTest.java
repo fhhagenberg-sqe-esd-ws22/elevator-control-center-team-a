@@ -106,7 +106,8 @@ public class FloorLabelRequestTest {
                 })
                 .interact(() -> waitFor())
                 .interact(() -> {
-                    assertEquals("Floor 3         o", floorlabel.getText());
+                    final var new_label = getFloorLabel(robot, 2);
+                    assertEquals("Floor 3         o", new_label.getText());
                 });
     }
 
