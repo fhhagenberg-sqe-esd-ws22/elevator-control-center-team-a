@@ -1,6 +1,7 @@
 package at.fhhagenberg.sqe.ui.components;
 
 import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,9 @@ import org.testfx.util.WaitForAsyncUtils;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -241,5 +245,69 @@ class ElevatorFloorManagerListViewTest {
                     WaitForAsyncUtils.waitForAsync(500L ,() -> elevator_0.equals(floorlist.listView.currentElevatorProperty.get()));
                     assertFalse(floorlabel.f.underserviceProperty.get());
                 });
+    }
+
+    @Test
+    void testFloorLabelRequestUp(FxRobot robot) throws InterruptedException {
+        final var floorlabel = getFloorLabel(robot, 2);
+        final var elevatorlabel = getElevatorLabel(robot, 0);
+
+        robot.clickOn(elevatorlabel)
+                .interact(() -> {
+                    assertEquals("Floor 3          ", floorlabel.getText());
+
+                    app.control.setFloorButtonUp(floorlabel.f.floorId);
+                })
+                .interact(() -> {
+                    assertEquals("Floor 3     ^    ", floorlabel.getText());
+                });
+    }
+
+    @Test
+    void testFloorLabelRequestDown(FxRobot robot) throws InterruptedException {
+        final var floorlabel = getFloorLabel(robot, 2);
+        final var elevatorlabel = getElevatorLabel(robot, 0);
+
+        robot.clickOn(elevatorlabel)
+                .interact(() -> {
+                    assertEquals("Floor 3          ", floorlabel.getText());
+
+                    app.control.setFloorButtonDown(floorlabel.f.floorId);
+                })
+                .interact(() -> {
+                    assertEquals("Floor 3       v  ", floorlabel.getText());
+                });
+    }
+
+    @Test
+    void testFloorLabelRequestStop(FxRobot robot) throws InterruptedException {
+        final var floorlabel = getFloorLabel(robot, 2);
+        final var elevatorlabel = getElevatorLabel(robot, 0);
+
+        robot.clickOn(elevatorlabel)
+                .interact(() -> {
+                    assertEquals("Floor 3          ", floorlabel.getText());
+
+                    app.control.setElevatorStopRequest(elevatorlabel.e.elevatorNumber, floorlabel.f.floorId);
+                })
+                .interact(() -> {
+                    assertEquals("Floor 3         o", floorlabel.getText());
+                });
+    }
+
+    void waitFor(Callable<Boolean> fn) {
+        try {
+            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, fn);
+        } catch (TimeoutException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    void waitFor(ObservableBooleanValue prop) {
+        try {
+            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, prop::get);
+        } catch (TimeoutException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

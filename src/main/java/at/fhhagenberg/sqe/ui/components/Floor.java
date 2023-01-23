@@ -1,9 +1,7 @@
 package at.fhhagenberg.sqe.ui.components;
 
 import javafx.beans.property.*;
-import javafx.beans.property.adapter.ReadOnlyJavaBeanObjectPropertyBuilder;
 import javafx.beans.value.ObservableValue;
-import sqelevator.Elevator;
 
 public class Floor {
     public final int floorId;
