@@ -19,7 +19,8 @@ public class ElevatorFloorManagerListView extends HBox {
 
         public final Floor f;
         FloorLabel(Floor f) {
-            super(f.displayText());
+            super();
+            textProperty().bind(f.displayTextProperty);
             this.f = f;
 
             f.underserviceProperty.addListener((obs, oVal, nVal) -> disableProperty().set(!nVal));
@@ -29,7 +30,7 @@ public class ElevatorFloorManagerListView extends HBox {
 
         @Override
         public String toString() {
-            return f.displayText();
+            return f.displayTextProperty.getValue();
         }
     }
     private static final Logger log = LoggerFactory.getLogger("EventHandlerLogging");
