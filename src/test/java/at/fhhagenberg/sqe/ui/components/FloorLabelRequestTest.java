@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.rmi.NotBoundException;
@@ -32,6 +33,7 @@ public class FloorLabelRequestTest {
         app = new MockApp();
         app.start(stage);
     }
+
 
     ElevatorListView getElevatorPanel(FxRobot robot) {
         return robot.lookup("#elevatorlist").queryAs(ElevatorListView.class);
@@ -112,7 +114,7 @@ public class FloorLabelRequestTest {
     }
 
     void waitFor() {
-        WaitForAsyncUtils.waitForFxEvents(10);
+        WaitForAsyncUtils.waitForFxEvents(100);
     }
 
     void waitFor(Callable<Boolean> fn) {
