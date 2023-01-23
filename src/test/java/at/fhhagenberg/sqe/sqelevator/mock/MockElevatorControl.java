@@ -10,8 +10,14 @@ public class MockElevatorControl implements IElevator {
 
     private final Map<Integer, Integer> elevatorTargetMap = new HashMap<>();
     private final Map<Integer, boolean[]> serviceFloorMap = new HashMap<>();
+    private final Map<Integer, boolean[]> elevatorStopRequest = new HashMap<>();
     private final int floorCount;
     private final int elevatorCount;
+    private final boolean[] upRequested;
+    private final boolean[] downRequested;
+
+    private final boolean[] defaultRequested;
+    private final boolean[] defaultServiceFloor;
 
     private long clockTick = 0;
 
@@ -21,16 +27,32 @@ public class MockElevatorControl implements IElevator {
         this.elevatorCount = elevatorCount;
         this.floorCount = floorCount;
 
-        boolean[] defaultServiceFloor = new boolean[floorCount];
+        upRequested = new boolean[floorCount];
+        downRequested = new boolean[floorCount];
+
+        defaultServiceFloor = new boolean[floorCount];
+        defaultRequested = new boolean[floorCount];
         for(int ii = 0; ii < floorCount; ii++) {
             defaultServiceFloor[ii] = true;
+            defaultRequested[ii] = false;
+        }
+
+        reset();
+    }
+
+    public void reset() {
+        for(int ii = 0; ii < defaultRequested.length; ii++) {
+            upRequested[ii] = defaultRequested[ii];
+            downRequested[ii] = defaultRequested[ii];
         }
 
         for(int ii = 0; ii < elevatorCount; ii++) {
             elevatorTargetMap.put(ii, 0);
             serviceFloorMap.put(ii, defaultServiceFloor.clone());
+            elevatorStopRequest.put(ii, defaultRequested.clone());
         }
     }
+
     @Override
     public int getCommittedDirection(int elevatorNumber) throws RemoteException {
         return IElevator.ELEVATOR_DIRECTION_UNCOMMITTED;
@@ -43,7 +65,14 @@ public class MockElevatorControl implements IElevator {
 
     @Override
     public boolean getElevatorButton(int elevatorNumber, int floor) throws RemoteException {
-        return false;
+        return elevatorStopRequest.get(elevatorNumber)[floor];
+    }
+
+    public void setElevatorStopRequest(int elevatorNumber, int floor) {
+        boolean[] stops = elevatorStopRequest.get(elevatorNumber);
+        stops[floor] = true;
+
+        elevatorStopRequest.put(elevatorNumber, stops);
     }
 
     @Override
@@ -83,12 +112,20 @@ public class MockElevatorControl implements IElevator {
 
     @Override
     public boolean getFloorButtonDown(int floor) throws RemoteException {
-        return false;
+        return downRequested[floor];
+    }
+
+    public void setFloorButtonDown(int floor) {
+        downRequested[floor] = true;
     }
 
     @Override
     public boolean getFloorButtonUp(int floor) throws RemoteException {
-        return false;
+        return upRequested[floor];
+    }
+
+    public void setFloorButtonUp(int floor) {
+        upRequested[floor] = true;
     }
 
     @Override
