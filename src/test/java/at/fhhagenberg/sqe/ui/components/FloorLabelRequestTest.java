@@ -4,6 +4,7 @@ import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -26,6 +27,11 @@ public class FloorLabelRequestTest {
     void SetUp(Stage stage) throws NotBoundException, RemoteException {
         app = new MockApp();
         app.start(stage);
+    }
+
+    @BeforeEach
+    void CleanUp() {
+        app.control.reset();
     }
 
     ElevatorListView.ElevatorListItem getElevatorLabel(FxRobot robot, int elevatorId) {
