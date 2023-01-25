@@ -34,9 +34,21 @@ public class ElevatorUpdater implements Updater {
         if (acceleration != elevator.acceleration.get()) {
             elevator.acceleration.set(acceleration);
         }
-        elevator.targetFloor.set(control.getTarget(elevator.elevatorNumber));
-        elevator.committedDirection.set(Direction.valueOf(control.getCommittedDirection(elevator.elevatorNumber)));
-        elevator.door.set(DoorStatus.valueOf(control.getElevatorDoorStatus(elevator.elevatorNumber)));
+
+        final var targetFloor = control.getTarget(elevator.elevatorNumber);
+        if (targetFloor != elevator.targetFloor.get()) {
+            elevator.targetFloor.set(targetFloor);
+        }
+
+        final var commitedDirection = Direction.valueOf(control.getCommittedDirection(elevator.elevatorNumber));
+        if (!commitedDirection.equals(elevator.committedDirection.get())) {
+            elevator.committedDirection.set(commitedDirection);
+        }
+
+        final var door = DoorStatus.valueOf(control.getElevatorDoorStatus(elevator.elevatorNumber));
+        if (!door.equals(elevator.door.get())) {
+            elevator.door.set(door);
+        }
 
         //
         elevator.currentSpeed.set(control.getElevatorSpeed(elevator.elevatorNumber));
