@@ -1,0 +1,236 @@
+@startuml
+
+title __ELEVATOR-CONTROL-CENTER-TEAM-A's Class Diagram__\n
+
+  namespace at.fhhagenberg.sqe {
+    class at.fhhagenberg.sqe.App {
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    class at.fhhagenberg.sqe.SystemInfo {
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    class at.fhhagenberg.sqe.Testing {
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace fetch {
+      class at.fhhagenberg.sqe.fetch.PeriodicFetch {
+      }
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace params {
+      class at.fhhagenberg.sqe.params.ElevatorParams {
+      }
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace params {
+      class at.fhhagenberg.sqe.params.ParamUtils {
+      }
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace ui {
+      class at.fhhagenberg.sqe.ui.Launcher {
+      }
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace ui {
+      namespace components {
+        class at.fhhagenberg.sqe.ui.components.ElevatorDetailList {
+        }
+      }
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace ui {
+      namespace components {
+        class at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView {
+        }
+      }
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace ui {
+      namespace components {
+        class at.fhhagenberg.sqe.ui.components.ElevatorListView {
+        }
+      }
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace ui {
+      namespace components {
+        class at.fhhagenberg.sqe.ui.components.Floor {
+        }
+      }
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace ui {
+      namespace components {
+        class at.fhhagenberg.sqe.ui.components.FloorDetailContextMenu {
+        }
+      }
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace ui {
+      namespace components {
+        class at.fhhagenberg.sqe.ui.components.ToggleSwitch {
+        }
+      }
+    }
+  }
+  
+
+  namespace at.fhhagenberg.sqe {
+    namespace ui {
+      namespace view {
+        class at.fhhagenberg.sqe.ui.view.ElevatorControlUI {
+        }
+      }
+    }
+  }
+  
+
+  namespace sqelevator {
+    class sqelevator.Elevator {
+    }
+  }
+  
+
+  namespace sqelevator {
+    interface sqelevator.IElevator {
+    }
+  }
+  
+
+  namespace sqelevator {
+    namespace exceptions {
+      class sqelevator.exceptions.InvalidProgramArgumentsException {
+      }
+    }
+  }
+  
+
+  namespace sqelevator {
+    namespace exceptions {
+      class sqelevator.exceptions.NonExistentElevatorException {
+      }
+    }
+  }
+  
+
+  namespace sqelevator {
+    namespace exceptions {
+      class sqelevator.exceptions.NonExistentFloorException {
+      }
+    }
+  }
+  
+
+  namespace sqelevator {
+    namespace exceptions {
+      class sqelevator.exceptions.ParseInvalidDirectionException {
+      }
+    }
+  }
+  
+
+  namespace sqelevator {
+    namespace exceptions {
+      class sqelevator.exceptions.ParseInvalidDoorStatusException {
+      }
+    }
+  }
+  
+
+  namespace sqelevator {
+    namespace updater {
+      class sqelevator.updater.ElevatorUpdater {
+      }
+    }
+  }
+  
+
+  namespace sqelevator {
+    namespace updater {
+      interface sqelevator.updater.Updater {
+      }
+    }
+  }
+  
+
+  namespace sqelevator {
+    namespace util {
+      enum Direction {
+      }
+    }
+  }
+  
+
+  namespace sqelevator {
+    namespace util {
+      enum DoorStatus {
+      }
+    }
+  }
+  
+
+  at.fhhagenberg.sqe.App -up-|> javafx.application.Application
+  at.fhhagenberg.sqe.ui.components.ElevatorDetailList -up-|> javafx.scene.layout.VBox
+  at.fhhagenberg.sqe.ui.components.ElevatorDetailList o-- at.fhhagenberg.sqe.ui.components.ElevatorListView : listView
+  at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView -up-|> javafx.scene.layout.HBox
+  at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView o-- at.fhhagenberg.sqe.ui.components.ElevatorListView : listView
+  at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView o-- sqelevator.IElevator : elevatorControl
+  at.fhhagenberg.sqe.ui.components.ElevatorFloorManagerListView o-- at.fhhagenberg.sqe.ui.components.FloorDetailContextMenu : floorContextMenu
+  at.fhhagenberg.sqe.ui.components.ElevatorListView -up-|> javafx.scene.layout.HBox
+  at.fhhagenberg.sqe.ui.components.Floor o-- sqelevator.IElevator : elevatorControl
+  at.fhhagenberg.sqe.ui.components.Floor o-- at.fhhagenberg.sqe.ui.components.ElevatorListView : elevatorListView
+  at.fhhagenberg.sqe.ui.components.FloorDetailContextMenu -up-|> javafx.scene.control.ContextMenu
+  at.fhhagenberg.sqe.ui.components.ToggleSwitch -up-|> javafx.scene.layout.HBox
+  at.fhhagenberg.sqe.ui.view.ElevatorControlUI -up-|> javafx.scene.layout.HBox
+  at.fhhagenberg.sqe.ui.view.ElevatorControlUI o-- at.fhhagenberg.sqe.fetch.PeriodicFetch : updater
+  at.fhhagenberg.sqe.ui.view.ElevatorControlUI o-- sqelevator.IElevator : control
+  sqelevator.updater.ElevatorUpdater .up.|> sqelevator.updater.Updater
+  sqelevator.updater.ElevatorUpdater o-- sqelevator.IElevator : control
+  sqelevator.updater.ElevatorUpdater o-- sqelevator.Elevator : elevator
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

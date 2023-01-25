@@ -2,36 +2,41 @@
 
 ### Prerequisites
 
-- [x] Java 11 SDK (e.g. Oracle or OpenJDK).
-- [x] Maven 3. (If you use an IDE like Eclipse or IntelliJ, Maven is **already included** :sunglasses:.)
-	- see http://maven.apache.org/install.html
-- [x] An IDE or code editor of your choice.
+- [x] JDK 11 (or higher)
+- [x] The elevator simulator https://github.com/winterer/elevator/releases/tag/v0.1.2 is required to simulate use of a real elevator service.
+- [x] Download the jar file from the latest release
 
-> Confirm your installation with `mvn -v` in a new shell. The result should be similar to:
+### Running the program
 
-```
-$ mvn -v
-Apache Maven 3.6.2 (40f52333136460af0dc0d7232c0dc0bcf0d9e117; 2019-08-27T17:06:16+02:00)
-Maven home: C:\Users\winterer\.tools\apache-maven-3.6.2
-Java version: 11, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-11
-Default locale: en_GB, platform encoding: Cp1252
-OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
-```
+1. Run the elevator simulator and configure the number of floors and elevators
+2. Start the jar file with the following command:
 
-### Instructions
+`java -jar *insert name*.jar localhost:1099 -bn ElevatorSim`\
+or\
+`java -jar *insert name*.jar <ip>:<port> -bn <bind_namel>`
 
-This maven project is already set up for JavaFx based GUI applications. It also contains a small example application - `App.java`.
+### Description of the GUI
 
-1. Import this git repository into your favourite IDE.
+![](../../../../Downloads/1.jpeg)
 
-1. Make sure, you can run the sample application without errors.
-	- Either run it in your IDE
-	- Via command line, run it with `mvn clean javafx:run`.
+The GUI is divided into three columns. The left column is a list of the available elevators. 
+The user can select a specific elevator to view its current state and handle its requests.
+The middle column shows a lift of all floors in the building and additionally shows the
+pressed buttons on the floor with either "^" or "v", meaning a person on this floor requested 
+an elevator to go either up or down. If a floor is showing "o" this means, a person currently 
+inside the selected elevator requested to go to this floor. 
 
-You can build your project with maven with
+By right clicking on a floor, the user can either request to send the selected elevator to targeted floor
+or select its serviceable state, indicating if the floor can be reached by the elevator or not.
 
-```
-mvn clean package
-```
+![](../../../../Downloads/2.jpeg)
 
-The resulting archive (`.jar` file) is in the `target` directory.
+![](../../../../Downloads/3.jpeg)
+
+The third column shows various information about the selected elevator such as its current speed,
+door status, target floor and more. 
+
+
+### Presentation
+
+The presentation can be found [here](https://docs.google.com/presentation/d/12DmrDZKuvW4P3jDPFCXgEq6uBdXtNlmkdX4tzJ1njTM/edit?usp=sharing).
