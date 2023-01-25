@@ -28,7 +28,6 @@ public class ElevatorUpdater implements Updater {
     public void update() throws RemoteException {
         final long updateTick = control.getClockTick();
         LOG.debug("Staring update@{}", Date.from(Instant.ofEpochSecond(updateTick)));
-        // VisitorPattern draus machen?
 
         final var acceleration = control.getElevatorAccel(elevator.elevatorNumber);
         if (acceleration != elevator.acceleration.get()) {
@@ -50,12 +49,30 @@ public class ElevatorUpdater implements Updater {
             elevator.door.set(door);
         }
 
-        //
-        elevator.currentSpeed.set(control.getElevatorSpeed(elevator.elevatorNumber));
-        elevator.currentCapacity.set(control.getElevatorCapacity(elevator.elevatorNumber));
-        elevator.currentWeight.set(control.getElevatorWeight(elevator.elevatorNumber));
-        elevator.feetFromBase.set(control.getElevatorPosition(elevator.elevatorNumber));
-        elevator.currentFloor.set(control.getElevatorFloor(elevator.elevatorNumber));
+        final var currentSpeed = control.getElevatorSpeed(elevator.elevatorNumber);
+        if (currentSpeed != elevator.currentSpeed.get()) {
+            elevator.currentSpeed.set(currentSpeed);
+        }
+
+        final var currentCapacity = control.getElevatorCapacity(elevator.elevatorNumber);
+        if (currentCapacity != elevator.currentCapacity.get()) {
+            elevator.currentCapacity.set(currentCapacity);
+        }
+
+        final var currentWeight = control.getElevatorWeight(elevator.elevatorNumber);
+        if (currentWeight != elevator.currentWeight.get()) {
+            elevator.currentWeight.set(currentWeight);
+        }
+
+        final var feetFromBase = control.getElevatorPosition(elevator.elevatorNumber);
+        if (feetFromBase != elevator.feetFromBase.get()) {
+            elevator.feetFromBase.set(feetFromBase);
+        }
+
+        final var currentFloor = control.getElevatorFloor(elevator.elevatorNumber);
+        if (currentFloor != elevator.currentFloor.get()) {
+            elevator.currentFloor.set(currentFloor);
+        }
 
         //
         final int floorCount = control.getFloorNum();
