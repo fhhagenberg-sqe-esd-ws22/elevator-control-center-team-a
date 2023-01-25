@@ -1,6 +1,8 @@
 package at.fhhagenberg.sqe.ui.components;
 
 import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
@@ -16,10 +18,8 @@ import java.rmi.RemoteException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ApplicationExtension.class)
 public class FloorLabelRequestTest {
@@ -87,21 +87,41 @@ public class FloorLabelRequestTest {
     }
 
     @Test
-    @DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
-    void testFloorLabelRequestStop(FxRobot robot) {
-        final var floorlabel = getFloorLabel(robot, 2);
-        final var elevatorlabel = getElevatorLabel(robot, 0);
+    void testsAreNotRunningAsJavaFXThread() {
+        assertFalse(Platform.isFxApplicationThread());
+    }
 
-        robot.clickOn(elevatorlabel)
-                .interact(() -> {
-                    assertEquals("Floor 3          ", floorlabel.getText());
+    @Test
+    void testsAreNotRunningAsJavaFXThread(FxRobot robot) {
+        assertFalse(Platform.isFxApplicationThread());
+        robot.interact(() -> assertTrue(Platform.isFxApplicationThread()));
+    }
 
-                    app.control.setElevatorButton(elevatorlabel.e.elevatorNumber, floorlabel.f.floorId);
-                })
-                .interact(() -> waitFor())
-                .interact(() -> {
-                    assertEquals("Floor 3         o", floorlabel.getText());
-                });
+    @Test
+    void testFloorLabelRequestStop(FxRobot robot) throws InterruptedException {
+        final var textChanged = new SimpleStringProperty();
+        try {
+            final var floorlabel = getFloorLabel(robot, 0);
+            final var elevatorlabel = getElevatorLabel(robot, 2);
+
+            final var latch = new CountDownLatch(1);
+            textChanged.addListener((obs, oVal, nVal) -> {
+                latch.countDown();
+            });
+
+            robot.clickOn(elevatorlabel)
+                    .interact(() -> {
+                        textChanged.bind(floorlabel.textProperty());
+
+                        assertEquals("Floor 1          ", floorlabel.getText());
+                        app.control.setElevatorButton(elevatorlabel.e.elevatorNumber, floorlabel.f.floorId);
+                    });
+
+            assertTrue(latch.await(defaultTimeout, TimeUnit.MILLISECONDS));
+            assertEquals("Floor 1         o", floorlabel.getText());
+        } finally {
+            textChanged.unbind();
+        }
     }
 
     void waitFor() {
@@ -109,18 +129,21 @@ public class FloorLabelRequestTest {
     }
 
     void waitFor(Callable<Boolean> fn) {
-        try {
-            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, fn);
-        } catch (TimeoutException e) {
-            throw new RuntimeException(e);
-        }
+        WaitForAsyncUtils.waitForAsync((long) (defaultTimeout * 1.1D), () -> {
+            while(true) {
+                try {
+                    if (fn.call()) {
+                        break;
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                // CPU go brrrrrrr
+            }
+        });
     }
 
     void waitFor(ObservableBooleanValue prop) {
-        try {
-            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, prop::get);
-        } catch (TimeoutException e) {
-            throw new RuntimeException(e);
-        }
+        waitFor(prop::get);
     }
 }
