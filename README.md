@@ -17,7 +17,7 @@ or\
 
 ### Description of the GUI
 
-![](../../../../Downloads/1.jpeg)
+![](img/1.png)
 
 The GUI is divided into three columns. The left column is a list of the available elevators. 
 The user can select a specific elevator to view its current state and handle its requests.
@@ -29,9 +29,9 @@ inside the selected elevator requested to go to this floor.
 By right clicking on a floor, the user can either request to send the selected elevator to targeted floor
 or select its serviceable state, indicating if the floor can be reached by the elevator or not.
 
-![](../../../../Downloads/2.jpeg)
+![](img/2.jpeg)
 
-![](../../../../Downloads/3.jpeg)
+![](img/3.jpeg)
 
 The third column shows various information about the selected elevator such as its current speed,
 door status, target floor and more. 
