@@ -9,6 +9,7 @@ import sqelevator.util.DoorStatus;
 
 import java.rmi.RemoteException;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +29,11 @@ public class ElevatorUpdater implements Updater {
         final long updateTick = control.getClockTick();
         LOG.debug("Staring update@{}", Date.from(Instant.ofEpochSecond(updateTick)));
         // VisitorPattern draus machen?
-        elevator.acceleration.set(control.getElevatorAccel(elevator.elevatorNumber));
+
+        final var acceleration = control.getElevatorAccel(elevator.elevatorNumber);
+        if (acceleration != elevator.acceleration.get()) {
+            elevator.acceleration.set(acceleration);
+        }
         elevator.targetFloor.set(control.getTarget(elevator.elevatorNumber));
         elevator.committedDirection.set(Direction.valueOf(control.getCommittedDirection(elevator.elevatorNumber)));
         elevator.door.set(DoorStatus.valueOf(control.getElevatorDoorStatus(elevator.elevatorNumber)));
@@ -42,10 +47,10 @@ public class ElevatorUpdater implements Updater {
 
         //
         final int floorCount = control.getFloorNum();
-        Set<Integer> serviceFloors = new HashSet<>();
-        boolean[] buttonUp = new boolean[floorCount];
-        boolean[] buttonDown = new boolean[floorCount];
-        boolean[] buttonReq = new boolean[floorCount];
+        final Set<Integer> serviceFloors = new HashSet<>();
+        final boolean[] buttonUp = new boolean[floorCount];
+        final boolean[] buttonDown = new boolean[floorCount];
+        final boolean[] buttonReq = new boolean[floorCount];
         for(int floor = 0; floor < floorCount; floor++) {
             if (control.getServicesFloors(elevator.elevatorNumber, floor)) {
                 serviceFloors.add(floor);
@@ -56,13 +61,25 @@ public class ElevatorUpdater implements Updater {
             buttonReq[floor] = control.getElevatorButton(elevator.elevatorNumber, floor);
         }
 
-        elevator.serviceableFloors.set(serviceFloors);
+        if (!serviceFloors.equals(elevator.serviceableFloors.get())) {
+            elevator.serviceableFloors.set(serviceFloors);
+        }
 
-        elevator.buttonUp.set(buttonUp);
-        elevator.buttonDown.set(buttonDown);
-        elevator.buttonReq.set(buttonReq);
+        if (!Arrays.equals(buttonUp, elevator.buttonUp.get())) {
+            elevator.buttonUp.set(buttonUp);
+        }
 
-        elevator.lastUpdate.setValue(updateTick);
+        if (!Arrays.equals(buttonDown, elevator.buttonDown.get())) {
+            elevator.buttonDown.set(buttonDown);
+        }
+
+        if (!Arrays.equals(buttonReq, elevator.buttonReq.get())) {
+            elevator.buttonReq.set(buttonReq);
+        }
+
+        if (updateTick != elevator.lastUpdate.get()) {
+            elevator.lastUpdate.setValue(updateTick);
+        }
         LOG.debug("Ended update@{}", Date.from(Instant.ofEpochSecond(control.getClockTick())));
     }
 }
