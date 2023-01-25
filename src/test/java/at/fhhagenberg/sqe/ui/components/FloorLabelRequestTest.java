@@ -6,7 +6,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -32,14 +31,6 @@ public class FloorLabelRequestTest {
         app.start(stage);
     }
 
-    ElevatorListView getElevatorPanel(FxRobot robot) {
-        return robot.lookup("#elevatorlist").queryAs(ElevatorListView.class);
-    }
-
-    ElevatorFloorManagerListView getFloorMainPanel(FxRobot robot) {
-        return robot.lookup("#floorlist").queryAs(ElevatorFloorManagerListView.class);
-    }
-
     ElevatorListView.ElevatorListItem getElevatorLabel(FxRobot robot, int elevatorId) {
         String fmtElevatorQ = "#elevatorlist #elevator_%d";
         return robot.lookup(String.format(fmtElevatorQ, elevatorId)).queryAs(ElevatorListView.ElevatorListItem.class);
@@ -51,39 +42,57 @@ public class FloorLabelRequestTest {
     }
 
     @Test
-    @DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
-    void testFloorLabelRequestUp(FxRobot robot) {
-        final var floorlabel = getFloorLabel(robot, 2);
-        final var elevatorlabel = getElevatorLabel(robot, 0);
+    void testFloorLabelRequestUp(FxRobot robot) throws InterruptedException {
+        final var textChanged = new SimpleStringProperty();
+        try {
+            final var floorlabel = getFloorLabel(robot, 4);
+            final var elevatorlabel = getElevatorLabel(robot, 1);
 
-        robot.clickOn(elevatorlabel)
-                .interact(() -> {
-                    assertEquals("Floor 3          ", floorlabel.getText());
+            final var latch = new CountDownLatch(1);
+            textChanged.addListener((obs, oVal, nVal) -> {
+                latch.countDown();
+            });
 
-                    app.control.setFloorButtonUp(floorlabel.f.floorId);
-                })
-                .interact(() -> waitFor())
-                .interact(() -> {
-                    assertEquals("Floor 3     ^    ", floorlabel.getText());
-                });
+            robot.clickOn(elevatorlabel)
+                    .interact(() -> {
+                        textChanged.bind(floorlabel.textProperty());
+
+                        assertEquals("Floor 5          ", floorlabel.getText());
+                        app.control.setFloorButtonUp(floorlabel.f.floorId);
+                    });
+
+            assertTrue(latch.await(defaultTimeout, TimeUnit.MILLISECONDS));
+            assertEquals("Floor 5    ^     ", floorlabel.getText());
+        } finally {
+            textChanged.unbind();
+        }
     }
 
     @Test
-    @DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
-    void testFloorLabelRequestDown(FxRobot robot) {
-        final var floorlabel = getFloorLabel(robot, 2);
-        final var elevatorlabel = getElevatorLabel(robot, 0);
+    void testFloorLabelRequestDown(FxRobot robot) throws InterruptedException {
+        final var textChanged = new SimpleStringProperty();
+        try {
+            final var floorlabel = getFloorLabel(robot, 2);
+            final var elevatorlabel = getElevatorLabel(robot, 0);
 
-        robot.clickOn(elevatorlabel)
-                .interact(() -> {
-                    assertEquals("Floor 3          ", floorlabel.getText());
+            final var latch = new CountDownLatch(1);
+            textChanged.addListener((obs, oVal, nVal) -> {
+                latch.countDown();
+            });
 
-                    app.control.setFloorButtonDown(floorlabel.f.floorId);
-                })
-                .interact(() -> waitFor())
-                .interact(() -> {
-                    assertEquals("Floor 3       v  ", floorlabel.getText());
-                });
+            robot.clickOn(elevatorlabel)
+                    .interact(() -> {
+                        textChanged.bind(floorlabel.textProperty());
+
+                        assertEquals("Floor 3          ", floorlabel.getText());
+                        app.control.setFloorButtonDown(floorlabel.f.floorId);
+                    });
+
+            assertTrue(latch.await(defaultTimeout, TimeUnit.MILLISECONDS));
+            assertEquals("Floor 3       v  ", floorlabel.getText());
+        } finally {
+            textChanged.unbind();
+        }
     }
 
     @Test
