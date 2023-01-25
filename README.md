@@ -17,7 +17,7 @@ or\
 
 ### Description of the GUI
 
-![](img/1.png)
+![](img/1.jpeg)
 
 The GUI is divided into three columns. The left column is a list of the available elevators. 
 The user can select a specific elevator to view its current state and handle its requests.
