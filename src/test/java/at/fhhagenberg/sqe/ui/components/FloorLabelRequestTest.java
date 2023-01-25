@@ -3,18 +3,15 @@ package at.fhhagenberg.sqe.ui.components;
 import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableBooleanValue;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import org.testfx.util.WaitForAsyncUtils;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -48,10 +45,8 @@ public class FloorLabelRequestTest {
             final var floorlabel = getFloorLabel(robot, 4);
             final var elevatorlabel = getElevatorLabel(robot, 1);
 
-            final var latch = new CountDownLatch(1);
-            textChanged.addListener((obs, oVal, nVal) -> {
-                latch.countDown();
-            });
+            final var latch = new CountDownLatch(2); // twice to account for 1. binding and 2. the test update
+            textChanged.addListener((obs, oVal, nVal) -> latch.countDown());
 
             robot.clickOn(elevatorlabel)
                     .interact(() -> {
@@ -62,7 +57,7 @@ public class FloorLabelRequestTest {
                     });
 
             assertTrue(latch.await(defaultTimeout, TimeUnit.MILLISECONDS));
-            assertEquals("Floor 5    ^     ", floorlabel.getText());
+            assertEquals("Floor 5     ^    ", floorlabel.getText());
         } finally {
             textChanged.unbind();
         }
@@ -75,10 +70,8 @@ public class FloorLabelRequestTest {
             final var floorlabel = getFloorLabel(robot, 2);
             final var elevatorlabel = getElevatorLabel(robot, 0);
 
-            final var latch = new CountDownLatch(1);
-            textChanged.addListener((obs, oVal, nVal) -> {
-                latch.countDown();
-            });
+            final var latch = new CountDownLatch(2); // twice to account for 1. binding and 2. the test update
+            textChanged.addListener((obs, oVal, nVal) -> latch.countDown());
 
             robot.clickOn(elevatorlabel)
                     .interact(() -> {
@@ -113,10 +106,8 @@ public class FloorLabelRequestTest {
             final var floorlabel = getFloorLabel(robot, 0);
             final var elevatorlabel = getElevatorLabel(robot, 2);
 
-            final var latch = new CountDownLatch(1);
-            textChanged.addListener((obs, oVal, nVal) -> {
-                latch.countDown();
-            });
+            final var latch = new CountDownLatch(2); // twice to account for 1. binding and 2. the test update
+            textChanged.addListener((obs, oVal, nVal) -> latch.countDown());
 
             robot.clickOn(elevatorlabel)
                     .interact(() -> {
@@ -131,28 +122,5 @@ public class FloorLabelRequestTest {
         } finally {
             textChanged.unbind();
         }
-    }
-
-    void waitFor() {
-        WaitForAsyncUtils.waitForFxEvents(3);
-    }
-
-    void waitFor(Callable<Boolean> fn) {
-        WaitForAsyncUtils.waitForAsync((long) (defaultTimeout * 1.1D), () -> {
-            while(true) {
-                try {
-                    if (fn.call()) {
-                        break;
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                // CPU go brrrrrrr
-            }
-        });
-    }
-
-    void waitFor(ObservableBooleanValue prop) {
-        waitFor(prop::get);
     }
 }
