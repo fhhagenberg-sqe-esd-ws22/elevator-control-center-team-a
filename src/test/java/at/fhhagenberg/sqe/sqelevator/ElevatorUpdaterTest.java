@@ -228,8 +228,6 @@ class ElevatorUpdaterTest {
 
     @Test
     void testFloorHeight() throws RemoteException {
-        Elevator e = new Elevator(0);
-
         when(control.getElevatorDoorStatus(anyInt())).thenReturn(DoorStatus.CLOSED.val);
         when(control.getFloorHeight()).thenReturn(50);
 
@@ -299,7 +297,6 @@ class ElevatorUpdaterTest {
     void testSetServicesFloors() throws RemoteException {
         Elevator e = new Elevator(0);
 
-        Set<Integer> emptySet = new HashSet<>();
         Set<Integer> servicedFloors = new HashSet<>();
         servicedFloors.add(2);
 

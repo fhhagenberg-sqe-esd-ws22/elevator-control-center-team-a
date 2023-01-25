@@ -61,7 +61,7 @@ class MockElevatorControlTest {
 
         assertEquals(0, control.getElevatorPosition(0));
 
-        control.setTarget(elevatorNumber, 3);
+        control.setTarget(elevatorNumber, floorTarget);
         assertEquals(21, control.getElevatorPosition(0));
     }
 }

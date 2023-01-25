@@ -1,5 +1,6 @@
 package at.fhhagenberg.sqe.ui.components;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
@@ -10,15 +11,16 @@ import java.util.function.Function;
 
 public class ElevatorListView extends HBox {
 
-    static class ElevatorListItem extends Label {
+    public static class ElevatorListItem extends Label {
         public final Elevator e;
         public ElevatorListItem(Elevator e) {
-            super(e.toString());
+            super(e.displayText());
             this.e = e;
         }
     }
 
     public final ListView<ElevatorListItem> elevatorList;
+    public final SimpleObjectProperty<ElevatorListItem> currentElevatorProperty = new SimpleObjectProperty<>();
     public ElevatorListView(Collection<Elevator> elevators)
     {
         elevatorList = new ListView<>();
@@ -28,18 +30,7 @@ public class ElevatorListView extends HBox {
             item.setId(String.format("elevator_%d", e.elevatorNumber));
             elevatorList.getItems().addAll(item);
         }
-
+        elevatorList.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> currentElevatorProperty.setValue(newValue)));
         getChildren().add(elevatorList);
-    }
-
-    public Elevator getSelectedElevator() {
-        ElevatorListItem selected = elevatorList.getSelectionModel().getSelectedItem();
-        if (selected != null) return selected.e;
-        return elevatorList.getItems().get(0).e;
-    }
-
-    public void setOnChangedFunction(Function<Elevator, Void> func)
-    {
-        elevatorList.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> func.apply(newVal.e));
     }
 }
