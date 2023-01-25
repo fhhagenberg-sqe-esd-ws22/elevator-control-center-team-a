@@ -28,9 +28,8 @@ class ElevatorDetailListTest {
 
     @Test
     void testLeftAndRightBox(FxRobot robot) {
-        final String test = "speed";
-        var lbox = getLeftBox(robot, test);
-        var rbox = getLeftBox(robot, test);
+        var lbox = getLeftBox(robot);
+        var rbox = getRightBox(robot);
         assertEquals(10, lbox.getChildren().size());
         assertEquals(10, rbox.getChildren().size());
     }
@@ -155,22 +154,22 @@ void testFreshDetailViewCommittedDirection(FxRobot robot) {
     }
 
     protected Label getLabel(FxRobot robot, String val) {
-        String q = String.format("#detaillist > #detailbox > #leftbox > #%slabel", val, val);
+        String q = String.format("#detaillist > #detailbox > #leftbox > #%slabel", val);
         return robot.lookup(q).queryAs(Label.class);
     }
 
-    protected VBox getLeftBox(FxRobot robot, String val) {
-        String q = String.format("#detaillist > #detailbox > #leftbox", val);
+    protected VBox getLeftBox(FxRobot robot) {
+        String q = "#detaillist > #detailbox > #leftbox";
         return robot.lookup(q).queryAs(VBox.class);
     }
 
-    protected VBox getRightBox(FxRobot robot, String val) {
-        String q = String.format("#detaillist > #detailbox > #rightbox", val);
+    protected VBox getRightBox(FxRobot robot) {
+        String q = "#detaillist > #detailbox > #rightbox";
         return robot.lookup(q).queryAs(VBox.class);
     }
 
     protected Label getVal(FxRobot robot, String val) {
-        String q = String.format("#detaillist > #detailbox > #rightbox > #%sval", val, val);
+        String q = String.format("#detaillist > #detailbox > #rightbox > #%sval", val);
         return robot.lookup(q).queryAs(Label.class);
     }
 }
