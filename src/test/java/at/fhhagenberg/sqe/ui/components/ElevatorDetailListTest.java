@@ -4,6 +4,7 @@ import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -24,6 +25,11 @@ class ElevatorDetailListTest {
     void SetUp(Stage stage) throws NotBoundException, RemoteException {
         app = new MockApp();
         app.start(stage);
+    }
+
+    @BeforeEach
+    void CleanUp() {
+        app.control.reset();
     }
 
     @Test

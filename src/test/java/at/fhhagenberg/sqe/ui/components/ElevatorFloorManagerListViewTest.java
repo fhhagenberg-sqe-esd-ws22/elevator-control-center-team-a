@@ -1,11 +1,10 @@
 package at.fhhagenberg.sqe.ui.components;
 
 import at.fhhagenberg.sqe.sqelevator.mock.MockApp;
-import javafx.beans.value.ObservableBooleanValue;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -31,6 +30,11 @@ class ElevatorFloorManagerListViewTest {
         app.start(stage);
     }
 
+    @BeforeEach
+    void CleanUp() {
+        app.control.reset();
+    }
+
     ElevatorListView getElevatorPanel(FxRobot robot) {
         return robot.lookup("#elevatorlist").queryAs(ElevatorListView.class);
     }
@@ -50,7 +54,6 @@ class ElevatorFloorManagerListViewTest {
     }
 
     @Test
-    @DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
     void testRightClickOpensContextMenu(FxRobot robot) {
         String elevatorQ = "#elevatorlist #elevator_0";
         final String fmtFloorQ = "#floorlist #floorlabel_%d";
@@ -65,12 +68,13 @@ class ElevatorFloorManagerListViewTest {
 
         for (int floorId = 0; floorId < app.FLOOR_COUNT; floorId++) {
             ElevatorFloorManagerListView.FloorLabel lbl = robot.lookup(String.format(fmtFloorQ, floorId)).queryAs(ElevatorFloorManagerListView.FloorLabel.class);
-            robot.rightClickOn(String.format(fmtFloorQ, floorId))
-                // wait for correct selected floor
-                // wait for menu to show up
-                .interact(() -> {
-                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> lbl.equals(floorlist.selectedFloorProperty.get()));
-                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
+            robot.rightClickOn(String.format(fmtFloorQ, floorId));
+
+            WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> lbl.equals(floorlist.selectedFloorProperty.get()));
+            WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
+            // wait for correct selected floor
+            // wait for menu to show up
+            robot.interact(() -> {
                     assertTrue(menu.isShowing());
 
                     // close menu again
@@ -94,11 +98,11 @@ class ElevatorFloorManagerListViewTest {
             .interact(() -> {
                 WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> floorlist.listView.currentElevatorProperty.get() != null);
             })
-            .rightClickOn(floorLbl)
-            .interact(() -> {
-                WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
-            })
-            .interact(() -> {
+            .rightClickOn(floorLbl);
+
+            WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
+
+            robot.interact(() -> {
                 assertFalse(menu.underService.isSelected());
                 assertTrue(floorLbl.isDisable());
             });
@@ -120,19 +124,19 @@ class ElevatorFloorManagerListViewTest {
                 .interact(() -> {
                     WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> floorlist.listView.currentElevatorProperty.get() != null);
                 })
-                .rightClickOn(floorLbl)
-                .interact(() -> {
-                        WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
-                })
-                .interact(() -> {
-                    assertFalse(menu.underService.isSelected());
-                    assertTrue(floorLbl.isDisable());
-                })
-                .clickOn(menu.underService.getStyleableNode())
-                .interact(() -> {
-                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.underService.selectedProperty().get());
-                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> !floorLbl.disabledProperty().get());
-                });
+                .rightClickOn(floorLbl);
+
+        WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
+        robot.interact(() -> {
+            assertFalse(menu.underService.isSelected());
+            assertTrue(floorLbl.isDisable());
+            }).clickOn(menu.underService.getStyleableNode());
+
+        WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.underService.selectedProperty().get());
+        WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> !floorLbl.disabledProperty().get());
+
+        assertTrue(menu.underService.selectedProperty().get());
+        assertFalse(floorLbl.disabledProperty().get());
     }
 
     @Test
@@ -147,27 +151,28 @@ class ElevatorFloorManagerListViewTest {
     }
 
     @Test
-    @DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
-    void testSendToFloor(FxRobot robot) {
+    void testSendToFloor(FxRobot robot) throws TimeoutException {
         final var floorLabel = getFloorLabel(robot, 1);
         final var elevatorLabel = getElevatorLabel(robot, 2);
         final var floorpanel = getFloorMainPanel(robot);
         final var elevatorpanel = getElevatorPanel(robot);
 
-        final var currentFloorValue = robot.lookup("#detaillist #currentfloorval").queryAs(Label.class);
+        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> app.control.getServicesFloors(elevatorLabel.e.elevatorNumber, floorLabel.f.floorId));
+        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> elevatorLabel.e.serviceableFloors.get().contains(floorLabel.f.floorId));
 
-        robot.clickOn(elevatorLabel)
-                .rightClickOn(floorLabel)
-                .interact(() -> {
-                    WaitForAsyncUtils.waitForAsync(500L, () -> elevatorLabel.equals(elevatorpanel.currentElevatorProperty.get()));
-                    WaitForAsyncUtils.waitForAsync(500L, floorpanel.floorContextMenu::isShowing);
-                })
-                .clickOn(floorpanel.floorContextMenu.sendToThisFloor.getStyleableNode())
-                .interact(() -> waitFor())
-                .interact(() -> {
-                    waitFor(() -> 1 == elevatorLabel.e.currentFloor.get());
-                    assertEquals("1", currentFloorValue.getText());
-                });
+        robot.clickOn(elevatorLabel);
+        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> !floorLabel.isDisable());
+        robot.rightClickOn(floorLabel);
+
+        WaitForAsyncUtils.waitForAsync(500L, () -> elevatorLabel.equals(elevatorpanel.currentElevatorProperty.get()));
+        WaitForAsyncUtils.waitForAsync(500L, floorpanel.floorContextMenu::isShowing);
+
+        robot.clickOn(floorpanel.floorContextMenu.sendToThisFloor.getStyleableNode());
+
+        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorLabel.f.floorId == app.control.getTarget(elevatorLabel.e.elevatorNumber));
+        WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, () -> floorLabel.f.floorId == elevatorLabel.e.currentFloor.get());
+
+        assertEquals(floorLabel.f.floorId, elevatorLabel.e.currentFloor.get());
     }
 
     @Test
@@ -188,7 +193,6 @@ class ElevatorFloorManagerListViewTest {
     }
 
     @Test
-    @DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
     void testFloorLabelIsUpdatedIfElevatorIsChanged(FxRobot robot) throws RemoteException {
         final var elevator_0 = getElevatorLabel(robot, 0);
         final var elevator_1 = getElevatorLabel(robot, 1);
@@ -196,21 +200,20 @@ class ElevatorFloorManagerListViewTest {
         app.control.setServicesFloors(elevator_0.e.elevatorNumber, floorlabel.f.floorId, false);
         final ElevatorFloorManagerListView floorlist = getFloorMainPanel(robot);
 
-        robot.clickOn(elevator_0)
-                .interact(() -> {
-                    WaitForAsyncUtils.waitForAsync(500L, () -> elevator_0.equals(floorlist.listView.currentElevatorProperty.get()));
-                    assertFalse(floorlabel.f.underserviceProperty.get());
-                })
-                .clickOn(elevator_1)
-                .interact(() -> {
-                    WaitForAsyncUtils.waitForAsync(500L, () -> elevator_1.equals(floorlist.listView.currentElevatorProperty.get()));
-                    assertTrue(floorlabel.f.underserviceProperty.get());
-                })
-                .clickOn(elevator_0)
-                .interact(() -> {
-                    WaitForAsyncUtils.waitForAsync(500L ,() -> elevator_0.equals(floorlist.listView.currentElevatorProperty.get()));
-                    assertFalse(floorlabel.f.underserviceProperty.get());
-                });
+        robot.clickOn(elevator_0);
+
+        WaitForAsyncUtils.waitForAsync(500L, () -> elevator_0.equals(floorlist.listView.currentElevatorProperty.get()));
+        assertFalse(floorlabel.f.underserviceProperty.get());
+
+        robot.clickOn(elevator_1);
+        WaitForAsyncUtils.waitForAsync(500L, () -> elevator_1.equals(floorlist.listView.currentElevatorProperty.get()));
+        waitFor(floorlabel.f.underserviceProperty::get);
+        assertTrue(floorlabel.f.underserviceProperty.get());
+
+        robot.clickOn(elevator_0);
+        WaitForAsyncUtils.waitForAsync(500L ,() -> elevator_0.equals(floorlist.listView.currentElevatorProperty.get()));
+        waitFor(() -> !floorlabel.f.underserviceProperty.get());
+        assertFalse(floorlabel.f.underserviceProperty.get());
     }
 
     void waitFor() {
@@ -220,14 +223,6 @@ class ElevatorFloorManagerListViewTest {
     void waitFor(Callable<Boolean> fn) {
         try {
             WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, fn);
-        } catch (TimeoutException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    void waitFor(ObservableBooleanValue prop) {
-        try {
-            WaitForAsyncUtils.waitFor(defaultTimeout, TimeUnit.MILLISECONDS, prop::get);
         } catch (TimeoutException e) {
             throw new RuntimeException(e);
         }
