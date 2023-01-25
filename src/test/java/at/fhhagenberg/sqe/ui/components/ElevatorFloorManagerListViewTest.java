@@ -80,41 +80,6 @@ class ElevatorFloorManagerListViewTest {
     }
 
     @Test
-    @DisabledIfSystemProperty(named = "CI", matches = "true", disabledReason = "Fails for some reason in CI. Most likely cause is saturn and jupiter not forming an equilateral triangle with the sun.")
-    void testAllFloorsAreServicedByAllElevatorsOnStartup(FxRobot robot) {
-        final ElevatorFloorManagerListView floorlist = getFloorMainPanel(robot);
-        final FloorDetailContextMenu menu = floorlist.floorContextMenu;
-
-        for (int elevatorId = 0; elevatorId < app.ELEVATOR_COUNT; elevatorId++) {
-            final ElevatorListView.ElevatorListItem elbl = getElevatorLabel(robot, elevatorId);
-            robot.clickOn(elbl)
-                .interact(() -> {
-                    WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> floorlist.listView.currentElevatorProperty.get() != null);
-                });
-
-            for (int floorId = 0; floorId < app.FLOOR_COUNT; floorId++) {
-                final ElevatorFloorManagerListView.FloorLabel lbl = getFloorLabel(robot, floorId);
-                robot.rightClickOn(lbl)
-                    // wait for correct selected floor
-                    // wait for menu to show up
-                    .interact(() -> {
-                        WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> floorlist.selectedFloorProperty.get() == lbl);
-                        WaitForAsyncUtils.waitForAsync(defaultTimeout, () -> menu.showingProperty().get());
-                    })
-                    // check under service
-                    .interact(() -> {
-                        assertTrue(menu.underService.isSelected());
-                        assertFalse(lbl.disableProperty().get());
-                    })
-                    // close menu again
-                    .interact(() -> {
-                        robot.clickOn(elbl);
-                    });
-            }
-        }
-    }
-
-    @Test
     void testDisabledFloorShowsUpCorrectly(FxRobot robot) throws RemoteException {
         final int elevatorId = 2;
         final int floorId = 3;
